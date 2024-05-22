@@ -54,15 +54,11 @@ export default function Home() {
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>Home</MenubarTrigger>
+          <MenubarTrigger>Events</MenubarTrigger>
           <MenubarContent>
             <MenubarItem>
               New Tab <MenubarShortcut>⌘T</MenubarShortcut>
             </MenubarItem>
-            <MenubarItem>New Window</MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem>Share</MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem>Print</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
