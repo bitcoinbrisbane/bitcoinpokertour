@@ -78,6 +78,15 @@ export default function Home() {
         />
       </div>
 
+      <div>
+        <h2 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">
+          Welcome to the Bitcoin Poker Tour.
+        </h2>
+        <h3 className="text-2xl font-semibold text-center text-neutral-700 dark:text-neutral-300">
+          Live Poker. Bitcoin buy ins.
+        </h3>
+      </div>
+
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
@@ -143,7 +152,7 @@ export default function Home() {
             </span>
           </h2>
           <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Ready to jump in?  Buy into the next Bitcoin Poker Tour event.
+            Ready to jump in? Buy into the next Bitcoin Poker Tour event.
           </p>
         </a>
       </div>
