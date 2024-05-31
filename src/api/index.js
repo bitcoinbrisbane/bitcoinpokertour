@@ -6,7 +6,8 @@ const cors = require("cors");
 app.use(cors());
 
 // Routes
-const events = require("./events");
+const events = require("./routes/events");
+const registration = require("./routes/registration");
 
 // Routes
 app.use("/events", events);
