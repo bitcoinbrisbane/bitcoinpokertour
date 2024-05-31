@@ -76,7 +76,7 @@ export default function Treasury() {
           transparent. We use xPub keys to generate addresses for each buy in.
           We do not store any private keys.
         </p>
-        <p>We use BIP32 addresses, m/84'/0'/0'/event id/player id</p>
+        <p>We use BIP32 addresses, m/84/0/0/event id/player id</p>
       </div>
 
       <div>
