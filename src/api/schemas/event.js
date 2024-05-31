@@ -17,6 +17,22 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  game_type: {
+    type: String,
+    required: true,
+  },
+  buy_in: {
+    type: Number,
+    required: true,
+  },
+  start_stack: {
+    type: Number,
+    required: true,
+  },
+  blind_levels: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Event = mongoose.model("Event", eventSchema);

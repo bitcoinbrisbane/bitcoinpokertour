@@ -54,6 +54,7 @@ export default function Home() {
       <Menubar>
         <MenubarMenu>
           <MenubarTrigger>Home</MenubarTrigger>
+          <MenubarTrigger>Treasury</MenubarTrigger>
           <MenubarTrigger>Events</MenubarTrigger>
           <MenubarContent>
             <MenubarItem>
