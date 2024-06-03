@@ -1,19 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const mongoose = require("mongoose");
-
-// const connectDB = require("./config/dbConfig");
-// connectDB();
-
-const app = express();
-app.use(cors());
-app.use(express.json());
+const Registration = require("../schemas/Registration");
 
 router.get("/:eventid", async (req, res) => {
 
     const event_id = req.params.eventid;
-    
+    const registrations = await Registration.findById(event_id);
+
+    return res.json(registrations);
 });
 
 module.exports = router;

@@ -5,6 +5,14 @@ const app = express();
 const cors = require("cors");
 app.use(cors());
 
+const dotenv = require("dotenv");
+dotenv.config();
+
+const mongoose = require("mongoose");
+
+const connectDB = require("./config/dbConfig");
+connectDB();
+
 // Routes
 const events = require("./routes/events");
 const registration = require("./routes/registration");
