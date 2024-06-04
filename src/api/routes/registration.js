@@ -4,6 +4,9 @@ const router = express.Router();
 const Registration = require("../schemas/registration");
 const { getRegistrationAddress } = require("../utils");
 
+// use json
+router.use(express.json());
+
 router.get("/:eventid", async (req, res) => {
   const event_id = req.params.eventid;
   const registrations = await Registration.findById(event_id);
@@ -32,8 +35,8 @@ router.post("/:eventid", async (req, res) => {
   await registration.save();
 
   registration.bitcoin_address = getRegistrationAddress(
-    event_id,
-    registration._id
+    0, // event_id,
+    1, // registration._id
   );
 
   await registration.save();
