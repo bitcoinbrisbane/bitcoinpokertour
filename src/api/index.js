@@ -19,6 +19,7 @@ const registration = require("./routes/registration");
 
 // Routes
 app.use("/events", events);
+app.use("/registration", registration);
 
 // Start server
 const PORT = process.env.PORT || 5000;
