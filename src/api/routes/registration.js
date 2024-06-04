@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const Registration = require("../schemas/Registration");
+const Registration = require("../schemas/registration");
 const { getRegistrationAddress } = require("../utils");
 
 router.get("/:eventid", async (req, res) => {

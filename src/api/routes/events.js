@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+const Event = require("../schemas/event");
+
 router.get("/", async (req, res) => {
   const events = await Event.find();
 
-  if (!events) {
+  if (events.length === 0) {
     const events = [
       {
         id: 1,
