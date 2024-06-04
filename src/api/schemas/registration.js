@@ -14,17 +14,17 @@ const registrationSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  event: {
+  event_id: {
     type: String,
     required: true,
   },
   bitcoin_address: {
     type: String,
-    required: true,
+    required: false,
   },
   tx_id: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 
