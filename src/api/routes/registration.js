@@ -34,14 +34,17 @@ router.post("/:eventid", async (req, res) => {
 
   await registration.save();
 
+  // get count of registrations for this event
+  const count = await Registration.find({ event_id }).countDocuments();
+
   registration.bitcoin_address = getRegistrationAddress(
     0, // event_id,
-    1, // registration._id
+    count
   );
 
   await registration.save();
 
-  return res.json(registration);
+  return res.status(201).json(registration);
 });
 
 module.exports = router;
