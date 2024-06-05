@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:api": "node ./src/api/index.js",
     "lint": "next lint"
   },
   "dependencies": {
