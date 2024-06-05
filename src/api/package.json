@@ -1,0 +1,28 @@
+{
+  "name": "bitcoinpokertour-api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bip32": "^4.0.0",
+    "bip39": "^3.1.0",
+    "bitcoinjs-lib": "^6.1.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ecpair": "^2.1.0",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.1",
+    "next": "14.2.3",
+    "nodemon": "^3.1.2",
+    "react": "^18",
+    "react-dom": "^18",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "20.12.2"
+  }
+}
