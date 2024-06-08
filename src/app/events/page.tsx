@@ -19,7 +19,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const invoices = [
+// mock data
+const data = [
   {
     invoice: "INV001",
     paymentStatus: "Paid",
@@ -53,9 +54,6 @@ export default function Page() {
         <MenubarMenu>
           <MenubarTrigger>Events</MenubarTrigger>
           <MenubarContent>
-            <MenubarItem>
-              New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-            </MenubarItem>
             <MenubarItem>New Window</MenubarItem>
             <MenubarSeparator />
             <MenubarItem>Share</MenubarItem>
@@ -78,7 +76,7 @@ export default function Page() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices.map((invoice) => (
+          {data.map((invoice) => (
             <TableRow key={invoice.invoice}>
               <TableCell className="font-medium">{invoice.invoice}</TableCell>
               <TableCell>{invoice.paymentStatus}</TableCell>
