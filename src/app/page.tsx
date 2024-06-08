@@ -1,16 +1,6 @@
 import Image from "next/image";
 
 import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
-
-import {
   Table,
   TableBody,
   TableCaption,
@@ -21,36 +11,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import Menu from "@/components/ui/menu";
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Menubar className="bg-white border-b border-gray-200">
-        <MenubarMenu>
-          <MenubarTrigger className="hover:bg-gray-100 px-4 py-2 cursor-pointer">
-            Home
-          </MenubarTrigger>
-          <MenubarTrigger className="hover:bg-gray-100 px-4 py-2 cursor-pointer">
-            Schedule
-          </MenubarTrigger>
-          <MenubarTrigger className="hover:bg-gray-100 px-4 py-2 cursor-pointer">
-            Promotions
-          </MenubarTrigger>
-          <MenubarTrigger className="hover:bg-gray-100 px-4 py-2 cursor-pointer">
-            Treasury
-          </MenubarTrigger>
-          <MenubarTrigger className="hover:bg-gray-100 px-4 py-2 cursor-pointer">
-            Bitcoin Guide
-          </MenubarTrigger>
-          <MenubarTrigger className="hover:bg-gray-100 px-4 py-2 cursor-pointer">
-            Contact
-          </MenubarTrigger>
-          {/* <MenubarContent className="bg-white border border-gray-200">
-            <MenubarItem className="hover:bg-gray-100 px-4 py-2">
-              New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-            </MenubarItem>
-          </MenubarContent> */}
-        </MenubarMenu>
-      </Menubar>
+      <Menu></Menu>
 
       <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
         <Image
