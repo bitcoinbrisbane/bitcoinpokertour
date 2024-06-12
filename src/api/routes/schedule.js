@@ -33,7 +33,22 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { title, description, date, location, start_stack, blind_levels, game_type, buy_in } = req.body;
+  const apiKey = req.headers["x-api-key"];
+
+  if (apiKey !== process.env.API_KEY) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const {
+    title,
+    description,
+    date,
+    location,
+    start_stack,
+    blind_levels,
+    game_type,
+    buy_in,
+  } = req.body;
 
   const event = new Event({
     title,
@@ -45,12 +60,12 @@ router.post("/", async (req, res) => {
     game_type,
     buy_in,
     start_stack,
-    blind_levels
+    blind_levels,
   });
 
   await event.save();
 
-  return res.json(event);
+  return res.status(201).json(event);
 });
 
 // router.post("/register/:eventid", async (req, res) => {
