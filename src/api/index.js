@@ -14,13 +14,15 @@ const connectDB = require("./config/dbConfig");
 connectDB();
 
 // Routes
-const schedule = require("./routes/schedule");
+const news = require("./routes/news");
 const registration = require("./routes/registration");
+const schedule = require("./routes/schedule");
 const sponsors = require("./routes/sponsors");
 
 // Routes
-app.use("/schedule", schedule);
+app.use("/news", news);
 app.use("/registration", registration);
+app.use("/schedule", schedule);
 app.use("/sponsors", sponsors);
 
 // Start server

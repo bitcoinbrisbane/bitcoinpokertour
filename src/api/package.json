@@ -19,7 +19,7 @@
     "react": "^18",
     "react-dom": "^18",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0",
+    "swagger-ui-express": "^5.0.0"
   },
   "license": "MIT",
   "engines": {
