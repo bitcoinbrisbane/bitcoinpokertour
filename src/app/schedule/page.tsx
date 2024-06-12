@@ -1,12 +1,4 @@
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
+import Menu from "@/components/ui/menu";
 
 import {
   Table,
@@ -19,7 +11,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const invoices = [
+// mock data
+const data = [
   {
     invoice: "INV001",
     paymentStatus: "Paid",
@@ -49,21 +42,7 @@ const invoices = [
 export default function Page() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Menubar>
-        <MenubarMenu>
-          <MenubarTrigger>Events</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem>
-              New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-            </MenubarItem>
-            <MenubarItem>New Window</MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem>Share</MenubarItem>
-            <MenubarSeparator />
-            <MenubarItem>Print</MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
-      </Menubar>
+      <Menu></Menu>
 
       <h1 className="text-4xl font-bold text-center">Upcoming events</h1>
 
@@ -78,7 +57,7 @@ export default function Page() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {invoices.map((invoice) => (
+          {data.map((invoice) => (
             <TableRow key={invoice.invoice}>
               <TableCell className="font-medium">{invoice.invoice}</TableCell>
               <TableCell>{invoice.paymentStatus}</TableCell>
