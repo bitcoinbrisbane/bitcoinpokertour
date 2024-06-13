@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
         story:
           "Dan made it to day 6 of the WSOP Main Event. He was eliminated in 52nd place.",
         author: "Texas HODL",
-        tags: "WSOP, poker",
+        tags: ["WSOP, poker"],
       },
     ];
 
