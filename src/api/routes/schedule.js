@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
+const axios = require("axios");
+
 // use json
 router.use(express.json());
 
 const Event = require("../schemas/event");
+const Registration = require("../schemas/registration");
 const Result = require("../schemas/result");
 
 router.get("/", async (req, res) => {
@@ -41,6 +44,32 @@ router.get("/:id/results", async (req, res) => {
   }
 
   res.json(results);
+});
+
+router.get("/:id/stats", async (req, res) => {
+  const { id } = req.params;
+
+  const response = {
+    registrations: 0,
+    prize_pool: 0,
+    prize_pool_usd: 0,
+  };
+
+  const registrations = await Registration.find({ event_id: id });
+
+  response.registrations = registrations.length;
+  response.prize_pool = registrations.reduce(
+    (total, registration) => total + registration.buy_in,
+    0
+  );
+
+  const btcPrice = await axios.get(
+    "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"
+  );
+
+  response.prize_pool_usd = response.prize_pool * btcPrice.data.bpi.USD.rate_float;
+
+  res.json(response);
 });
 
 router.post("/", async (req, res) => {
