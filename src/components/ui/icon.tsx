@@ -16,7 +16,7 @@ const ICON_SIZE: Record<Size, number> = {
 };
 
 export function Icon({ className, size = "small", icon, ...rest }: Props) {
-  const IconComponent = icon;
+  const IconComponent: IconType = icon;
   const iconSize: number = typeof size === "string" ? ICON_SIZE[size] : size;
   return <IconComponent className={className} size={iconSize} {...rest} />;
 }
