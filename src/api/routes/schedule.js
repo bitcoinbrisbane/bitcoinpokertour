@@ -5,8 +5,7 @@ const router = express.Router();
 router.use(express.json());
 
 const Event = require("../schemas/event");
-const Registration = require("../schemas/registration");
-const { getRegistrationAddress } = require("../utils");
+const Result = require("../schemas/result");
 
 router.get("/", async (req, res) => {
   const events = await Event.find();
@@ -30,6 +29,18 @@ router.get("/", async (req, res) => {
   }
 
   res.json(events);
+});
+
+router.get("/:id/results", async (req, res) => {
+  const { id } = req.params;
+
+  const results = await Result.find({ event_id: id });
+
+  if (results.length === 0) {
+    return res.sendStatus(404);
+  }
+
+  res.json(results);
 });
 
 router.post("/", async (req, res) => {
@@ -67,35 +78,5 @@ router.post("/", async (req, res) => {
 
   return res.status(201).json(event);
 });
-
-// router.post("/register/:eventid", async (req, res) => {
-//   const event_id = req.params.eventid;
-//   const { name, email } = req.body;
-
-//   // Check to see if the email is already registered
-//   const existingRegistration = await Registration.findOne({ email, event_id });
-
-//   if (existingRegistration) {
-//     return res.status(400).json({ error: "Email already registered" });
-//   }
-
-//   const registration = new Registration({
-//     name,
-//     email,
-//     date: new Date(),
-//     event_id,
-//   });
-
-//   await registration.save();
-
-//   registration.bitcoin_address = getRegistrationAddress(
-//     event_id,
-//     registration._id
-//   );
-
-//   await registration.save();
-
-//   return res.json(registration);
-// });
 
 module.exports = router;
