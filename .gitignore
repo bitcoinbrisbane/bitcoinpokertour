@@ -35,3 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env
+
+/src/api/.env
+/src/api/node_modules
