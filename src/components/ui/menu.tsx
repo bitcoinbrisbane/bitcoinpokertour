@@ -33,7 +33,7 @@ const MobileNav = ({ menuExp, setMenuExpanded, closeMenu }: MenuExp & { closeMen
     <div className="absolute flex flex-col w-3/4 shadow h-auto justify-center z-10 ">
       {/* Menu */}
       <div
-        className={`${menuExp ? "flex" : "hidden" } shadow flex-col p-6 absolute top-1 px-8 w-3/4 ml-11 rounded-xl transition duration-500 bg-white`}
+        className={`${menuExp ? "flex" : "hidden"} shadow flex-col p-6 absolute top-1 px-8 w-3/4 ml-11 rounded-xl transition duration-500 bg-white`}
       >
         <ul className="list-none flex items-start flex-1 flex-col space-y-1">
           <NavLinks classes="font-bold flex-col" menuExp={menuExp} setMenuExpanded={setMenuExpanded} closeMenu={closeMenu} />
