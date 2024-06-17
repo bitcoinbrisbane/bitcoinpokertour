@@ -54,7 +54,6 @@ export default function Treasury() {
 
 			<div>
 				<Table>
-					<TableCaption>Upcoming events.</TableCaption>
 					<TableHeader>
 						<TableRow>
 							<TableHead className="w-[100px]">Path</TableHead>

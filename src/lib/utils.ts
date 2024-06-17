@@ -23,4 +23,4 @@ export const getEvents = async () => {
 	} catch (error) {
 		throw new Error("Failed to fetch event data from the API. Please check the network connection and the URL.");
 	}
-}
+};

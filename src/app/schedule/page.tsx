@@ -26,7 +26,6 @@ export default async function Page() {
 			<Menu />
 			<h1 className="text-4xl font-bold text-center">Upcoming events</h1>
 			<Table>
-				<TableCaption>Upcoming events.</TableCaption>
 				<TableHeader>
 					<TableRow>
 						<TableHead className="w-[180px]">Date</TableHead>
