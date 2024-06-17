@@ -33,8 +33,8 @@ export default async function Page() {
   const data = await getEvents();
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold text-center">Upcoming events</h1>
       <Menu/>
+      <h1 className="text-4xl font-bold text-center">Upcoming events</h1>
       <Table>
         <TableCaption>Upcoming events.</TableCaption>
         <TableHeader>
