@@ -28,34 +28,6 @@ interface IDates {
   dates: string
 }
 
-// mock data
-const datas = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-];
-
 export default async function Page() {
 
   const data = await getEvents();
@@ -66,8 +38,8 @@ export default async function Page() {
         <TableCaption>Upcoming events.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Date</TableHead>
-            <TableHead className="w-[100px]">Title</TableHead>
+            <TableHead className="w-[180px]">Date</TableHead>
+            <TableHead className="w-[120px]">Title</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Location</TableHead>
             <TableHead>Start stack</TableHead>
@@ -100,12 +72,12 @@ export default async function Page() {
 
 const Dates = ({ dates }: IDates) => {
   const newDate = moment.parseZone(dates)
-  const formated = newDate.format("LLLL")
+  const formated = newDate.format("L LT")
 
-   if (!moment(dates).isValid()) {
-       return <TableCell>Invalid date</TableCell>;
-   }
-    return (
-      <TableCell>{formated}</TableCell>
-    )
+  if (!moment(dates).isValid()) {
+    return <TableCell>Invalid date</TableCell>;
+  }
+  return (
+    <TableCell>{formated}</TableCell>
+  )
 }
