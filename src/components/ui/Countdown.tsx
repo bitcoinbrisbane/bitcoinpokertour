@@ -69,36 +69,3 @@ const Countdown = () => {
 }
 
 export default Countdown;
-
-
-/* const targetDate = new Date("2024/06/25 00:00:00");
-const [days, setDays] = useState<number>(10)
-const [hrs, setHours] = useState<number>(10)
-const [min, setMinutes] = useState<number>(10)
-const [sec, setSeconds] = useState<number>(10)
-
-const  timeToLaunch = () => {
-    const currentDate = new Date();
-
-    let diff = (currentDate.valueOf() - targetDate.valueOf())/1000;
-    diff = Math.abs(Math.floor(diff));  
-
-    setDays((e) => Math.floor(e/(24*60*60)));
-    setSeconds((e) => e - days * 24*60*60);
-
-    setHours((e) => Math.floor(e/(60*60)));
-    setSeconds((e) => e - hrs * (60*60));
-
-    // Check number of minutes until target
-    setMinutes((e) => Math.floor(e/(60)));
-    setSeconds((e) => e - min * 60);
-}
-
-function countDownTimer(){ 
-    timeToLaunch();
-    setTimeout(countDownTimer,1001);
-}
-
-useEffect(() => {
-    countDownTimer()
-}, [sec]) */
