@@ -45,9 +45,8 @@ export default function Treasury() {
 
 			<div>
 				<h2 className="text-4xl text-center text-neutral-900 dark:text-neutral-100">Bitcoin Poker Tour Treasury</h2>
-				<p className="font-semibold text-center text-neutral-700 dark:text-neutral-300">
-					All players buy ins are visible on the blockchain. We are fully transparent. We use xPub keys to generate addresses for each buy in. We do
-					not store any private keys.
+				<p className="text-center text-neutral-700 dark:text-neutral-300">
+					All players buy ins are visible on the blockchain. We are fully transparent. We use xPub keys to generate addresses for each buy in.
 				</p>
 				<p>We use BIP32 addresses, m/84/0/0/event id/player id</p>
 			</div>
