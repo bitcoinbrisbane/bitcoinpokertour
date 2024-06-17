@@ -26,8 +26,7 @@ export default async function Home() {
 			<Menu />
 			<div>
 				<h2 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">Welcome to the Bitcoin Poker Tour.</h2>
-				<h3 className="text-2xl font-semibold text-center text-neutral-700 dark:text-neutral-300">Live Poker. Bitcoin buy ins.</h3>
-				<h2 className="text-xl font-bold text-center text-neutral-900 dark:text-neutral-100">Coming soon!!</h2>
+				<h3 className="text-2xl font-semibold text-center text-neutral-700 dark:text-neutral-300">Live Poker. Bitcoin buy ins.  Coming soon!</h3>
 			</div>
 			<Link className="flex flex-col text-center items-center mt-3 hover:cursor-pointer" href={"https://t.me/+4_ll8Wiu8zQ0MTE9"} target="_blank">
 				<Icon className="transition duration-100 hover:scale-125" icon={telegram} size={30} />
