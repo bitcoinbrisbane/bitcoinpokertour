@@ -8,8 +8,7 @@ import {
   RiMenuLine as MenuIcon,
 } from "react-icons/ri";
 import { Icon } from "./Icon";
-
-const navigation = ["Home", "Schedule", "Promotions", "Treasury", "Bitcoin Guide", "Contact"]
+import { navigation } from "@/constansts/constants";
 
 const NavLinks = ({ classes, menuExp, setMenuExpanded, closeMenu }: Classes & { closeMenu: () => void }) => {
 
@@ -20,8 +19,10 @@ const NavLinks = ({ classes, menuExp, setMenuExpanded, closeMenu }: Classes & { 
   return (
     <div className={`flex ${classes} space-y-2`}>
       {navigation.map((item, i) => (
-        <div key={item + i}>
-          {item}
+        <div key={item.name + i}>
+          <Link href={item.url}>
+            {item.name}
+          </Link>
         </div>
       ))}
     </div>
@@ -29,7 +30,7 @@ const NavLinks = ({ classes, menuExp, setMenuExpanded, closeMenu }: Classes & { 
 };
 
 const MobileNav = ({ menuExp, setMenuExpanded, closeMenu }: MenuExp & { closeMenu: () => void }) => {
-  const [windows, setWindows] = useState({width: 0, height: 0})
+  const [windows, setWindows] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
     const handleResize = () => {
@@ -43,7 +44,7 @@ const MobileNav = ({ menuExp, setMenuExpanded, closeMenu }: MenuExp & { closeMen
   const { width } = windows;
   const midScreen = 830
 
-  if(menuExp && width >= midScreen) setMenuExpanded(false)
+  if (menuExp && width >= midScreen) setMenuExpanded(false)
 
   return (
     <div className="absolute flex flex-col w-3/4 shadow h-auto justify-center z-10">
@@ -80,9 +81,11 @@ const Menu = () => {
       <Menubar className="sm:invisible md:visible flex flex-row mb-10 bg-white border-b border-gray-200">
         <MenubarMenu>
           {
-            navigation.map((name, idx) => (
+            navigation.map((item, idx) => (
               <MenubarTrigger key={idx} className="hover:bg-gray-100 px-4 py-2 cursor-pointer">
-                {name}
+                <Link href={item.url}>
+                  {item.name}
+                </Link>
               </MenubarTrigger>
             ))
           }
