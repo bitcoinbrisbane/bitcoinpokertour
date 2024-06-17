@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Menubar, MenubarMenu, MenubarTrigger } from "./menubar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuExp, Classes } from "../../types";
 import {
   RiCloseFill as CloseIcon,
@@ -29,6 +29,22 @@ const NavLinks = ({ classes, menuExp, setMenuExpanded, closeMenu }: Classes & { 
 };
 
 const MobileNav = ({ menuExp, setMenuExpanded, closeMenu }: MenuExp & { closeMenu: () => void }) => {
+  const [windows, setWindows] = useState({width: 0, height: 0})
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindows({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [])
+
+  const { width } = windows;
+  const midScreen = 830
+
+  if(menuExp && width >= midScreen) setMenuExpanded(false)
+
   return (
     <div className="absolute flex flex-col w-3/4 shadow h-auto justify-center z-10">
       {/* Menu */}

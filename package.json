@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@radix-ui/react-menubar": "^1.0.4",
+    "axios": "^1.7.2",
     "bip32": "^4.0.0",
     "bip39": "^3.1.0",
     "bitcoinjs-lib": "^6.1.5",
