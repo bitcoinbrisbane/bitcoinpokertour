@@ -40,9 +40,8 @@ interface CountdownState {
     return countdown;
   };
 
-const Countdown = () => {
-    const targetDate = new Date('2024-06-30T23:59:59Z')
-     
+const Countdown = ({newTarget}: any) => {
+    const targetDate = new Date(newTarget)
     if (isNaN(targetDate.getTime())) {
       throw new Error('Invalid target date');
      }
