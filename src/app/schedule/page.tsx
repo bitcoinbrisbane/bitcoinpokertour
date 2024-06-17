@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import moment from 'moment'
+import moment from "moment";
 import { getEvents } from "@/lib/utils";
 
 interface IEvents {
