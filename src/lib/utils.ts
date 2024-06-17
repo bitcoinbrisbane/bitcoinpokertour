@@ -15,3 +15,12 @@ export const getDate = async () => {
 		throw new Error("Cannot Catch the date");
 	}
 };
+
+export const getEvents = async () => {
+	try {
+		const res = await axios.get("https://plankton-app-lht9q.ondigitalocean.app/schedule");
+		return res.data;
+	} catch (error) {
+		throw new Error("Failed to fetch event data from the API. Please check the network connection and the URL.");
+	}
+}

@@ -10,135 +10,75 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import moment from "moment";
+import { getEvents } from "@/lib/utils";
 
-// mock data
-const data = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-];
+interface IEvents {
+  id: string
+  title: string
+  description: string
+  date: string
+  location: string
+  start_stack: number
+  blind_levels: number
+  game_type: string
+}
 
-export default function Page() {
+interface IDates {
+  dates: string
+}
+
+export default async function Page() {
+
+  const data = await getEvents();
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Menu></Menu>
-
+      <Menu/>
       <h1 className="text-4xl font-bold text-center">Upcoming events</h1>
-
       <Table>
         <TableCaption>Upcoming events.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="w-[180px]">Date</TableHead>
+            <TableHead className="w-[120px]">Title</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead>Location</TableHead>
+            <TableHead>Start stack</TableHead>
+            <TableHead>Blind levels</TableHead>
+            <TableHead>Game type</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {data.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-right">
-                {invoice.totalAmount}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {
+          data.map((items: IEvents) => (
+            <TableBody key={items.id}>
+              <TableRow>
+                <Dates dates={items.date} />
+                <TableCell className="font-medium">{items.title}</TableCell>
+                <TableCell>{items.description}</TableCell>
+                <TableCell>
+                  {items.location}
+                </TableCell>
+                <TableCell>{items.start_stack}</TableCell>
+                <TableCell>{items.blind_levels}</TableCell>
+                <TableCell>{items.game_type}</TableCell>
+              </TableRow>
+            </TableBody>
+          ))
+        }
+
       </Table>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
   );
+}
+
+const Dates = ({ dates }: IDates) => {
+  const newDate = moment.parseZone(dates)
+  const formated = newDate.format("L LT")
+
+  if (!moment(dates).isValid()) {
+    return <TableCell>Invalid date</TableCell>;
+  }
+  return (
+    <TableCell>{formated}</TableCell>
+  )
 }
