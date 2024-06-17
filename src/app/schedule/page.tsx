@@ -22,9 +22,8 @@ interface IDates {
 export default async function Page() {
 	const data = await getEvents();
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			<Menu />
-			<h1 className="text-4xl font-bold text-center">Upcoming events</h1>
+		<main className="flex max-h-screen w-full flex-col items-center justify-between ">
+			<h1 className="text-4xl font-bold text-center mb-4">Upcoming events</h1>
 			<Table>
 				<TableHeader>
 					<TableRow>
