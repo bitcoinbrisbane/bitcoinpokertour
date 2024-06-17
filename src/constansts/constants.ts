@@ -1,6 +1,6 @@
 export const navigation = [
     {
-      name: "Home", //, , "Promotions", "Treasury", "Bitcoin Guide", "Contact"]
+      name: "Home",
       url: "/"
     },
     {
