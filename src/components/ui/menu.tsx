@@ -64,7 +64,7 @@ const Menu = () => {
   const [menuExpanded, setMenuExpanded] = useState(false);
 
   return (
-    <div>
+    <div className={`${menuExpanded ? "mb-44" : ""}`}>
       <div className="flex w-auto md:invisible justify-center hover:cursor-pointer p-5">
         <Icon
           className="transition duration-100"
