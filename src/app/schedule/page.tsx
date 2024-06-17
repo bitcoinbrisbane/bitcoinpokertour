@@ -101,7 +101,11 @@ export default async function Page() {
 const Dates = ({ dates }: IDates) => {
   const newDate = moment.parseZone(dates)
   const formated = newDate.format("LLLL")
-  return (
-    <TableCell>{formated}</TableCell>
-  )
+
+   if (!moment(dates).isValid()) {
+       return <TableCell>Invalid date</TableCell>;
+   }
+    return (
+      <TableCell>{formated}</TableCell>
+    )
 }
