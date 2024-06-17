@@ -41,8 +41,9 @@ const MobileNav = ({ menuExp, setMenuExpanded, closeMenu }: MenuExp & { closeMen
   }, [])
 
   const { width } = windows;
+  const midScreen = 830
 
-  if(menuExp && width > 830) setMenuExpanded(false)
+  if(menuExp && width >= midScreen) setMenuExpanded(false)
 
   return (
     <div className="absolute flex flex-col w-3/4 shadow h-auto justify-center z-10">
