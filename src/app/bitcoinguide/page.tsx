@@ -1,9 +1,5 @@
 const Bitcoinguide = () => {
-    return (
-        <>
-            Bitcoinguide
-        </>
-    )
-}
+	return <>Bitcoinguide</>;
+};
 
-export default Bitcoinguide
+export default Bitcoinguide;

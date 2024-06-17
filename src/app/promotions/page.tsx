@@ -1,9 +1,5 @@
 const Promotions = () => {
-    return (
-        <>
-            Promotions
-        </>
-    )
-}
+	return <>Promotions</>;
+};
 
-export default Promotions
+export default Promotions;
