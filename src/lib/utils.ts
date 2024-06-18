@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const getDate = async () => {
 	try {
-		const {data} = await axios.get("https://plankton-app-lht9q.ondigitalocean.app/schedule");
+		const { data } = await axios.get("https://plankton-app-lht9q.ondigitalocean.app/schedule");
 		return data[0].date;
 	} catch (error) {
 		throw new Error("Failed to fetch the date from the API. Please check the network connection and the URL.");
@@ -19,7 +19,7 @@ export const getDate = async () => {
 
 export const getEvents = async () => {
 	try {
-		const {data} = await axios.get("https://plankton-app-lht9q.ondigitalocean.app/schedule");
+		const { data } = await axios.get("https://plankton-app-lht9q.ondigitalocean.app/schedule");
 		return data;
 	} catch (error) {
 		throw new Error("Failed to fetch event data from the API. Please check the network connection and the URL.");
@@ -28,9 +28,18 @@ export const getEvents = async () => {
 
 export const getEventById = async (id: string) => {
 	try {
-		const {data} = await axios.get(`https://plankton-app-lht9q.ondigitalocean.app/schedule/${id}`);
+		const { data } = await axios.get(`https://plankton-app-lht9q.ondigitalocean.app/schedule/${id}`);
 		return data
 	} catch (error) {
 		throw new Error("Failed to fetch the event data. Please check the event ID, network connection, and the URL.");
 	}
 };
+
+export const getRegistrations = async (id: string) => {
+	try {
+		const { data } = await axios.get(`https://plankton-app-lht9q.ondigitalocean.app/registration/${id}`);
+		return data;
+	} catch (error) {
+		throw new Error("Failed to fetch the event registrations. Please check the event ID, network connection, and the URL.");
+	}
+}

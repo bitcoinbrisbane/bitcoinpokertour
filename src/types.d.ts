@@ -34,3 +34,13 @@ export interface IEvent {
     blind_levels: number 
     __v: number
 }
+
+export interface IRegistrations {
+    name: string
+    email: string
+    date: string
+    event_id: string
+    _id: string
+    __v: number
+    bitcoin_address: string
+}

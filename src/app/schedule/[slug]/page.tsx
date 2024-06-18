@@ -1,35 +1,15 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import moment from "moment";
-import { IEvent } from "@/types";
-import { getEventById } from "@/lib/utils";
-
-//Mocking entries data
-const data = [
-    {
-        name: "Dog",
-        email: "dog4@dog.com",
-        date: "2024-06-04T05:06:45.793Z",
-        event_id: "665e8fcc4666b3aebb756774",
-        _id: "665ea0e5f5r1050635906e2e",
-        __v: 0,
-        bitcoin_address: "tb1qugnsszut6dm6ggj8ut45tg83tklfcsqwv4l39q"
-    },
-    {
-        name: "Cat",
-        email: "cat4@cat4.com",
-        date: "2024-06-03T05:06:45.793Z",
-        event_id: "665e8fcc4666b3aebb756774",
-        _id: "665ea0e5f5e1050635906e2e",
-        __v: 0.1,
-        bitcoin_address: "tb1qugnsszut6dm6ggj8ut45tg83tklfcsqwv4l39q"
-    },
-];
+import { IEvent, IRegistrations } from "@/types";
+import { getEventById, getRegistrations } from "@/lib/utils";
 
 export default async function Page({ params }: { params: { slug: string } }) {
     const { slug } = params;
     const event: IEvent = await getEventById(slug)
-    const {title, date, __v, buy_in, description,location, game_type, blind_levels, start_stack, _id} = event 
+    const {title, date, __v, description,location, game_type, blind_levels, start_stack, _id} = event 
     const newDate = getFormattedDate(date)
+
+    const data = await getRegistrations(_id);
     return (
         <main className="flex h-full w-full md:w-3/4 flex-col  justify-between ">
             <div className="text-left py-3 space-y-10 mb-4">
@@ -52,7 +32,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                         <TableHead className="w-[180px] text-center">Tx</TableHead>
                     </TableRow>
                 </TableHeader>
-                {data.map((items) => (
+                {data.map((items: IRegistrations) => (
                     <TableBody key={items._id} className="hover:cursor-pointer border-x-2 border-y-2">
                         <TableRow>
                             <TableCell className="font-medium border-r-2">{items.name}</TableCell>
