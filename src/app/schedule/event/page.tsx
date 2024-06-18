@@ -61,7 +61,7 @@ export default async function Page() {
                     </TableRow>
                 </TableHeader>
                 {data.map((items: IEvent) => (
-                    <TableBody className="hover:cursor-pointer border-x-2 border-y-2">
+                    <TableBody key={items.event_id} className="hover:cursor-pointer border-x-2 border-y-2">
                         <TableRow>{/*/${id}*/}
                             <TableCell className="font-medium border-r-2">{items.name}</TableCell>
                             <TableCell>{items.bitcoin_address}</TableCell>

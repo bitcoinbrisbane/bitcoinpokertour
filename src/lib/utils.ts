@@ -29,6 +29,6 @@ export const getEventById = async (id: string) => {
 		const res = await axios.get(`https://plankton-app-lht9q.ondigitalocean.app/schedule/event/${id}/results`);
 		return res.data;
 	} catch (error) {
-		throw new Error("This event doesn't exists");
+		throw new Error("This event does not exist");
 	}
 }
