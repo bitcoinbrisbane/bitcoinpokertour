@@ -1,26 +1,11 @@
-import Menu from "@/components/ui/menu";
-
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import moment from "moment";
 import { getEvents } from "@/lib/utils";
-
-interface IEvents {
-	id: string;
-	title: string;
-	description: string;
-	date: string;
-	location: string;
-	start_stack: number;
-	blind_levels: number;
-	game_type: string;
-}
-
-interface IDates {
-	dates: string;
-}
+import TableRows from "@/components/ui/TableRow";
+import { IEvents } from "@/types";
 
 export default async function Page() {
 	const data = await getEvents();
+	console.log(data[0].id, ' ', data[0].date)
 	return (
 		<main className="flex max-h-screen w-full flex-col items-center justify-between ">
 			<h1 className="text-4xl font-bold text-center mb-4">Upcoming events</h1>
@@ -37,29 +22,20 @@ export default async function Page() {
 					</TableRow>
 				</TableHeader>
 				{data.map((items: IEvents) => (
-					<TableBody key={items.id}>
-						<TableRow>
-							<Dates dates={items.date} />
-							<TableCell className="font-medium">{items.title}</TableCell>
-							<TableCell>{items.description}</TableCell>
-							<TableCell>{items.location}</TableCell>
-							<TableCell>{items.start_stack}</TableCell>
-							<TableCell>{items.blind_levels}</TableCell>
-							<TableCell>{items.game_type}</TableCell>
-						</TableRow>
-					</TableBody>
+					<TableRows
+						key={items.title}
+						id={items.id}
+						date={items.date}
+						title={items.title}
+						description={items.description}
+						location={items.location}
+						start_stack={items.start_stack}
+						game_type={items.game_type}
+						blind_levels={items.blind_levels}
+					/>
 				))}
 			</Table>
 		</main>
 	);
 }
 
-const Dates = ({ dates }: IDates) => {
-	const newDate = moment.parseZone(dates);
-	const formatted = newDate.format("L LT");
-
-	if (!moment(dates).isValid()) {
-		return <TableCell>Invalid date</TableCell>;
-	}
-	return <TableCell>{formatted}</TableCell>;
-};
