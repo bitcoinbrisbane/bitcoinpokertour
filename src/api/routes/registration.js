@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const axios = require("axios");
 
 const Registration = require("../schemas/registration");
 const { getRegistrationAddress } = require("../utils");
@@ -31,6 +32,12 @@ router.post("/:eventid", async (req, res) => {
     date: new Date(),
     event_id,
   });
+
+  // Send mail to the user
+  await axios.post("https://api.postmarkapp.com/email", {
+    
+  });
+
 
   await registration.save();
 
