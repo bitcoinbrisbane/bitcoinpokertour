@@ -30,7 +30,7 @@ export interface IEvent {
     description: string
     game_type: number
     buy_in: number
-    start_stack: string
+    start_stack: number
     blind_levels: number 
     __v: number
 }

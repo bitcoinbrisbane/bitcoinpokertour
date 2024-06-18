@@ -13,7 +13,7 @@ export const getDate = async () => {
 		const {data} = await axios.get("https://plankton-app-lht9q.ondigitalocean.app/schedule");
 		return data[0].date;
 	} catch (error) {
-		throw new Error("Cannot Catch the date");
+		throw new Error("Failed to fetch the date from the API. Please check the network connection and the URL.");
 	}
 };
 
@@ -31,6 +31,6 @@ export const getEventById = async (id: string) => {
 		const {data} = await axios.get(`https://plankton-app-lht9q.ondigitalocean.app/schedule/${id}`);
 		return data
 	} catch (error) {
-		throw new Error("This event does not exist");
+		throw new Error("Failed to fetch the event data. Please check the event ID, network connection, and the URL.");
 	}
 };
