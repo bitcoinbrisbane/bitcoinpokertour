@@ -34,6 +34,19 @@ router.get("/", async (req, res) => {
   res.json(events);
 });
 
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+
+  const event = await Event.findOne({ _id: id });
+
+  if (!event) {
+    return res.sendStatus(404);
+  }
+
+  res.json(event);
+});
+
 router.get("/:id/results", async (req, res) => {
   const { id } = req.params;
 
