@@ -9,6 +9,10 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  registration_close: {
+    type: Date,
+    required: true,
+  },
   location: {
     type: String,
     required: true,
