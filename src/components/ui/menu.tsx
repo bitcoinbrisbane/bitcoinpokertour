@@ -20,7 +20,7 @@ const NavLinks = ({ classes, menuExp, setMenuExpanded, closeMenu }: Classes & { 
     <div className={`flex ${classes} space-y-2`}>
       {navigation.map((item, i) => (
         <div key={item.name + i}>
-          <Link href={item.url}>
+          <Link href={item.url} onClick={() => setMenuExpanded(!menuExp)}>
             {item.name}
           </Link>
         </div>
@@ -78,7 +78,7 @@ const Menu = () => {
           <MobileNav menuExp={menuExpanded} setMenuExpanded={setMenuExpanded} closeMenu={() => { }} />
         </div>
       )}
-      <Menubar className="sm:invisible md:visible flex flex-row mb-10 bg-white border-b border-gray-200">
+      <Menubar className="sm:invisible md:visible flex flex-row mb-5 bg-white border-b border-gray-200">
         <MenubarMenu>
           {
             navigation.map((item, idx) => (
