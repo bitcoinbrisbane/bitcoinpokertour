@@ -58,29 +58,29 @@ router.post("/:eventid", async (req, res) => {
 		event_id
 	});
 
+  await registration.save();
+
+  const data = {
+		From: "registration@bitcoinpokertour.com",
+		To: email,
+		Subject: `Confirm your registration for event ${event_id}`,
+		TextBody: "Hello dear Postmark user.",
+		// HtmlBody: "<html><body><strong>Hello</strong> dear Postmark user.</body></html>",
+		MessageStream: "outbound"
+  }
+
 	const config = {
+		method: "post",
+		maxBodyLength: Infinity,
+		url: "https://api.postmarkapp.com/email",
 		headers: {
 			"Content-Type": "application/json",
 			"X-Postmark-Server-Token": process.env.POSTMARK_API_KEY
-		}
+		},
+		data: data
 	};
 
-	// Send mail to the user
-	await axios.post("https://api.postmarkapp.com/email", {
-		From: "sender@example.com",
-		To: "receiver@example.com",
-		Subject: "Postmark test",
-		TextBody: "Hello dear Postmark user.",
-		HtmlBody: "<html><body><strong>Hello</strong> dear Postmark user.</body></html>",
-		MessageStream: "outbound"
-	});
-
-	// // Send mail to the user
-	// await axios.post("https://api.postmarkapp.com/email", {
-
-	// });
-
-	await registration.save();
+	await axios.request(config);
 
 	// get count of registrations for this event
 	const count = await Registration.find({ event_id }).countDocuments();
