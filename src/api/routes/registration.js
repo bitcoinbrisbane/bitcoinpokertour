@@ -42,7 +42,7 @@ router.get("/:eventid", async (req, res) => {
 
 router.post("/:eventid", async (req, res) => {
 	const event_id = req.params.eventid;
-	const { name, email } = req.body;
+	const { name, email, bitcoin_address } = req.body;
 
 	// Check to see if the email is already registered
 	const existingRegistration = await Registration.findOne({ email, event_id });
@@ -55,16 +55,28 @@ router.post("/:eventid", async (req, res) => {
 		name,
 		email,
 		date: new Date(),
+    bitcoin_address,
 		event_id
 	});
 
   await registration.save();
+  console.log(`User ${name} registered for event ${event_id}`);
+
+	// get count of registrations for this event
+	const count = await Registration.find({ event_id }).countDocuments();
+
+	registration.bitcoin_address = getRegistrationAddress(
+		0, // event_id,
+		count
+	);
+
+	await registration.save();
 
   const data = {
 		From: "registration@bitcoinpokertour.com",
 		To: email,
 		Subject: `Confirm your registration for event ${event_id}`,
-		TextBody: "Hello dear Postmark user.",
+		TextBody: "Thank you for registering for the event. Your bitcoin address is: " + registration.bitcoin_address,
 		// HtmlBody: "<html><body><strong>Hello</strong> dear Postmark user.</body></html>",
 		MessageStream: "outbound"
   }
@@ -81,16 +93,7 @@ router.post("/:eventid", async (req, res) => {
 	};
 
 	await axios.request(config);
-
-	// get count of registrations for this event
-	const count = await Registration.find({ event_id }).countDocuments();
-
-	registration.bitcoin_address = getRegistrationAddress(
-		0, // event_id,
-		count
-	);
-
-	await registration.save();
+  console.log(`Email sent to ${email}`);
 
 	return res.status(201).json(registration);
 });

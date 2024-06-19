@@ -20,7 +20,7 @@ const registrationSchema = new mongoose.Schema({
   },
   bitcoin_address: {
     type: String,
-    required: false,
+    required: true,
   },
   tx_id: {
     type: String,
