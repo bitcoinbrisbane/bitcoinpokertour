@@ -18,6 +18,10 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## PGP Public Key
 
+Our PGP public key B9DEE41FFABACDB8 on hkps://keys.openpgp.org
+
+or
+
 ```text
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
