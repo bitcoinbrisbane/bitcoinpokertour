@@ -55,12 +55,12 @@ router.post("/:eventid", async (req, res) => {
 		name,
 		email,
 		date: new Date(),
-    bitcoin_address,
+		bitcoin_address,
 		event_id
 	});
 
-  await registration.save();
-  console.log(`User ${name} registered for event ${event_id}`);
+	await registration.save();
+	console.log(`User ${name} registered for event ${event_id}`);
 
 	// get count of registrations for this event
 	const count = await Registration.find({ event_id }).countDocuments();
@@ -72,14 +72,14 @@ router.post("/:eventid", async (req, res) => {
 
 	await registration.save();
 
-  const data = {
+	const data = {
 		From: "registration@bitcoinpokertour.com",
 		To: email,
 		Subject: `Confirm your registration for event ${event_id}`,
 		TextBody: "Thank you for registering for the event. Your bitcoin address is: " + registration.bitcoin_address,
 		// HtmlBody: "<html><body><strong>Hello</strong> dear Postmark user.</body></html>",
 		MessageStream: "outbound"
-  }
+	};
 
 	const config = {
 		method: "post",
@@ -93,7 +93,7 @@ router.post("/:eventid", async (req, res) => {
 	};
 
 	await axios.request(config);
-  console.log(`Email sent to ${email}`);
+	console.log(`Email sent to ${email}`);
 
 	return res.status(201).json(registration);
 });
