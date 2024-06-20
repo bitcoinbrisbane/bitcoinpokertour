@@ -64,8 +64,8 @@ const Menu = () => {
   const [menuExpanded, setMenuExpanded] = useState(false);
 
   return (
-    <div className={`${menuExpanded ? "mb-44" : ""}`}>
-      <div className="flex w-auto md:invisible justify-center hover:cursor-pointer p-5">
+    <div className={`${menuExpanded ? "mb-44 pb-16" : "pb-7"} `}>
+      <div className="flex w-auto md:invisible justify-center hover:cursor-pointer p-1">
         <Icon
           className="transition duration-100"
           size={25}
@@ -74,11 +74,11 @@ const Menu = () => {
         />
       </div>
       {menuExpanded && (
-        <div className="flex justify-center ">
+        <div className="flex justify-center">
           <MobileNav menuExp={menuExpanded} setMenuExpanded={setMenuExpanded} closeMenu={() => { }} />
         </div>
       )}
-      <Menubar className="sm:invisible md:visible flex flex-row mb-5 bg-white border-b border-gray-200">
+      <Menubar className="sm:hidden md:flex  flex-row mb-5 items-center bg-white border-b border-gray-200">
         <MenubarMenu>
           {
             navigation.map((item, idx) => (

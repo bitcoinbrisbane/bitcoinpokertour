@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import moment from "moment";
 import { IEvent, IRegistrations } from "@/types";
@@ -14,13 +15,19 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <main className="flex h-full w-full md:w-3/4 flex-col  justify-between ">
             <div className="text-left py-3 space-y-10 mb-4">
                 <h1 className="text-4xl font-bold">{title}</h1>
+                <Link href={`/registration/${_id}`}>
+                    <h2 className="text-xl mt-4 font-bold hover:cursor-pointer hover:underline">
+                        Register
+                        <span className="inline-block transition-transform hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
+                    </h2>   
+                </Link>
                 <h2 className="text-xl font-bold">{location}</h2>
                 <h2 className="text-xl font-bold">{newDate}</h2>
                 <h2 className="text-lg font-bold">{description}</h2>
                 <h4>{__v} BTC</h4>
                 <h4>{start_stack} Stacks, <span>{blind_levels} Levels</span></h4>
                 <h4>{game_type}</h4>
-                <h2 className="text-xl font-bold">Entries</h2>
+                <h2 className="text-xl top-0 font-bold">Entries</h2>
             </div>
 
             <Table>
