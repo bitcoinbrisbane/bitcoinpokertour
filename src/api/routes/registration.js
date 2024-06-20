@@ -33,7 +33,7 @@ router.get("/:eventid", async (req, res) => {
 			}
 		];
 
-    return res.json(data);
+		return res.json(data);
 	}
 
 	return res.json(registrations);
@@ -42,6 +42,16 @@ router.get("/:eventid", async (req, res) => {
 router.post("/:eventid", async (req, res) => {
 	const event_id = req.params.eventid;
 	const { name, email } = req.body;
+
+	const event = await Event.findById(event_id);
+	if (!event) {
+		return res.status(404).json({ error: "Event not found" });
+	}
+
+	// Check to see if registration is closed
+	if (event.registration_closed) {
+		return res.status(400).json({ error: "Registration is closed" });
+	}
 
 	// Check to see if the email is already registered
 	const existingRegistration = await Registration.findOne({ email, event_id });
