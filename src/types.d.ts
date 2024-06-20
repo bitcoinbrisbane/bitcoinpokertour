@@ -44,3 +44,10 @@ export interface IRegistrations {
     __v: number
     bitcoin_address: string
 }
+
+export interface IRegisterEvent {
+    evt_id: string
+    name: string
+    email: string
+    bitcoin_address: string
+}

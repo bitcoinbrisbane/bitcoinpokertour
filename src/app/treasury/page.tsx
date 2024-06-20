@@ -29,13 +29,13 @@ const addresses = [
 
 export default function Treasury() {
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			<div>
+		<main className="flex h-full w-full md:w-3/4 flex-col  justify-between">
+			<div className="space-y-10">
 				<h2 className="text-4xl text-center text-neutral-900 dark:text-neutral-100">Bitcoin Poker Tour Treasury</h2>
 				<p className="text-center text-neutral-700 dark:text-neutral-300">
 					All players buy ins are visible on the blockchain. We are fully transparent. We use xPub keys to generate addresses for each buy in.
 				</p>
-				<p>We use BIP32 addresses, m/84/0/0/event id/player id</p>
+				<p className="text-center text-neutral-700 dark:text-neutral-300">We use BIP32 addresses, m/84/0/0/event id/player id</p>
 			</div>
 
 			<div>

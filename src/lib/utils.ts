@@ -1,8 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import moment from "moment";
+import { IRegisterEvent } from "@/types";
 import axios from "axios";
-import { IDates } from "@/types";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -35,6 +34,20 @@ export const getEventById = async (id: string) => {
 	}
 };
 
+export const sendRegistration = async (register: IRegisterEvent) => {
+	const {evt_id, name, email, bitcoin_address} = register;
+	const registration = {
+		name, email, bitcoin_address
+	}
+	const {id}: any = evt_id;
+	try {
+		const res = await axios.post(`https://plankton-app-lht9q.ondigitalocean.app/registration/${id}`, registration);
+		console.log(res)
+	} catch (error) {
+		throw new Error("Failed to sent the event registrations. Please check the event ID, network connection, and the URL.");
+	}
+}
+
 export const getRegistrations = async (id: string) => {
 	try {
 		const { data } = await axios.get(`https://plankton-app-lht9q.ondigitalocean.app/registration/${id}`);
@@ -42,4 +55,4 @@ export const getRegistrations = async (id: string) => {
 	} catch (error) {
 		throw new Error("Failed to fetch the event registrations. Please check the event ID, network connection, and the URL.");
 	}
-}
+};
