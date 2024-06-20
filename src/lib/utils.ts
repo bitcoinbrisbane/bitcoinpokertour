@@ -29,7 +29,7 @@ export const getEvents = async () => {
 export const getEventById = async (id: string) => {
 	try {
 		const { data } = await axios.get(`https://plankton-app-lht9q.ondigitalocean.app/schedule/${id}`);
-		return data
+		return data;
 	} catch (error) {
 		throw new Error("Failed to fetch the event data. Please check the event ID, network connection, and the URL.");
 	}
@@ -42,4 +42,4 @@ export const getRegistrations = async (id: string) => {
 	} catch (error) {
 		throw new Error("Failed to fetch the event registrations. Please check the event ID, network connection, and the URL.");
 	}
-}
+};
