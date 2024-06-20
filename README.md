@@ -18,23 +18,19 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## PGP Public Key
 
-Our PGP public key B9DEE41FFABACDB8 on hkps://keys.openpgp.org
+Our PGP public key 612FCB3188741843 on hkps://keys.openpgp.org
 
 or
 
 ```text
 -----BEGIN PGP PUBLIC KEY BLOCK-----
+Comment: 8A6F CC0F 1BF9 F4E2 71B6  C3AE 612F CB31 8874 1843
 
-mDMEZnJvAxYJKwYBBAHaRw8BAQdA8a8IKQCQ2hX9juiumPPSiWIjUDdpgjhoQuzs
-ZCrGia60NkJpdGNvaW4gUG9rZXIgVG91ciA8cmVnaXN0cmF0aW9uQGJpdGNvaW5w
-b2tlcnRvdXIuY29tPoiTBBMWCgA7FiEEwsEye+E+du5t2uX4ud7kH/q6zbgFAmZy
-bwMCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQud7kH/q6zbheCQD/
-TkarcCGiwWRvoX1KWep3wrev8gTflBv0VgrgOCX1WE4A/0ajNXnmaPOnhsIuJR/O
-9w+WBVIRWjRlpUCBXFzEHdQCuDgEZnJvAxIKKwYBBAGXVQEFAQEHQIjefSZopYfy
-QuYRt6XakI1P4S3o1Hwol0fwKz0uRiw9AwEIB4h4BBgWCgAgFiEEwsEye+E+du5t
-2uX4ud7kH/q6zbgFAmZybwMCGwwACgkQud7kH/q6zbi8eAD/dyDC4rJl2KgP1hcU
-QPy5OMDEGt+97wQsENQFNarrtG0BANoUVkQHVc4ZZYH5wL3mICkA5ozRw7qlHneK
-NrfB3S8I
-=X41Z
+xjMEZnOMpxYJKwYBBAHaRw8BAQdAP5Hke42hGikmkMbGlK545YXfjcb7dzJIZ7XA
+wV4tolvOOARmc4ynEgorBgEEAZdVAQUBAQdA6Aawzsuxs7MEYM5vr94eBO8HfwGK
+QfdVX+RitekoyngDAQgHwngEGBYKACAWIQSKb8wPG/n04nG2w65hL8sxiHQYQwUC
+ZnOMpwIbDAAKCRBhL8sxiHQYQ4joAP9xQBXJapFLq6buImpMEmv1fOMwbE/hFzCt
+eCXfsuJiYgEA8iPeBZg/Zx8ZxboLM+l4erdRxnOesYrP49dA9QrLmAI=
+=O1Hi
 -----END PGP PUBLIC KEY BLOCK-----
 ```
