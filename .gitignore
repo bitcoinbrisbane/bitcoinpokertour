@@ -38,3 +38,4 @@ next-env.d.ts
 
 /src/api/.env
 /src/api/node_modules
+src/api/private.key
