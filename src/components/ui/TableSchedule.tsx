@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { TableHead, TableRow } from "@/components/ui/table";
 
 const TableSchedule = () => {
-
-    const [windowsWidth, setWindows] = useState(window.innerWidth);
+    const size = typeof window !== 'undefined' ? window.innerWidth : 0;
+    const [windowsWidth, setWindows] = useState(size);
 
     useEffect(() => {
         const handleResize = () => {

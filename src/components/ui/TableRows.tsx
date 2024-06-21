@@ -8,7 +8,8 @@ import { IEvents, IDates } from '@/types';
 const TableRows = ({ _id, date, title, description, location, start_stack, game_type, blind_levels }: IEvents) => {
     const router = useRouter();
 
-    const [windowsWidth, setWindows] = useState(window.innerWidth);
+    const size = typeof window !== 'undefined' ? window.innerWidth : 0;
+    const [windowsWidth, setWindows] = useState(size);
 
     useEffect(() => {
         const handleResize = () => {
