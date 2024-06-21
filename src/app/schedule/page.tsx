@@ -9,7 +9,7 @@ export default async function Page() {
 	const data = await getEvents();
 
 	return (
-		<main className="flex max-h-screen w-full flex-col items-center justify-between">
+		<main className="flex max-h-screen max-w-screen flex-col items-center justify-between">
 			<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100 mb-4">Upcoming events</h1>
 			<Table className="">
 				<TableHeader>

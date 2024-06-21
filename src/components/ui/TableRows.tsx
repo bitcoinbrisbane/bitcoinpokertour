@@ -8,24 +8,24 @@ import { IEvents, IDates } from '@/types';
 const TableRows = ({ _id, date, title, description, location, start_stack, game_type, blind_levels }: IEvents) => {
     const router = useRouter();
 
-    const [windows, setWindows] = useState({ width: 0, height: 0 })
+    const [windowsWidth, setWindows] = useState(0);
 
     useEffect(() => {
         const handleResize = () => {
-            setWindows({ width: window.innerWidth, height: window.innerHeight });
+            setWindows(window.innerWidth);
         };
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [])
+    }, [windowsWidth])
 
-    const { width } = windows;
-    const midScreen = 830
+    const midScreen = 830;
+
     return (
         <TableBody className="hover:cursor-pointer border-x-2 border-y-2">
             <TableRow onClick={() => router.push(`/schedule/${_id}`)}>
                 {
-                    width >= midScreen ? (
+                    windowsWidth >= midScreen ? (
                         <>
                             <Dates dates={date} />
                             <TableCell className="font-medium">{title}</TableCell>

@@ -4,24 +4,23 @@ import { TableHead, TableRow } from "@/components/ui/table";
 
 const TableSchedule = () => {
 
-    const [windows, setWindows] = useState({ width: 0, height: 0 })
+    const [windowsWidth, setWindows] = useState(0);
 
     useEffect(() => {
         const handleResize = () => {
-            setWindows({ width: window.innerWidth, height: window.innerHeight });
+            setWindows(window.innerWidth);
         };
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [])
-
-    const { width } = windows;
-    const midScreen = 830
+    }, [windowsWidth])
+    console.log(windowsWidth)
+    const midScreen = 830;
 
     return (
         <>
             {
-                width > midScreen ? (
+                windowsWidth > midScreen ? (
                     <TableRow>
                         <TableHead className="w-[180px]">Date</TableHead>
                         <TableHead className="w-[120px]">Title</TableHead>
