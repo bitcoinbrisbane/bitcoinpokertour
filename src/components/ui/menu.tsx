@@ -30,7 +30,7 @@ const NavLinks = ({ classes, menuExp, setMenuExpanded, closeMenu }: Classes & { 
 };
 
 const MobileNav = ({ menuExp, setMenuExpanded, closeMenu }: MenuExp & { closeMenu: () => void }) => {
-  const [windowsWidth, setWindows] = useState(0);
+  const [windowsWidth, setWindows] = useState(window.innerWidth);
 
     useEffect(() => {
         const handleResize = () => {
