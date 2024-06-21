@@ -1,8 +1,5 @@
 const DateCard = () => {
-    return (
-        <>
-        </>
-    )
-}
+	return <></>;
+};
 
 export default DateCard;

@@ -4,19 +4,19 @@ import { IconBaseProps } from "react-icons/lib";
 type Size = "tiny" | "small" | "medium" | "large";
 
 interface Props extends IconBaseProps {
-    size?: Size | number;
-    icon: IconType;
+	size?: Size | number;
+	icon: IconType;
 }
 
 const ICON_SIZE: Record<Size, number> = {
-    large: 20,
-    medium: 18,
-    small: 16,
-    tiny: 14,
+	large: 20,
+	medium: 18,
+	small: 16,
+	tiny: 14
 };
 
 export function Icon({ className, size = "small", icon, ...rest }: Props) {
-    const IconComponent: IconType = icon;
-    const iconSize: number = typeof size === "string" ? ICON_SIZE[size] : size;
-    return <IconComponent className={className} size={iconSize} {...rest} />;
+	const IconComponent: IconType = icon;
+	const iconSize: number = typeof size === "string" ? ICON_SIZE[size] : size;
+	return <IconComponent className={className} size={iconSize} {...rest} />;
 }

@@ -35,14 +35,16 @@ export const getEventById = async (id: string) => {
 };
 
 export const sendRegistration = async (register: IRegisterEvent) => {
-	const {evt_id, name, email, bitcoin_address} = register;
+	const { evt_id, name, email, bitcoin_address } = register;
 	const registration = {
-		name, email, bitcoin_address
-	}
-	const {id}: any = evt_id;
+		name,
+		email,
+		bitcoin_address
+	};
+	const { id }: any = evt_id;
 	try {
 		const res = await axios.post(`https://plankton-app-lht9q.ondigitalocean.app/registration/${id}`, registration);
-		console.log(res)
+		console.log(res);
 	} catch (error) {
 		throw new Error("Failed to sent the event registrations. Please check the event ID, network connection, and the URL.");
 	}
