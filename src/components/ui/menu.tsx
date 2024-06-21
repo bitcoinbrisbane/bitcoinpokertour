@@ -30,21 +30,20 @@ const NavLinks = ({ classes, menuExp, setMenuExpanded, closeMenu }: Classes & { 
 };
 
 const MobileNav = ({ menuExp, setMenuExpanded, closeMenu }: MenuExp & { closeMenu: () => void }) => {
-  const [windows, setWindows] = useState({ width: 0, height: 0 })
+  const [windowsWidth, setWindows] = useState(0);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindows({ width: window.innerWidth, height: window.innerHeight });
-    };
+    useEffect(() => {
+        const handleResize = () => {
+            setWindows(window.innerWidth);
+        };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [])
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [windowsWidth])
 
-  const { width } = windows;
-  const midScreen = 830
+    const midScreen = 830;
 
-  if (menuExp && width >= midScreen) setMenuExpanded(false)
+  if (menuExp && windowsWidth > midScreen) setMenuExpanded(false)
 
   return (
     <div className="absolute flex flex-col w-3/4 shadow h-auto justify-center z-10">
