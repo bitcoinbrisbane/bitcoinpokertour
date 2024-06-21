@@ -4,7 +4,7 @@ import { TableHead, TableRow } from "@/components/ui/table";
 
 const TableSchedule = () => {
 
-    const [windowsWidth, setWindows] = useState(0);
+    const [windowsWidth, setWindows] = useState(window.innerWidth);
 
     useEffect(() => {
         const handleResize = () => {
@@ -13,8 +13,8 @@ const TableSchedule = () => {
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [windowsWidth])
-    console.log(windowsWidth)
+    }, [])
+
     const midScreen = 830;
 
     return (
