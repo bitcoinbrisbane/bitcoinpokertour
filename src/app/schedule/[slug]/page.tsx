@@ -14,10 +14,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return (
         <main className="flex h-full w-full md:w-3/4 flex-col  justify-between ">
             <div className="text-left py-3 space-y-10 mb-4">
-                <h1 className="text-4xl font-bold">{title}</h1>
-                <Link href={`/registration/${_id}`}>
-                    <h2 className="text-xl mt-4 font-bold hover:cursor-pointer hover:underline">
-                        Register
+                <h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">{title}</h1>
+                <Link href={`/registration/${_id}`} className="mt-6">
+                    <h2 className="w-full text-xl mt-10 font-bold hover:cursor-pointer hover:underline">
+                        Click here to Register
                         <span className="inline-block transition-transform hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
                     </h2>   
                 </Link>

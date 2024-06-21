@@ -52,7 +52,7 @@ const Forms = (id: any) => {
                             required
                         />
                         <ErrorMessage component='a' className="" name='bitcoin_address'/>
-                        <button type="submit"  className="shadow-md w-full font-bold hover:cursor-pointer hover:bg-blue-500 hover:text-white font-medium rounded-lg border text-sm px-5 py-2.5 text-center">Register</button>
+                        <button type="submit"  className="shadow-md w-full font-bold hover:cursor-pointer hover:bg-blue-500 hover:text-white rounded-lg border text-sm px-5 py-2.5 text-center">Register</button>
                     </Form>
 
                 </Formik>

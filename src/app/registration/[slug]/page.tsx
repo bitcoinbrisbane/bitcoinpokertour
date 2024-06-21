@@ -9,7 +9,7 @@ export default async function Register({ params }: { params: { slug: string } })
   const {title} = event;
   return (
     <main className="flex max-h-screen w-full flex-col items-center justify-between space-y-5">
-      <h1 className="text-4xl font-bold text-center mb-4">Register for</h1>
+      <h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">Register for</h1>
       <h1 className="text-3xl font-bold">{title}</h1>
       <Forms id={slug} />
     </main>

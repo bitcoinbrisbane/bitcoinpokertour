@@ -1,6 +1,7 @@
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getEvents } from "@/lib/utils";
 import TableRows from "@/components/ui/TableRows";
+import TableSchedule from "@/components/ui/TableSchedule";
 import { IEvents } from "@/types";
 
 
@@ -9,18 +10,10 @@ export default async function Page() {
 
 	return (
 		<main className="flex max-h-screen w-full flex-col items-center justify-between">
-			<h1 className="text-4xl font-bold text-center mb-4">Upcoming events</h1>
-			<Table>
+			<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100 mb-4">Upcoming events</h1>
+			<Table className="">
 				<TableHeader>
-					<TableRow>
-						<TableHead className="w-[180px]">Date</TableHead>
-						<TableHead className="w-[120px]">Title</TableHead>
-						<TableHead>Description</TableHead>
-						<TableHead>Location</TableHead>
-						<TableHead>Start stack</TableHead>
-						<TableHead>Blind levels</TableHead>
-						<TableHead>Game type</TableHead>
-					</TableRow>
+					<TableSchedule/>
 				</TableHeader>
 				{data.map((items: IEvents) => (
 					<TableRows
