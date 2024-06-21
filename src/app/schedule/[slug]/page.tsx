@@ -7,7 +7,7 @@ import { getEventById, getRegistrations } from "@/lib/utils";
 export default async function Page({ params }: { params: { slug: string } }) {
     const { slug } = params;
     const event: IEvent = await getEventById(slug)
-    const {title, date, __v, description,location, game_type, blind_levels, start_stack, _id} = event 
+    const { title, date, __v, description, location, game_type, blind_levels, start_stack, _id } = event
     const newDate = getFormattedDate(date)
 
     const data = await getRegistrations(_id);
@@ -19,14 +19,38 @@ export default async function Page({ params }: { params: { slug: string } }) {
                     <h2 className="w-full text-xl mt-10 font-bold hover:cursor-pointer hover:underline">
                         Click here to Register
                         <span className="inline-block transition-transform hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
-                    </h2>   
+                    </h2>
                 </Link>
-                <h2 className="text-xl font-bold">{location}</h2>
-                <h2 className="text-xl font-bold">{newDate}</h2>
-                <h2 className="text-lg font-bold">{description}</h2>
-                <h4>{__v} BTC</h4>
-                <h4>{start_stack} Stacks, <span>{blind_levels} Levels</span></h4>
-                <h4>{game_type}</h4>
+                <dl className="divide-y divide-gray-200">
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-md font-bold leading-6 text-gray-900">Location</dt>
+                        <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{location}</dd>
+                    </div>
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-md font-bold leading-6 text-gray-900">Date</dt>
+                        <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{newDate}</dd>
+                    </div>
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
+                        <dt className="text-md font-bold leading-6 text-gray-900">Description</dt>
+                        <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{description}</dd>
+                    </div>
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-md font-bold leading-6 text-gray-900">BTC</dt>
+                        <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{__v}</dd>
+                    </div>
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-md font-bold leading-6 text-gray-900">Stacks</dt>
+                        <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{start_stack}</dd>
+                    </div>
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-md font-bold leading-6 text-gray-900">Levels</dt>
+                        <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{blind_levels}</dd>
+                    </div>
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-md font-bold leading-6 text-gray-900">Game Type</dt>
+                        <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{game_type}</dd>
+                    </div>
+                </dl>
                 <h2 className="text-xl top-0 font-bold">Entries</h2>
             </div>
 
@@ -55,7 +79,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 };
 
 const getFormattedDate = ({ dates }: any) => {
-	const newDate = moment.parseZone(dates);
-	const formatted = newDate.format("L LT");
+    const newDate = moment.parseZone(dates);
+    const formatted = newDate.format("L LT");
     return formatted ? formatted : "Invalid Date";
 }
