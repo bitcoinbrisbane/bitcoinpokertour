@@ -1,4 +1,4 @@
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableHeader } from "@/components/ui/table";
 import { getEvents } from "@/lib/utils";
 import TableRows from "@/components/ui/TableRows";
 import TableSchedule from "@/components/ui/TableSchedule";
