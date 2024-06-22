@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import moment from "moment-timezone";
 
 interface CountdownState {
 	days: number;
@@ -9,43 +10,41 @@ interface CountdownState {
 }
 
 const useCountdown = (targetDate: Date): CountdownState => {
-	const [countdown, setCountdown] = useState<CountdownState>({
+	const [countDown, setCountDown] = useState<CountdownState>({
 		days: 0,
 		hours: 0,
 		minutes: 0,
-		seconds: 0
-	});
+		seconds: 0,
+	  });
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
 			const now = new Date();
 			const delta = targetDate.getTime() - now.getTime();
+			const diff = delta + 90000000; 
 
 			if (delta < 0) {
 				clearInterval(intervalId);
 				return;
 			}
 
-			const days = Math.floor(delta / (1000 * 60 * 60 * 24));
-			const hours = Math.floor((delta % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-			const minutes = Math.floor((delta % (1000 * 60 * 60)) / (1000 * 60));
-			const seconds = Math.floor((delta % (1000 * 60)) / 1000);
+			const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+			const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+			const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-			setCountdown({ days, hours, minutes, seconds });
+			setCountDown({ days, hours, minutes, seconds });
 		}, 1000);
 
 		return () => clearInterval(intervalId);
 	}, [targetDate]);
 
-	return countdown;
-};
+	return countDown;
+	 
+}
 
 const Countdown = ({ newTarget }: any) => {
 	const targetDate = new Date(newTarget);
-	if (isNaN(targetDate.getTime())) {
-		throw new Error("Invalid target date");
-	}
-
 	const { days, hours, minutes, seconds } = useCountdown(targetDate);
 
 	return (
@@ -73,3 +72,28 @@ const Countdown = ({ newTarget }: any) => {
 };
 
 export default Countdown;
+
+/* 
+const timeZone = moment.tz.guess();
+			const currentTime = moment().tz(timeZone).valueOf();
+			const eventTime = moment(targetDate).tz('Australia/Brisbane').valueOf();
+			let diffTime = eventTime - currentTime;
+			diffTime += 100000000;
+
+			if (diffTime <= 0) {
+				clearInterval(intervalId);
+			}
+	
+			setCountDown({
+				days: Math.floor(diffTime / (1000 * 60 * 60 * 24)),
+				hours: Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+				minutes: Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60)),
+				seconds: Math.floor((diffTime % (1000 * 60)) / 1000),
+			  });
+
+		}, 1000);
+
+		return () => clearInterval(intervalId);
+	}, [targetDate]);
+
+	return countDown; */
