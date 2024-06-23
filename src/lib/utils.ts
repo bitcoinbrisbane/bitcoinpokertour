@@ -34,7 +34,7 @@ export const getEventById = async (id: string) => {
 	}
 };
 
-export const sendRegistration = async (register: IRegisterEvent) => {
+export const postRegistration = async (register: IRegisterEvent) => {
 	const { evt_id, name, email, bitcoin_address } = register;
 	const registration = {
 		name,

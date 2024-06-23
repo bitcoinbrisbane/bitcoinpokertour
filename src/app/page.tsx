@@ -9,7 +9,7 @@ export default async function Home() {
 		<>
 			<div className="flex flex-col text-center">
 				<h2 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">Welcome to the Bitcoin Poker Tour.</h2>
-				<h3 className="text-2xl font-semibold text-center text-neutral-700 dark:text-neutral-300">Live Poker.  Bitcoin buy ins.  Comnig soon!</h3>
+				<h3 className="text-2xl font-semibold text-center text-neutral-700 dark:text-neutral-300">Live Poker.  Bitcoin buy ins.  Comming soon!</h3>
 			</div>
 			<div className="flex top-2 sm:w-full countdown text-slate-900 md:w-100 justify-center mb-3">
 				<Countdown newTarget={target} />

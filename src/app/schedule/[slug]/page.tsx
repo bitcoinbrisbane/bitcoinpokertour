@@ -8,9 +8,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const { slug } = params;
 	const event: IEvent = await getEventById(slug);
 	const { title, date, __v, description, location, game_type, blind_levels, start_stack, _id } = event;
-	const newDate = getFormattedDate(date);
 
+	const eventDate = getFormattedDate(date);
 	const data = await getRegistrations(_id);
+
 	return (
 		<main className="flex h-full w-full md:w-3/4 flex-col  justify-between ">
 			<div className="text-left py-3 space-y-10 mb-4">
@@ -27,23 +28,23 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{location}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Date</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{newDate}</dd>
+						<dt className="text-md font-bold leading-6 text-gray-900">Start</dt>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{eventDate}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Description</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{description}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">BTC</dt>
+						<dt className="text-md font-bold leading-6 text-gray-900">Buy In (BTC)</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{__v}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Stacks</dt>
+						<dt className="text-md font-bold leading-6 text-gray-900">Stack Size</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{start_stack}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Levels</dt>
+						<dt className="text-md font-bold leading-6 text-gray-900">Blind Levels (minutes)</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{blind_levels}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -80,6 +81,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 const getFormattedDate = ({ dates }: any) => {
 	const newDate = moment.parseZone(dates);
-	const formatted = newDate.format("L LT");
+	const formatted = newDate.format("DD/MM/yyyy HH:mm");
 	return formatted ? formatted : "Invalid Date";
 };
