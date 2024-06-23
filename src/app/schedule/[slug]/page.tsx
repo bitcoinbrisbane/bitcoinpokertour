@@ -58,7 +58,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				<TableHeader>
 					<TableRow className="border-x-2 border-y-2">
 						<TableHead className="w-[350px] border-x-2">Name</TableHead>
-						<TableHead className="w-[350px] border-x-2">Address</TableHead>
+						<TableHead className="w-[350px] border-x-2">BTC Address</TableHead>
 						<TableHead className="border-x-2">BTC</TableHead>
 						<TableHead className="w-[180px] text-center">Tx</TableHead>
 					</TableRow>

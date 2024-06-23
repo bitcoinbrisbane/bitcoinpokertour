@@ -8,8 +8,8 @@ export const navigation = [
       url: "/schedule"
     },
     {
-      name: "Promotions",
-      url: "/promotions"
+      name: "Sponsors",
+      url: "/sponsors"
     },
     {
       name: "Treasury",
