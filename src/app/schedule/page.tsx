@@ -4,7 +4,6 @@ import TableRows from "@/components/ui/TableRows";
 import TableSchedule from "@/components/ui/TableSchedule";
 import { IEvents } from "@/types";
 
-
 export default async function Page() {
 	const data = await getEvents();
 
@@ -13,7 +12,7 @@ export default async function Page() {
 			<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100 mb-4">Upcoming events</h1>
 			<Table className="">
 				<TableHeader>
-					<TableSchedule/>
+					<TableSchedule />
 				</TableHeader>
 				{data.map((items: IEvents) => (
 					<TableRows

@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Bitcoin Poker Tour",
-	description: "Live poker with bitcoin"
+	description: "Live poker with Bitcoin"
 };
 
 export default function RootLayout({
