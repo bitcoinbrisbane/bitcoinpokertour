@@ -41,7 +41,7 @@ router.get("/:eventid", async (req, res) => {
 
 router.post("/:eventid", async (req, res) => {
 	const event_id = req.params.eventid;
-	const { name, email } = req.body;
+	const { name, email, bitcoin_address } = req.body;
 
 	const event = await Event.findById(event_id);
 	if (!event) {
@@ -63,6 +63,7 @@ router.post("/:eventid", async (req, res) => {
 	const registration = new Registration({
 		name,
 		email,
+		bitcoin_address,
 		date: new Date(),
 		event_id
 	});
