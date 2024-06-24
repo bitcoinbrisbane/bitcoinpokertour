@@ -121,4 +121,43 @@ router.post("/", async (req, res) => {
   return res.status(201).json(event);
 });
 
+router.patch("/:id", async (req, res) => {
+  const apiKey = req.headers["x-api-key"];
+
+  if (apiKey !== process.env.API_KEY) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const { id } = req.params;
+  const event = await Event.findOne({ _id: id });
+
+  if (!event) {
+    return res.sendStatus(404);
+  }
+
+  const {
+    title,
+    description,
+    date,
+    location,
+    start_stack,
+    blind_levels,
+    game_type,
+    buy_in,
+  } = req.body;
+
+  event.title = title;
+  event.description = description;
+  event.date = date;
+  event.location = location;
+  event.start_stack = start_stack;
+  event.blind_levels = blind_levels;
+  event.game_type = game_type;
+  event.buy_in = buy_in;
+
+  await event.save();
+
+  return res.status(201).json(event);
+});
+
 module.exports = router;
