@@ -11,31 +11,6 @@ router.get("/:eventid", async (req, res) => {
 	const event_id = req.params.eventid;
 	const registrations = await Registration.findById(event_id);
 
-	if (!registrations || registrations.length === 0) {
-		const data = [
-			{
-				name: "Dog",
-				email: "dog4@dog.com",
-				date: "2024-06-04T05:06:45.793Z",
-				event_id: "665e8fcc4666b3aebb756774",
-				_id: "665ea0e5f5r1050635906e2e",
-				__v: 0,
-				bitcoin_address: "tb1qugnsszut6dm6ggj8ut45tg83tklfcsqwv4l39q"
-			},
-			{
-				name: "Cat",
-				email: "cat4@cat4.com",
-				date: "2024-06-03T05:06:45.793Z",
-				event_id: "665e8fcc4666b3aebb756774",
-				_id: "665ea0e5f5e1050635906e2e",
-				__v: 0.1,
-				bitcoin_address: "tb1qugnsszut6dm6ggj8ut45tg83tklfcsqwv4l39q"
-			}
-		];
-
-		return res.json(data);
-	}
-
 	return res.json(registrations);
 });
 
