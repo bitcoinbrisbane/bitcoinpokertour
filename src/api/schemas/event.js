@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const eventSchema = new mongoose.Schema({
+  // _id: mongoose.Schema.Types.ObjectId,
   title: {
     type: String,
     required: true,
@@ -26,6 +27,10 @@ const eventSchema = new mongoose.Schema({
     required: true,
   },
   buy_in: {
+    type: Number,
+    required: true,
+  },
+  fee: {
     type: Number,
     required: true,
   },
