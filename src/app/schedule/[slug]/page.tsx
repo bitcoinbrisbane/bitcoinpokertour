@@ -3,14 +3,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import moment from "moment";
 import { IEvent, IRegistrations } from "@/types";
 import { getEventById, getRegistrations } from "@/lib/utils";
+import { unstable_noStore } from "next/cache";
 
 export default async function Page({ params }: { params: { slug: string } }) {
+	unstable_noStore();
 	const { slug } = params;
 	const event: IEvent = await getEventById(slug);
 	const { title, date, __v, description, location, game_type, blind_levels, start_stack, _id } = event;
 
 	const eventDate = getFormattedDate(date);
-	
 	const data = await getRegistrations(_id);
 
 	return (
