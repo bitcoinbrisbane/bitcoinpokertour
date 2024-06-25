@@ -39,7 +39,7 @@ export default async function Page() {
 const NoRegistrations = () => (
 	<>
 		<h2 className="font-bold">
-			There is no events, check back later
+			There are no events, check back later
 		</h2>
 	</>
 )
