@@ -14,7 +14,7 @@ export default async function Page() {
 				<TableHeader>
 					<TableSchedule />
 				</TableHeader>
-				{data.map((items: IEvents) => (
+				{data ? data.map((items: IEvents) => (
 					<TableRows
 						key={items.title}
 						_id={items._id}
@@ -26,8 +26,20 @@ export default async function Page() {
 						game_type={items.game_type}
 						blind_levels={items.blind_levels}
 					/>
-				))}
+				)): 
+				(
+					<NoRegistrations/>
+				)}
 			</Table>
 		</main>
 	);
 }
+
+
+const NoRegistrations = () => (
+	<>
+		<h2 className="font-bold">
+			There is no events, check back later
+		</h2>
+	</>
+)
