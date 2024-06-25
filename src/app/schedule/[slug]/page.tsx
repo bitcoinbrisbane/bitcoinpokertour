@@ -10,6 +10,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const { title, date, __v, description, location, game_type, blind_levels, start_stack, _id } = event;
 
 	const eventDate = getFormattedDate(date);
+	
 	const data = await getRegistrations(_id);
 
 	return (
@@ -64,7 +65,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<TableHead className="w-[180px] text-center">Tx</TableHead>
 					</TableRow>
 				</TableHeader>
-				{data.map((items: IRegistrations) => (
+				{ data ? data.map((items: IRegistrations) => (
 					<TableBody key={items._id} className="hover:cursor-pointer border-x-2 border-y-2">
 						<TableRow>
 							<TableCell className="font-medium border-r-2">{items.name}</TableCell>
@@ -73,7 +74,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							<TableCell>0x00</TableCell>
 						</TableRow>
 					</TableBody>
-				))}
+				)): (
+					<TableBody key={0} className="hover:cursor-pointer border-x-2 border-y-2">
+						<TableRow>
+							<TableCell className="font-medium border-r-2">No registration for this event yet</TableCell>
+						</TableRow>
+					</TableBody>
+				)}
 			</Table>
 		</main>
 	);
