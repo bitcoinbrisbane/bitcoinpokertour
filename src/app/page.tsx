@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Countdown from "@/components/ui/Countdown";
 import { getDate } from "@/lib/utils";
+import { unstable_noStore } from "next/cache";
 
 export default async function Home() {
+	unstable_noStore();
 	const target = await getDate();
 
 	return (
