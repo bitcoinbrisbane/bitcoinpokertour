@@ -3,8 +3,12 @@ import { getEvents } from "@/lib/utils";
 import TableRows from "@/components/ui/TableRows";
 import TableSchedule from "@/components/ui/TableSchedule";
 import { IEvents } from "@/types";
+import { unstable_noStore } from "next/cache";
 
 export default async function Page() {
+
+	unstable_noStore();
+
 	const data = await getEvents();
 
 	return (
