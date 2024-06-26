@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import moment from "moment";
-import { IEvent, IRegistrations } from "@/types";
+import { IDates, IEvent, IRegistrations } from "@/types";
 import { getEventById, getRegistrations } from "@/lib/utils";
 import { unstable_noStore } from "next/cache";
 
@@ -10,7 +10,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const { slug } = params;
 	const event: IEvent = await getEventById(slug);
 	const { title, date, __v, description, location, game_type, blind_levels, start_stack, _id } = event;
-
 	const eventDate = getFormattedDate(date);
 	const data = await getRegistrations(_id);
 
@@ -87,8 +86,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	);
 }
 
-const getFormattedDate = ({ dates }: any) => {
-	const newDate = moment.parseZone(dates);
-	const formatted = newDate.format("DD/MM/yyyy HH:mm");
+const getFormattedDate = async (date: any) => {
+	const momentDate = moment.parseZone(date);
+	console.log(momentDate, 'hhhh')
+	const formatted = momentDate.format("L LT");
 	return formatted ? formatted : "Invalid Date";
 };

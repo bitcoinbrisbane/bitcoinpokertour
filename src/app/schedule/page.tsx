@@ -6,9 +6,7 @@ import { IEvents } from "@/types";
 import { unstable_noStore } from "next/cache";
 
 export default async function Page() {
-
 	unstable_noStore();
-
 	const data = await getEvents();
 
 	return (
@@ -38,7 +36,6 @@ export default async function Page() {
 		</main>
 	);
 }
-
 
 const NoRegistrations = () => (
 	<>
