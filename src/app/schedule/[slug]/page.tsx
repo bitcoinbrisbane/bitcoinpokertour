@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	unstable_noStore();
 	const { slug } = params;
 	const event: IEvent = await getEventById(slug);
-	const { title, date, __v, description, location, game_type, blind_levels, start_stack, _id } = event;
+	const { title, date, buy_in, description, location, game_type, blind_levels, start_stack, _id } = event;
 
 	const eventDate = getFormattedDate(date);
 	const data = await getRegistrations(_id);
@@ -39,7 +39,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Buy In (BTC)</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{__v}</dd>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{buy_in}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Stack Size</dt>
