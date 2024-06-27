@@ -10,7 +10,8 @@ router.use(express.json());
 
 router.get("/:eventid", async (req, res) => {
 	const { eventid } = req.params;
-	const registrations = await Registration.findById(eventid);
+	console.log("registrations for ", eventid);
+	const registrations = await Registration.find({ event_id: eventid.toString() });
 
 	return res.json(registrations);
 });
@@ -46,20 +47,33 @@ router.post("/:eventid", async (req, res) => {
 		event_id: eventid
 	});
 
-	console.log("registration", registration);
 	await registration.save();
 
 	// get count of registrations for this event
-	const count = await Registration.find({ eventid }).countDocuments();
+	const count = await Registration.find({ event_id: eventid }).countDocuments();
 
-	registration.bitcoin_address = getRegistrationAddress(
+	registration.buy_in_address = getRegistrationAddress(
 		0, // event_id,
 		count
 	);
 
 	await registration.save();
 
+	const config = {
+		headers: {
+			"Content-Type": "application/json"
+		}
+	};
+
+	// track anyway
+	await axios.post(`https://explorer.bitcoinpokertourn.com/v1/cryptos/btc/addresses/${registration.buy_in_address}`, config);
+
 	return res.status(201).json(registration);
+});
+
+router.post("/:eventid/results", async (req, res) => {
+	const { eventid } = req.params;
+	console.log("eventid", eventid);
 });
 
 module.exports = router;
