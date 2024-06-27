@@ -50,7 +50,7 @@ router.post("/:eventid", async (req, res) => {
 	await registration.save();
 
 	// get count of registrations for this event
-	const count = await Registration.find({ eventid }).countDocuments();
+	const count = await Registration.find({ event_id: eventid }).countDocuments();
 
 	registration.bitcoin_address = getRegistrationAddress(
 		0, // event_id,
