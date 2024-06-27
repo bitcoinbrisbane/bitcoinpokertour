@@ -18,6 +18,10 @@ const registrationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  buy_in_address: {
+    type: String,
+    required: false,
+  },
   bitcoin_address: {
     type: String,
     required: false,
