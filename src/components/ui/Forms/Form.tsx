@@ -14,7 +14,7 @@ const Forms = (id: any) => {
 
 	const redirection = () => {
 		setTimeout( () => {
-			redirect(`/post/${id}`);
+			redirect(`/schedule/${id}`);
 		}, 1500)
 	}
 
@@ -25,7 +25,7 @@ const Forms = (id: any) => {
 					initialValues={initVals}
 					onSubmit={(values: IRegisterEvent, { setSubmitting }: FormikHelpers<IRegisterEvent>) => {
 						setTimeout(async () => {
-							const res = await postRegistration(values);
+							postRegistration(values);
 							setSubmitting(false);
 						}, 500);
 					}}
