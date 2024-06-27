@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import moment from "moment";
-import { IDates, IEvent, IRegistrations } from "@/types";
+import { IEvent, IRegistrations } from "@/types";
 import { getEventById, getRegistrations } from "@/lib/utils";
 import { unstable_noStore } from "next/cache";
 
@@ -88,7 +88,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 const getFormattedDate = async (date: any) => {
 	const momentDate = moment.parseZone(date);
-	console.log(momentDate, 'hhhh')
 	const formatted = momentDate.format("L LT");
 	return formatted ? formatted : "Invalid Date";
 };

@@ -1,4 +1,5 @@
 "use client";
+import { redirect } from 'next/navigation'
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import { postRegistration } from "@/lib/utils";
 import { IRegisterEvent } from "@/types";
@@ -11,14 +12,20 @@ const Forms = (id: any) => {
 		bitcoin_address: ""
 	};
 
+	const redirection = () => {
+		setTimeout( () => {
+			redirect(`/post/${id}`);
+		}, 1500)
+	}
+
 	return (
 		<>
 			<div className="sm:w-full md:w-2/4 p-6">
 				<Formik
 					initialValues={initVals}
 					onSubmit={(values: IRegisterEvent, { setSubmitting }: FormikHelpers<IRegisterEvent>) => {
-						setTimeout(() => {
-							postRegistration(values);
+						setTimeout(async () => {
+							const res = await postRegistration(values);
 							setSubmitting(false);
 						}, 500);
 					}}
@@ -50,6 +57,7 @@ const Forms = (id: any) => {
 						<button
 							type="submit"
 							className="shadow-md w-full font-bold hover:cursor-pointer hover:bg-blue-500 hover:text-white rounded-lg border text-sm px-5 py-2.5 text-center"
+							onClick={redirection}
 						>
 							Register
 						</button>
