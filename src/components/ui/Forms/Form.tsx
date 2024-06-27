@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import { postRegistration } from "@/lib/utils";
 import { IRegisterEvent } from "@/types";
