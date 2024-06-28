@@ -25,8 +25,9 @@ const TableSchedule = () => {
 					<TableHead className="w-[120px]">Title</TableHead>
 					<TableHead>Description</TableHead>
 					<TableHead>Location</TableHead>
+					<TableHead>Buy-in</TableHead>
 					<TableHead>Start stack</TableHead>
-					<TableHead>Blind levels (minutes)</TableHead>
+					<TableHead>Levels (minutes)</TableHead>
 					<TableHead>Game type</TableHead>
 				</TableRow>
 			) : (

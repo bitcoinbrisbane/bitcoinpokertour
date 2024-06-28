@@ -39,7 +39,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Buy In (BTC)</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{buy_in} + {fee}</dd>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+							{buy_in} + {fee}
+						</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Stack Size</dt>
@@ -66,16 +68,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<TableHead className="w-[180px] text-center">Tx</TableHead>
 					</TableRow>
 				</TableHeader>
-				{ data ? data.map((items: IRegistrations) => (
-					<TableBody key={items._id} className="hover:cursor-pointer border-x-2 border-y-2">
-						<TableRow>
-							<TableCell className="font-medium border-r-2">{items.name}</TableCell>
-							<TableCell>{items.buy_in_address}</TableCell>
-							<TableCell className="font-medium border-x-2">{items.__v}</TableCell>
-							<TableCell>NA</TableCell>
-						</TableRow>
-					</TableBody>
-				)): (
+				{data ? (
+					data.map((items: IRegistrations) => (
+						<TableBody key={items._id} className="hover:cursor-pointer border-x-2 border-y-2">
+							<TableRow>
+								<TableCell className="font-medium border-r-2">{items.name}</TableCell>
+								<TableCell>{items.buy_in_address}</TableCell>
+								<TableCell className="font-medium border-x-2">{items.__v}</TableCell>
+								<TableCell>NA</TableCell>
+							</TableRow>
+						</TableBody>
+					))
+				) : (
 					<TableBody key={0} className="hover:cursor-pointer border-x-2 border-y-2">
 						<TableRow>
 							<TableCell className="font-medium border-r-2">No registration for this event yet</TableCell>

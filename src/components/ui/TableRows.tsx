@@ -5,7 +5,7 @@ import moment from "moment";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { IEvents, IDates } from "@/types";
 
-const TableRows = ({ _id, date, title, description, location, start_stack, game_type, blind_levels }: IEvents) => {
+const TableRows = ({ _id, date, title, description, location, buy_in, start_stack, game_type, blind_levels }: IEvents) => {
 	const router = useRouter();
 
 	const size = typeof window !== "undefined" ? window.innerWidth : 0;
@@ -31,6 +31,7 @@ const TableRows = ({ _id, date, title, description, location, start_stack, game_
 						<TableCell className="font-medium">{title}</TableCell>
 						<TableCell>{description}</TableCell>
 						<TableCell>{location}</TableCell>
+						<TableCell>{buy_in}</TableCell>
 						<TableCell>{start_stack}</TableCell>
 						<TableCell>{blind_levels}</TableCell>
 						<TableCell>{game_type}</TableCell>

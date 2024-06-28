@@ -5,6 +5,8 @@ const Event = require("../schemas/event");
 const Registration = require("../schemas/registration");
 const { getRegistrationAddress } = require("../utils");
 
+const axios = require("axios");
+
 // use json
 router.use(express.json());
 
@@ -65,7 +67,7 @@ router.post("/:eventid", async (req, res) => {
 		}
 	};
 
-	// track anyway
+	// track address in btc pay server / explorer
 	await axios.post(`https://explorer.bitcoinpokertourn.com/v1/cryptos/btc/addresses/${registration.buy_in_address}`, config);
 
 	return res.status(201).json(registration);
