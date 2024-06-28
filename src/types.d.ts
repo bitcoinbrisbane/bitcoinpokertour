@@ -13,6 +13,7 @@ export interface IEvents {
 	description: string;
 	date: string;
 	location: string;
+	buy_in: number;
 	fee: number;
 	start_stack: number;
 	blind_levels: number;
