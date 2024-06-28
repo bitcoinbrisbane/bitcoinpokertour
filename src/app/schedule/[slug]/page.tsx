@@ -70,7 +70,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<TableBody key={items._id} className="hover:cursor-pointer border-x-2 border-y-2">
 						<TableRow>
 							<TableCell className="font-medium border-r-2">{items.name}</TableCell>
-							<TableCell>{items.bitcoin_address}</TableCell>
+							<TableCell>{items.buy_in_address}</TableCell>
 							<TableCell className="font-medium border-x-2">{items.__v}</TableCell>
 							<TableCell>0x00</TableCell>
 						</TableRow>
