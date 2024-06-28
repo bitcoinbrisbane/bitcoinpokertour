@@ -11,6 +11,8 @@ const Forms = (id: any) => {
 		email: "",
 		bitcoin_address: ""
 	};
+
+	const newId = id.id;
 	const router = useRouter();
 	return (
 		<>
@@ -21,7 +23,7 @@ const Forms = (id: any) => {
 						setTimeout(() => {
 							postRegistration(values);
 							setSubmitting(false);
-							router.push(`/schedule/${id}`);
+							router.push(`/schedule/${newId}`);
 						}, 1500);		
 					}}
 				>
