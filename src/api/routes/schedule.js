@@ -125,6 +125,8 @@ router.patch("/:id", async (req, res) => {
     blind_levels,
     game_type,
     buy_in,
+    fee,
+    registration_close
   } = req.body;
 
   event.title = title;
@@ -135,6 +137,8 @@ router.patch("/:id", async (req, res) => {
   event.blind_levels = blind_levels;
   event.game_type = game_type;
   event.buy_in = buy_in;
+  event.fee = fee;
+  event.registration_close = registration_close;
 
   await event.save();
 

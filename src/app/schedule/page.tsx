@@ -6,7 +6,6 @@ import { IEvents } from "@/types";
 import { unstable_noStore } from "next/cache";
 
 export default async function Page() {
-
 	unstable_noStore();
 
 	const data = await getEvents();
@@ -18,32 +17,31 @@ export default async function Page() {
 				<TableHeader>
 					<TableSchedule />
 				</TableHeader>
-				{data ? data.map((items: IEvents) => (
-					<TableRows
-						key={items.title}
-						_id={items._id}
-						date={items.date}
-						title={items.title}
-						description={items.description}
-						location={items.location}
-						start_stack={items.start_stack}
-						game_type={items.game_type}
-						blind_levels={items.blind_levels}
-					/>
-				)): 
-				(
-					<NoRegistrations/>
+				{data ? (
+					data.map((items: IEvents) => (
+						<TableRows
+							key={items.title}
+							_id={items._id}
+							date={items.date}
+							title={items.title}
+							description={items.description}
+							location={items.location}
+							buy_in={items.buy_in}
+							start_stack={items.start_stack}
+							game_type={items.game_type}
+							blind_levels={items.blind_levels}
+						/>
+					))
+				) : (
+					<NoRegistrations />
 				)}
 			</Table>
 		</main>
 	);
 }
 
-
 const NoRegistrations = () => (
 	<>
-		<h2 className="font-bold">
-			There are no events, check back later
-		</h2>
+		<h2 className="font-bold">There are no events, check back later</h2>
 	</>
-)
+);

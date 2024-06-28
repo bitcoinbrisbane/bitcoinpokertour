@@ -13,6 +13,7 @@ export interface IEvents {
 	description: string;
 	date: string;
 	location: string;
+	fee: number;
 	start_stack: number;
 	blind_levels: number;
 	game_type: string;
@@ -30,6 +31,7 @@ export interface IEvent {
 	description: string;
 	game_type: number;
 	buy_in: number;
+	fee: number;
 	start_stack: number;
 	blind_levels: number;
 	__v: number;
