@@ -48,8 +48,8 @@ const TableRows = ({ _id, date, title, description, location, start_stack, game_
 };
 
 const Dates = ({ dates }: IDates) => {
-	const newDate = moment.parseZone(dates);
-	const formatted = newDate.format("L LT");
+	const momentDate = moment.parseZone(dates);
+	const formatted = momentDate.format("L LT");
 
 	if (!moment(dates).isValid()) {
 		return <TableCell>Invalid date</TableCell>;

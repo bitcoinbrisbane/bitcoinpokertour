@@ -87,8 +87,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	);
 }
 
-const getFormattedDate = ({ dates }: any) => {
-	const newDate = moment.parseZone(dates);
-	const formatted = newDate.format("DD/MM/yyyy HH:mm");
+const getFormattedDate = async (date: any) => {
+	const momentDate = moment.parseZone(date);
+	const formatted = momentDate.format("L LT");
 	return formatted ? formatted : "Invalid Date";
 };

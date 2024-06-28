@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import { postRegistration } from "@/lib/utils";
 import { IRegisterEvent } from "@/types";
@@ -10,7 +11,7 @@ const Forms = (id: any) => {
 		email: "",
 		bitcoin_address: ""
 	};
-
+	const router = useRouter();
 	return (
 		<>
 			<div className="sm:w-full md:w-2/4 p-6">
@@ -20,7 +21,8 @@ const Forms = (id: any) => {
 						setTimeout(() => {
 							postRegistration(values);
 							setSubmitting(false);
-						}, 500);
+							router.push(`/schedule/${id}`);
+						}, 1500);		
 					}}
 				>
 					<Form className="max-w-sm mx-auto space-y-5">
