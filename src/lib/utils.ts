@@ -45,8 +45,7 @@ export const postRegistration = async (register: IRegisterEvent) => {
 	};
 	const { id }: any = evt_id;
 	try {
-		const res = await axios.post(`${API}/registration/${id}`, registration);
-		console.log(res);
+		return await axios.post(`${API}/registration/${id}`, registration);
 	} catch (error) {
 		throw new Error("Failed to sent the event registrations. Please check the event ID, network connection, and the URL.");
 	}
