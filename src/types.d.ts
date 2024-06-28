@@ -44,7 +44,7 @@ export interface IRegistrations {
 	event_id: string;
 	_id: string;
 	__v: number;
-	bitcoin_address: string;
+	buy_in_address: string;
 }
 
 export interface IRegisterEvent {

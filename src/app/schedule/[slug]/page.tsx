@@ -72,7 +72,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							<TableCell className="font-medium border-r-2">{items.name}</TableCell>
 							<TableCell>{items.buy_in_address}</TableCell>
 							<TableCell className="font-medium border-x-2">{items.__v}</TableCell>
-							<TableCell>0x00</TableCell>
+							<TableCell>NA</TableCell>
 						</TableRow>
 					</TableBody>
 				)): (
