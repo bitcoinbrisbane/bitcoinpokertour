@@ -68,7 +68,7 @@ router.post("/:eventid", async (req, res) => {
 	};
 
 	// track address in btc pay server / explorer
-	await axios.post(`https://explorer.bitcoinpokertourn.com/v1/cryptos/btc/addresses/${registration.buy_in_address}`, config);
+	await axios.post(`https://explorer.bitcoinpokertour.com/v1/cryptos/btc/addresses/${registration.buy_in_address}`, config);
 
 	return res.status(201).json(registration);
 });

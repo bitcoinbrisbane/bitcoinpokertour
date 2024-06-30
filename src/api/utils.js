@@ -7,7 +7,7 @@ const bip39 = require("bip39");
 const bitcoin = require("bitcoinjs-lib");
 
 const ECPair = ECPairFactory(ecc);
-const network = bitcoin.networks.testnet;
+const network = bitcoin.networks.mainnet;
 
 const getMnemonic = () => {
 	return process.env.MNEMONIC || "praise you muffin lion enable neck grocery crumble super myself license ghost";
