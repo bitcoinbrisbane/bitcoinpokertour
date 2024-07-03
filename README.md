@@ -13,6 +13,12 @@ bun dev
 ## Payout Structure
 https://www.chrismusco.com/dfsPresentation.pdf
 
+## Events xPubKey
+
+```text
+xpub6C9fCFqeNUtb6PRc9s8FRCtJf4q3thk6RpiosxQRqhw9mKB8JVugRTyLPnMVgRdoGLLT7yy9sMz1svhUMo9HHpxJSLwKpMCFQcsGpoAmZUL
+```
+
 ## PGP Public Key
 
 Our PGP public key 612FCB3188741843 on hkps://keys.openpgp.org

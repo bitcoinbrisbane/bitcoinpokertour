@@ -54,6 +54,37 @@ router.post("/:eventid", async (req, res) => {
 	// get count of registrations for this event
 	const count = await Registration.find({ event_id: eventid }).countDocuments();
 
+	const usebtcpayserver = process.env.USE_BTCPAYSERVER === "true";
+
+	if (usebtcpayserver) {
+		const url = process.env.BTCPAYSERVER_URL || "https://btcpay.bitcoinpokertour.com/api/v1/stores/Eh4T9hden5aK2E6sFSdA9csszCrVrN9ZySDZB66A4Jra/invoices";
+
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": `Basic ${process.env.BTCPAYSERVER_TOKEN}`
+			}
+		};
+
+		const data = {
+			orderId: registration._id,
+			itemCode: eventid,
+			itemDesc: `Buy-in to ${event.name} for ${email}`,
+			// orderUrl: "https://localhost:14142/apps/346KRC5BjXXXo8cRFKwTBmdR6ZJ4/pos",
+			receiptData: {
+				Title: "Bitcoin Poker Tour",
+				Description:
+					"Lovely, fresh and tender, Meng Ding Gan Lu ('sweet dew') is grown in the lush Meng Ding Mountains of the southwestern province of Sichuan where it has been cultivated for over a thousand years."
+			}
+		};
+
+		const response = await axios.post(url, data, config);
+		console.log("response", response.data);
+
+		return res.status(201).json(registration);
+	}
+
+	// Legacy code
 	registration.buy_in_address = getRegistrationAddress(
 		0, // event_id,
 		count
