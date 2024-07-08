@@ -10,13 +10,14 @@ const ECPair = ECPairFactory(ecc);
 const network = bitcoin.networks.mainnet;
 
 const getMnemonic = () => {
-	return process.env.MNEMONIC || "praise you muffin lion enable neck grocery crumble super myself license ghost";
+	return process.env.MNEMONIC;
 };
 
 const getRegistrationAddress = (event_id, user_id) => {
 	const coin = network === bitcoin.networks.testnet ? "1" : "0";
-	const network_id = network === bitcoin.networks.testnet ? "84" : "44";
-	const path = `m/${network_id}'/${coin}'/0'/0/${event_id}/${user_id}`;
+	const network_id = network === bitcoin.networks.testnet ? "44" : "84";
+	//m/84'/0'/0'/0/0
+	const path = `m/${network_id}'/${coin}'/${event_id}/${user_id}`;
 	return getAddress(path);
 };
 
