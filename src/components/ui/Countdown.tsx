@@ -17,11 +17,13 @@ const useCountdown = (targetDate: Date): CountdownState => {
 		seconds: 0,
 	  });
 
+	  const tenHrs = 36000000;
+
 	useEffect(() => {
 		const intervalId = setInterval(() => {
 			const now = new Date();
 			const delta = targetDate.getTime() - now.getTime();
-			const diff = delta + 90000000; 
+			const diff = delta - tenHrs; 
 
 			if (delta < 0) {
 				clearInterval(intervalId);
