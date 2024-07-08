@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { IRegisterEvent } from "@/types";
 import axios from "axios";
 
-const API = "http://localhost:5001"; // process.env.API || "https://api.bitcoinpokertour.com";
+const API =  process.env.API || "https://api.bitcoinpokertour.com" // "http://localhost:5001";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
