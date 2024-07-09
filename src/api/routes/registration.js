@@ -86,9 +86,9 @@ router.post("/:eventid", async (req, res) => {
 			0, // event_id,
 			count
 		);
-	}
 
-	await registration.save();
+		await registration.save();
+	}
 
 	// track address in btc pay server / explorer
 	if (!process.env.BTC_PAY_SERVER) {
