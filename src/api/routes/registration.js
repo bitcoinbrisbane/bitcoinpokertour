@@ -55,7 +55,7 @@ router.post("/:eventid", async (req, res) => {
 	const count = await Registration.find({ event_id: eventid }).countDocuments();
 
 	if (process.env.BTC_PAY_SERVER) {
-		const basic_auth = Buffer.from(`${prcoess.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
+		const basic_auth = Buffer.from(`${process.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
 
 		const config = {
 			headers: {
