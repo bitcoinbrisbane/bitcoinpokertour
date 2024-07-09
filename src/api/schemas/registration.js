@@ -30,6 +30,10 @@ const registrationSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  third_party_id: {
+    type: String,
+    required: false,
+  },
 });
 
 const Registration = mongoose.model("Registration", registrationSchema);

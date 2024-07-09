@@ -41,7 +41,7 @@ router.post("/:eventid", async (req, res) => {
 		return res.status(400).json({ error: "Email already registered" });
 	}
 
-	const registration = new Registration({
+	let registration = new Registration({
 		name,
 		email,
 		bitcoin_address,
@@ -49,26 +49,59 @@ router.post("/:eventid", async (req, res) => {
 		event_id: eventid
 	});
 
-	await registration.save();
+	registration = await registration.save();
 
 	// get count of registrations for this event
 	const count = await Registration.find({ event_id: eventid }).countDocuments();
 
-	registration.buy_in_address = getRegistrationAddress(
-		0, // event_id,
-		count
-	);
+	if (process.env.BTC_PAY_SERVER) {
+
+		// const basic_auth = Buffer.from(`admin@bitcoinpokertour.com:${process.env.BTC_PAY_SERVER_PASS}`).toString("base64");
+		const basic_auth = Buffer.from(`admin@bitcoinpokertour.com:duftu5-summok-xehgaC`).toString("base64");
+
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": `Basic ${basic_auth}`
+			}
+		};
+
+		const amount = event.buy_in + event.fee;
+
+		const invoice = {
+			orderId: registration.id,
+			itemCode: event.title,
+			itemDesc: event.description,
+			orderUrl: `https://www.bitcoinpokertour.com/schedule/${event.id}`,
+			amount,
+			currency: "BTC"
+		};
+
+		const response = await axios.post(`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices`, invoice, config);
+
+		registration.third_party_id = response.data.id;
+		// registration.buy_in_address = response.data.address;
+
+		await registration.save();
+	} else {
+		registration.buy_in_address = getRegistrationAddress(
+			0, // event_id,
+			count
+		);
+	}
 
 	await registration.save();
 
-	const config = {
-		headers: {
-			"Content-Type": "application/json"
-		}
-	};
-
 	// track address in btc pay server / explorer
-	await axios.post(`https://explorer.bitcoinpokertour.com/v1/cryptos/btc/addresses/${registration.buy_in_address}`, config);
+	if (!process.env.BTC_PAY_SERVER) {
+		const config = {
+			headers: {
+				"Content-Type": "application/json"
+			}
+		};
+
+		await axios.post(`https://explorer.bitcoinpokertour.com/v1/cryptos/btc/addresses/${registration.buy_in_address}`, config);
+	}
 
 	return res.status(201).json(registration);
 });
