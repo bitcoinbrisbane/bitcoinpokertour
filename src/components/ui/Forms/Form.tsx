@@ -21,9 +21,19 @@ const Forms = (id: any) => {
 					initialValues={initVals}
 					onSubmit={(values: IRegisterEvent, { setSubmitting }: FormikHelpers<IRegisterEvent>) => {
 						setTimeout(() => {
-							postRegistration(values);
-							setSubmitting(false);
-							router.push(`/schedule/${newId}`);
+							postRegistration(values).then((response) => {
+								console.log(response.data);
+								setSubmitting(false);
+								if (!response.data.third_party_id) {
+									console.log("error");
+									return;
+								}
+								router.push(`https://btcpay.bitcoinpokertour.com/i/${response.data.third_party_id}`);
+							});
+
+							// setSubmitting(false);
+							// router.push(`/schedule/${newId}`);
+							
 						}, 1500);		
 					}}
 				>

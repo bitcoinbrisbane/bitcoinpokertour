@@ -77,7 +77,8 @@ router.post("/:eventid", async (req, res) => {
 
 		const response = await axios.post(`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices`, invoice, config);
 
-		registration.third_party_id = response.data.data.id;
+		console.log("response", response.data);
+		registration.third_party_id = response.data.id;
 		// registration.buy_in_address = response.data.address;
 
 		await registration.save();

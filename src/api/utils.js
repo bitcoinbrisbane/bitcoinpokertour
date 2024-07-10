@@ -46,6 +46,3 @@ module.exports = {
 	getRegistrationAddress,
 	getAddress
 };
-
-const x = getRegistrationAddress(0, 0);
-console.log("address:: ", x);
