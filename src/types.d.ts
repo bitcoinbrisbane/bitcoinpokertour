@@ -46,6 +46,7 @@ export interface IRegistrations {
 	_id: string;
 	__v: number;
 	buy_in_address: string;
+	status: string;
 }
 
 export interface IRegisterEvent {

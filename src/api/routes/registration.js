@@ -15,7 +15,37 @@ router.get("/:eventid", async (req, res) => {
 	console.log("registrations for ", eventid);
 	const registrations = await Registration.find({ event_id: eventid.toString() });
 
-	return res.json(registrations);
+	// Create new response and map in the status from btc pay server
+	const responses = registrations.map((registration) => {
+		return {
+			...registration._doc,
+			status: "pending"
+		};
+	});
+
+	if (process.env.BTC_PAY_SERVER) {
+		const basic_auth = Buffer.from(`${process.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
+
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": `Basic ${basic_auth}`
+			}
+		};
+
+		// Do parallel requests to btc pay server
+		for (let i = 0; i < responses.length; i++) {
+			const registration = responses[i];
+			const response = await axios.get(`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`, config);
+
+			if (response.data.status === "Settled") {
+				registration.status = "Complete";
+				// 	await registration.save();
+			}
+		}
+	}
+
+	return res.json(responses);
 });
 
 router.post("/:eventid", async (req, res) => {

@@ -65,7 +65,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<TableHead className="w-[350px] border-x-2">Name</TableHead>
 						<TableHead className="w-[350px] border-x-2">BTC Address</TableHead>
 						<TableHead className="-[100px] border-x-2">BTC Recieved</TableHead>
-						<TableHead className="w-[180px] text-center">Tx</TableHead>
+						<TableHead className="w-[180px] text-center">Status</TableHead>
 					</TableRow>
 				</TableHeader>
 				{data ? (
@@ -75,7 +75,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 								<TableCell className="font-medium border-r-2">{items.name}</TableCell>
 								<TableCell>{items.buy_in_address}</TableCell>
 								<TableCell className="font-medium border-x-2">{items.__v}</TableCell>
-								<TableCell>NA</TableCell>
+								<TableCell>{items.status}</TableCell>
 							</TableRow>
 						</TableBody>
 					))
