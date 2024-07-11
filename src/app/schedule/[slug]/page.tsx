@@ -73,7 +73,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<TableBody key={items._id} className="hover:cursor-pointer border-x-2 border-y-2">
 							<TableRow>
 								<TableCell className="font-medium border-r-2">{items.name}</TableCell>
-								<TableCell> <a href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}>Click to pay</a> {items.buy_in_address}</TableCell>
+								<TableCell><a href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}>{items.buy_in_address} Click to pay</a></TableCell>
 								<TableCell className="font-medium border-x-2">{items.btc_received}</TableCell>
 								<TableCell>{items.status}</TableCell>
 							</TableRow>
