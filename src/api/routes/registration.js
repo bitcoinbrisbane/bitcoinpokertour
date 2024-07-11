@@ -16,7 +16,7 @@ router.get("/:eventid", async (req, res) => {
 	const registrations = await Registration.find({ event_id: eventid.toString() });
 
 	// Create new response and map in the status from btc pay server
-	const responses = registrations.map((registration) => {
+	const responses = registrations.map(registration => {
 		return {
 			...registration._doc,
 			status: "Pending",
@@ -30,14 +30,17 @@ router.get("/:eventid", async (req, res) => {
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
-				"Authorization": `Basic ${basic_auth}`
+				Authorization: `Basic ${basic_auth}`
 			}
 		};
 
 		// Do parallel requests to btc pay server
 		for (let i = 0; i < responses.length; i++) {
 			const registration = responses[i];
-			const response = await axios.get(`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`, config);
+			const response = await axios.get(
+				`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
+				config
+			);
 
 			if (response.data.status === "Settled") {
 				registration.status = "Complete";
@@ -92,7 +95,7 @@ router.post("/:eventid", async (req, res) => {
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
-				"Authorization": `Basic ${basic_auth}`
+				Authorization: `Basic ${basic_auth}`
 			}
 		};
 
@@ -104,14 +107,28 @@ router.post("/:eventid", async (req, res) => {
 			itemDesc: event.description,
 			orderUrl: `https://www.bitcoinpokertour.com/schedule/${event.id}`,
 			amount,
-			currency: "BTC"
+			currency: "BTC",
+			checkout: {
+				expiryMinutes: 60
+			}
 		};
 
 		const response = await axios.post(`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices`, invoice, config);
 
 		console.log("response", response.data);
 		registration.third_party_id = response.data.id;
-		// registration.buy_in_address = response.data.address;
+
+		const payment_response = await axios.get(
+			`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${response.data.id}/payment-methods`,
+			config
+		);
+		console.log("payment_response", payment_response.data);
+
+		const btc_payment = payment_response.data.find(payment => payment.currency === "BTC");
+
+		if (btc_payment) {
+			registration.buy_in_address = btc_payment.destination;
+		}
 
 		await registration.save();
 	} else {
