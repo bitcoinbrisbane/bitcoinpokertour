@@ -48,6 +48,7 @@ export interface IRegistrations {
 	buy_in_address: string;
 	status: string;
 	btc_received: number;
+	third_party_id: string;
 }
 
 export interface IRegisterEvent {
