@@ -19,7 +19,8 @@ router.get("/:eventid", async (req, res) => {
 	const responses = registrations.map((registration) => {
 		return {
 			...registration._doc,
-			status: "Pending"
+			status: "Pending",
+			btc_received: 0
 		};
 	});
 
@@ -40,6 +41,7 @@ router.get("/:eventid", async (req, res) => {
 
 			if (response.data.status === "Settled") {
 				registration.status = "Complete";
+				registration.btc_received = Number(response.data.amount);
 				// 	await registration.save();
 			}
 		}
