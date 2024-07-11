@@ -19,7 +19,7 @@ router.get("/:eventid", async (req, res) => {
 	const responses = registrations.map((registration) => {
 		return {
 			...registration._doc,
-			status: "pending"
+			status: "Pending"
 		};
 	});
 
