@@ -47,10 +47,16 @@ router.get("/:eventid", async (req, res) => {
 				registration.btc_received = Number(response.data.amount);
 				// 	await registration.save();
 			}
+
+			if (response.data.status === "Expired") {
+				registration.status = "Expired";
+			}
 		}
 	}
 
-	return res.json(responses);
+	const filtered = responses.filter(registration => registration.status !== "Expired");
+
+	return res.json(filtered);
 });
 
 router.post("/:eventid", async (req, res) => {
@@ -114,8 +120,8 @@ router.post("/:eventid", async (req, res) => {
 		};
 
 		const response = await axios.post(`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices`, invoice, config);
-
 		console.log("response", response.data);
+
 		registration.third_party_id = response.data.id;
 
 		const payment_response = await axios.get(
