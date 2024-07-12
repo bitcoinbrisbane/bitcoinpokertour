@@ -63,7 +63,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				<TableHeader>
 					<TableRow className="border-x-2 border-y-2">
 						<TableHead className="w-[350px] border-x-2">Name</TableHead>
-						<TableHead className="w-[350px] border-x-2">BTC Address</TableHead>
+						<TableHead className="w-[350px] border-x-2">Buy In Address</TableHead>
 						<TableHead className="-[100px] border-x-2">BTC Recieved</TableHead>
 						<TableHead className="w-[180px] text-center">Status</TableHead>
 					</TableRow>
@@ -73,7 +73,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<TableBody key={items._id} className="hover:cursor-pointer border-x-2 border-y-2">
 							<TableRow>
 								<TableCell className="font-medium border-r-2">{items.name}</TableCell>
-								<TableCell><a href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}>{items.buy_in_address} Click to pay</a></TableCell>
+								<TableCell>
+									<a href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}>{items.buy_in_address} Click to pay</a>
+								</TableCell>
 								<TableCell className="font-medium border-x-2">{items.btc_received}</TableCell>
 								<TableCell>{items.status}</TableCell>
 							</TableRow>
