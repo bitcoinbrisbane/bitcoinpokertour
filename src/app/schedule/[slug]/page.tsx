@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 			<div className="text-left py-3 space-y-10 mb-4">
 				<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">{title}</h1>
 				<Link href={`/registration/${_id}`} className="mt-6">
-					<h2 className="w-full text-xl mt-10 font-bold hover:cursor-pointer hover:underline">
+					<h2 className="w-60 text-xl mt-10 font-bold hover:cursor-pointer focus:ring hover:underline">
 						Click here to Register
 						<span className="inline-block transition-transform hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
 					</h2>
@@ -81,7 +81,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 										items.status !== "Complete" && (
 											<div className="mt-3 ">
 												<Link
-													className="p-2 border rounded-lg hover:bg-blue-400 hover:text-white hover:cursor-pointer"
+													className="p-2 border-2 rounded-3xl hover:bg-blue-400 hover:text-white hover:cursor-pointer"
 													href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}
 												>
 													Click to pay
