@@ -79,7 +79,23 @@ router.post("/:eventid", async (req, res) => {
 	const existingRegistration = await Registration.findOne({ email: email });
 
 	if (existingRegistration) {
-		return res.status(400).json({ error: "Email already registered" });
+		const basic_auth = Buffer.from(`${process.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
+
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Basic ${basic_auth}`
+			}
+		};
+
+		const response = await axios.get(
+			`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
+			config
+		);
+
+		if (response.data.status === "Settled" || response.data.status === "Pending") {
+			return res.status(400).json({ error: "Email already registered" });
+		}
 	}
 
 	let registration = new Registration({
