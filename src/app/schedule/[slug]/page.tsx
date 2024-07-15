@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 			<div className="text-left py-3 space-y-10 mb-4">
 				<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">{title}</h1>
 				<Link href={`/registration/${_id}`} className="mt-6">
-					<h2 className="w-full text-xl mt-10 font-bold hover:cursor-pointer hover:underline">
+					<h2 className="w-60 text-xl mt-10 font-bold hover:cursor-pointer focus:ring hover:underline">
 						Click here to Register
 						<span className="inline-block transition-transform hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
 					</h2>
@@ -70,13 +70,27 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				</TableHeader>
 				{data ? (
 					data.map((items: IRegistrations) => (
-						<TableBody key={items._id} className="hover:cursor-pointer border-x-2 border-y-2">
+						<TableBody key={items._id} className="border-x-2 border-y-2">
 							<TableRow>
-								<TableCell className="font-medium border-r-2">{items.name}</TableCell>
-								<TableCell>
-									<a href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}>{items.buy_in_address} Click to pay</a>
+								<TableCell className="font-medium border-r-2 md:w-5 lg:w-10">{items.name}</TableCell>
+								<TableCell className="flex-row">
+									<div>
+										<span>{items.buy_in_address}</span>
+									</div>
+									{
+										items.status !== "Complete" && (
+											<div className="mt-3 ">
+												<Link
+													className="p-2 border-2 rounded-3xl hover:bg-blue-400 hover:text-white hover:cursor-pointer"
+													href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}
+												>
+													Click to pay
+												</Link>
+											</div>
+										)
+									}
 								</TableCell>
-								<TableCell className="font-medium border-x-2">{items.btc_received}</TableCell>
+								<TableCell className="font-medium border-x-2 lg:w-20">{items.btc_received}</TableCell>
 								<TableCell>{items.status}</TableCell>
 							</TableRow>
 						</TableBody>
