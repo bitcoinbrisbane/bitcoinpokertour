@@ -77,18 +77,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
 									<div>
 										<span>{items.buy_in_address}</span>
 									</div>
-									{
-										items.status !== "Complete" && (
-											<div className="mt-3 ">
-												<Link
-													className="p-2 border-2 rounded-3xl hover:bg-blue-400 hover:text-white hover:cursor-pointer"
-													href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}
-												>
-													Click to pay
-												</Link>
-											</div>
-										)
-									}
+									<div className="mt-3 ">
+										<Link
+											className="p-2 border-2 shadow rounded-3xl hover:bg-blue-400 hover:text-white hover:cursor-pointer"
+											href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}
+										>
+											{items.status !== "Complete" ? "Click to Pay" : "View Receipt"}
+										</Link>
+									</div>
 								</TableCell>
 								<TableCell className="font-medium border-x-2 lg:w-20">{items.btc_received}</TableCell>
 								<TableCell>{items.status}</TableCell>
