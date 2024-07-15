@@ -80,7 +80,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 									<div className="mt-3 ">
 										<Link
 											className="p-2 border-2 shadow rounded-3xl hover:bg-blue-400 hover:text-white hover:cursor-pointer"
-											href={`https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`}
+											href={items.status !== "Complete" ? `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}` : `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}/receipt/${items._id}`}
 										>
 											{items.status !== "Complete" ? "Click to Pay" : "View Receipt"}
 										</Link>
