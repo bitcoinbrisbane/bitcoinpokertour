@@ -124,7 +124,7 @@ router.post("/:eventid", async (req, res) => {
 		const amount = event.buy_in + event.fee;
 
 		const invoice = {
-			orderId: registration.id,
+			orderId: registration._id,
 			itemCode: event.title,
 			itemDesc: event.description,
 			orderUrl: `https://www.bitcoinpokertour.com/schedule/${event.id}`,
