@@ -11,7 +11,8 @@ const Registration = require("../schemas/registration");
 const Result = require("../schemas/result");
 
 router.get("/", async (req, res) => {
-  const events = await Event.find();
+  // Only show future events
+  const events = await Event.find({ date: { $gte: new Date() } });
   res.json(events);
 });
 
