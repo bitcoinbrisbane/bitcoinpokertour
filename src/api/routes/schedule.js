@@ -83,6 +83,7 @@ router.post("/", async (req, res) => {
     blind_levels,
     game_type,
     buy_in,
+    max_players,
   } = req.body;
 
   const event = new Event({
@@ -96,6 +97,7 @@ router.post("/", async (req, res) => {
     buy_in,
     start_stack,
     blind_levels,
+    max_players,
   });
 
   await event.save();
@@ -127,7 +129,8 @@ router.patch("/:id", async (req, res) => {
     game_type,
     buy_in,
     fee,
-    registration_close
+    registration_close,
+    max_players,
   } = req.body;
 
   event.title = title;
@@ -140,6 +143,7 @@ router.patch("/:id", async (req, res) => {
   event.buy_in = buy_in;
   event.fee = fee;
   event.registration_close = registration_close;
+  event.max_players = max_players;
 
   await event.save();
 
