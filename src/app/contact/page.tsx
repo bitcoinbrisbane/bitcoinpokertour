@@ -9,7 +9,7 @@ const Contact = () => {
 		<main className="flex max-h-screen w-full flex-col items-center justify-between container">
 			<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100 mb-5">Contact</h1>
 			<p className='text-center mb-10'>
-				We'd love to hear from you! Whether you have questions, feedback, or need assistance, our team is here to help. Reach out to us via email or join our Telegram group for the latest updates and support.
+				{"We'd love to hear from you! Whether you have questions, feedback, or need assistance, our team is here to help. Reach out to us via email or join our Telegram group for the latest updates and support."}
 			</p>
 
 			<div className='text-left'>
