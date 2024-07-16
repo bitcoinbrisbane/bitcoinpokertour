@@ -14,6 +14,13 @@ bun dev
 ## Payout Structure
 https://www.chrismusco.com/dfsPresentation.pdf
 
+
+## Our Treasury Address
+
+```text
+bc1pnsetunqt3tg5xq44ndnt95mnqk445gepyst4uk807vqr00cw22pst8dy74
+```
+
 ## PGP Public Key
 
 Our PGP public key 612FCB3188741843 on hkps://keys.openpgp.org

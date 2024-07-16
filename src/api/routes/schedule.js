@@ -43,7 +43,7 @@ router.get("/:id/results", async (req, res) => {
 
 router.get("/:id/stats", async (req, res) => {
 	const { id } = req.params;
-  console.log(`Stats for event ${id}`);
+	console.log(`Stats for event ${id}`);
 
 	const response = {
 		entries: 0,
@@ -52,7 +52,7 @@ router.get("/:id/stats", async (req, res) => {
 	};
 
 	const registrations = await Registration.find({ event_id: id });
-  console.log(`Found ${registrations.length} registrations`);
+	console.log(`Found ${registrations.length} registrations`);
 
 	if (registrations.length > 0) {
 		const basic_auth = Buffer.from(`${process.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
@@ -65,20 +65,19 @@ router.get("/:id/stats", async (req, res) => {
 		};
 
 		for (let i = 0; i < registrations.length; i++) {
-
-      const registration = registrations[i];
+			const registration = registrations[i];
 
 			const { data } = await axios.get(
 				`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
 				config
 			);
 
-      // console.log(data);
-      console.log(`Response for ${registration.third_party_id}: ${data.status}`);
+			// console.log(data);
+			console.log(`Response for ${registration.third_party_id}: ${data.status}`);
 
 			if (data.status === "Settled") {
 				response.entries += 1;
-        response.prize_pool += Number(data.amount);
+				response.prize_pool += Number(data.amount);
 			}
 		}
 	}
