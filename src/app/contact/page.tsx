@@ -22,7 +22,7 @@ const Contact = () => {
 				<div className='flex p-3 rounded-lg hover:bg-cyan-500 hover:text-white'>
 					<PiTelegramLogo className='h-10 w-10 mr-3 ' />
 					<p className="font-semibold py-2 text-lg hover:cursor-pointer">
-						<Link href={"https://t.me/+4_ll8Wiu8zQ0MTE9"} target='_blank'>
+						<Link href={"https://t.me/+4_ll8Wiu8zQ0MTE9"} target='_blank' rel="noopener noreferrer">
 							Telegram:
 							<span className="font-normal ml-2">
 								Join Our Channel!
@@ -33,7 +33,7 @@ const Contact = () => {
 				<div className='flex p-3 rounded-lg hover:bg-black hover:text-white'>
 					<RiTwitterXFill className='h-10 w-10 mr-3 ' />
 					<p className="font-semibold py-2 text-lg hover:cursor-pointer">
-						<Link href={"https://x.com/BTC_PokerTour"} target='_blank'>
+						<Link href={"https://x.com/BTC_PokerTour"} target='_blank' rel="noopener noreferrer">
 							X:
 							<span className="font-normal ml-2">
 								Follow us on X
@@ -44,7 +44,7 @@ const Contact = () => {
 				<div className='flex p-3 rounded-lg hover:bg-rose-500 hover:text-white'>
 					<GrInstagram className='h-10 w-10 mr-3 ' />
 					<p className="font-semibold py-2 text-lg hover:cursor-pointer">
-						<Link href={"https://www.instagram.com/bitcoinpokertour/"} target='_blank'>
+						<Link href={"https://www.instagram.com/bitcoinpokertour/"} target='_blank' rel="noopener noreferrer">
 							Instagram:
 							<span className="font-normal ml-2">
 								Follow us on Instagram
@@ -55,7 +55,7 @@ const Contact = () => {
 				<div className='flex p-3 rounded-lg hover:bg-blue-700 hover:text-white'>
 					<MdFacebook className='h-10 w-10 mr-3 ' />
 					<p className="font-semibold py-2 text-lg hover:cursor-pointer">
-						<Link href={"https://www.facebook.com/profile.php?id=61561210327705"} target='_blank'>
+						<Link href={"https://www.facebook.com/profile.php?id=61561210327705"} target='_blank' rel="noopener noreferrer">
 							Facebook:
 							<span className="font-normal ml-2">
 								Follow us on Facebook
