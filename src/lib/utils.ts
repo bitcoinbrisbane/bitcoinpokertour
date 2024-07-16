@@ -3,7 +3,8 @@ import { twMerge } from "tailwind-merge";
 import { IRegisterEvent } from "@/types";
 import axios from "axios";
 
-const API =  process.env.API || "https://api.bitcoinpokertour.com" // "http://localhost:5001";
+// const API =  process.env.API || "https://api.bitcoinpokertour.com" // "http://localhost:5001";
+const API = "http://localhost:5001";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -57,5 +58,14 @@ export const getRegistrations = async (id: string) => {
 		return data;
 	} catch (error) {
 		throw new Error("Failed to fetch the event registrations. Please check the event ID, network connection, and the URL.");
+	}
+};
+
+export const getEventStats = async(id: string) => {
+	try {
+		const { data } = await axios.get(`${API}/schedule/${id}/stats`);
+		return data;
+	} catch (error) {
+		throw new Error("Failed to fetch the event stats. Please check the event ID, network connection, and the URL.");
 	}
 };

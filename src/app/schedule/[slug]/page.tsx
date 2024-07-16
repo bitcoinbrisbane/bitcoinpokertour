@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import moment from "moment";
 import { IEvent, IRegistrations } from "@/types";
-import { getEventById, getRegistrations } from "@/lib/utils";
+import { getEventById, getEventStats, getRegistrations } from "@/lib/utils";
 import { unstable_noStore } from "next/cache";
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -12,7 +12,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const { title, date, buy_in, fee, description, location, game_type, blind_levels, start_stack, _id } = event;
 
 	const eventDate = getFormattedDate(date);
-	const data = await getRegistrations(_id);
+	const registrations = await getRegistrations(_id);
+	const stats = await getEventStats(_id);
 
 	return (
 		<main className="flex h-full w-full md:w-3/4 flex-col  justify-between ">
@@ -25,6 +26,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					</h2>
 				</Link>
 				<dl className="divide-y divide-gray-200">
+					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+						<dt className="text-md font-bold leading-6 text-gray-900">Number of entrants</dt>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.entries}</dd>
+					</div>
+					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+						<dt className="text-md font-bold leading-6 text-gray-900">Prize Pool</dt>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.prize_pool}BTC / {stats.prize_pool_usd} USD</dd>
+					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Location</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{location}</dd>
@@ -68,8 +77,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<TableHead className="w-[180px] text-center">Status</TableHead>
 					</TableRow>
 				</TableHeader>
-				{data ? (
-					data.map((items: IRegistrations) => (
+				{registrations ? (
+					registrations.map((items: IRegistrations) => (
 						<TableBody key={items._id} className="border-x-2 border-y-2">
 							<TableRow>
 								<TableCell className="font-medium border-r-2 md:w-5 lg:w-10">{items.name}</TableCell>
