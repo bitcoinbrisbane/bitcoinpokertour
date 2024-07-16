@@ -1,3 +1,4 @@
+const { max } = require("moment");
 const mongoose = require("mongoose");
 
 const eventSchema = new mongoose.Schema({
@@ -41,6 +42,10 @@ const eventSchema = new mongoose.Schema({
   blind_levels: {
     type: Number,
     required: true,
+  },
+  max_players: {
+    type: Number,
+    required: false,
   },
 });
 

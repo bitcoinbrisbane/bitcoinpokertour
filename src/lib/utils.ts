@@ -59,3 +59,12 @@ export const getRegistrations = async (id: string) => {
 		throw new Error("Failed to fetch the event registrations. Please check the event ID, network connection, and the URL.");
 	}
 };
+
+export const getEventStats = async(id: string) => {
+	try {
+		const { data } = await axios.get(`${API}/schedule/${id}/stats`);
+		return data;
+	} catch (error) {
+		throw new Error("Failed to fetch the event stats. Please check the event ID, network connection, and the URL.");
+	}
+};
