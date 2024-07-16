@@ -14,12 +14,14 @@ const connectDB = require("./config/dbConfig");
 connectDB();
 
 // Routes
+const addresses = require("./routes/addresses");
 const news = require("./routes/news");
 const registration = require("./routes/registration");
 const schedule = require("./routes/schedule");
 const sponsors = require("./routes/sponsors");
 
 // Routes
+app.use("/address", addresses);
 app.use("/news", news);
 app.use("/registration", registration);
 app.use("/schedule", schedule);
