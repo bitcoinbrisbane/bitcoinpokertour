@@ -10,6 +10,8 @@ const Event = require("../schemas/event");
 const Registration = require("../schemas/registration");
 const Result = require("../schemas/result");
 
+const { getRegistrationCount } = require("../utils");
+
 router.get("/", async (req, res) => {
 	// Only show future events
 	const events = await Event.find({ date: { $gte: new Date() } });
@@ -43,7 +45,7 @@ router.get("/:id/results", async (req, res) => {
 
 router.get("/:id/stats", async (req, res) => {
 	const { id } = req.params;
-  console.log(`Stats for event ${id}`);
+	console.log(`Stats for event ${id}`);
 
 	const response = {
 		entries: 0,
@@ -52,7 +54,7 @@ router.get("/:id/stats", async (req, res) => {
 	};
 
 	const registrations = await Registration.find({ event_id: id });
-  console.log(`Found ${registrations.length} registrations`);
+	console.log(`Found ${registrations.length} registrations`);
 
 	if (registrations.length > 0) {
 		const basic_auth = Buffer.from(`${process.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
@@ -65,20 +67,18 @@ router.get("/:id/stats", async (req, res) => {
 		};
 
 		for (let i = 0; i < registrations.length; i++) {
-
-      const registration = registrations[i];
+			const registration = registrations[i];
 
 			const { data } = await axios.get(
 				`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
 				config
 			);
 
-      // console.log(data);
-      console.log(`Response for ${registration.third_party_id}: ${data.status}`);
+			console.log(`Response for ${registration.third_party_id}: ${data.status}`);
 
 			if (data.status === "Settled") {
 				response.entries += 1;
-        response.prize_pool += Number(data.amount);
+				response.prize_pool += Number(data.amount);
 			}
 		}
 	}
@@ -87,6 +87,50 @@ router.get("/:id/stats", async (req, res) => {
 	response.prize_pool_usd = response.prize_pool * btcPriceResult.data.bpi.USD.rate_float;
 
 	res.json(response);
+});
+
+router.get("/:id/payouts", async (req, res) => {
+	const { id } = req.params;
+
+	const event = await Event.find({ event_id: id });
+
+	if (!event) {
+		return res.sendStatus(404);
+	}
+
+	const payouts = [];
+	const count = await getRegistrationCount(id);
+
+	if (count === 0) {
+		return res.json(payouts);
+	}
+
+	const prize_pool = count * event.buy_in;
+
+	// Top 2
+	if (count < 3) {
+		payouts.push({ place: 1, percent: 0.6, amount: prize_pool * 0.6 });
+		payouts.push({ place: 2, percent: 0.4, amount: prize_pool * 0.4 });
+
+		return res.json(payouts);
+	}
+
+	// Top 3
+	if (count <= 10) {
+		payouts.push({ place: 1, percent: 0.6, amount: prize_pool * 0.6 });
+		payouts.push({ place: 2, percent: 0.3, amount: prize_pool * 0.3 });
+		payouts.push({ place: 3, percent: 0.1, amount: prize_pool * 0.1 });
+
+		return res.json(payouts);
+	}
+
+	// Top 4
+	payouts.push({ place: 1, percent: 0.5, amount: prize_pool * 0.5 });
+	payouts.push({ place: 2, percent: 0.3, amount: prize_pool * 0.3 });
+	payouts.push({ place: 3, percent: 0.2, amount: prize_pool * 0.2 });
+	payouts.push({ place: 3, percent: 0.1, amount: prize_pool * 0.1 });
+
+	return res.json(payouts);
 });
 
 router.post("/", async (req, res) => {
