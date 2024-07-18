@@ -12,10 +12,11 @@ export function cn(...inputs: ClassValue[]) {
 export const getDate = async () => {
 	try {
 		const { data } = await axios.get(`${API}/schedule`);
+		console.log(data[0].date, 'date')
 		return data[0].date;
 	} catch (error) {
 		//throw new Error("Failed to fetch the date from the API. Please check the network connection and the URL.");
-		console.error(error);
+		return "00"
 	}
 };
 

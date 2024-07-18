@@ -26,7 +26,11 @@ const Forms = (id: any) => {
 										console.log("error");
 										return;
 									}
-									router.push(`https://btcpay.bitcoinpokertour.com/i/${response.data.third_party_id}`);
+									try {
+										  router.push(`https://btcpay.bitcoinpokertour.com/i/${response.data.third_party_id}`);
+										} catch (error) {
+											console.error("Redirection error:", error);
+										}
 								}	
 								
 							});

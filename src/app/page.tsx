@@ -6,7 +6,6 @@ import { unstable_noStore } from "next/cache";
 export default async function Home() {
 	unstable_noStore();
 	const target = await getDate();
-
 	return (
 		<>
 			<div className="flex flex-col text-center">
@@ -14,7 +13,7 @@ export default async function Home() {
 				<h3 className="text-2xl font-semibold text-center text-neutral-700 dark:text-neutral-300">Live Poker.  Bitcoin buy ins.  Coming soon!</h3>
 			</div>
 			<div className="flex top-2 sm:w-full countdown text-slate-900 md:w-100 justify-center mb-3">
-				<Countdown newTarget={target ? target : "00"} />
+				<Countdown newTarget={target} />
 			</div>
 			<div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-5 lg:text-left">
 				<Link
