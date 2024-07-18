@@ -74,28 +74,3 @@ const Countdown = ({ newTarget }: any) => {
 };
 
 export default Countdown;
-
-/* 
-const timeZone = moment.tz.guess();
-			const currentTime = moment().tz(timeZone).valueOf();
-			const eventTime = moment(targetDate).tz('Australia/Brisbane').valueOf();
-			let diffTime = eventTime - currentTime;
-			diffTime += 100000000;
-
-			if (diffTime <= 0) {
-				clearInterval(intervalId);
-			}
-	
-			setCountDown({
-				days: Math.floor(diffTime / (1000 * 60 * 60 * 24)),
-				hours: Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-				minutes: Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60)),
-				seconds: Math.floor((diffTime % (1000 * 60)) / 1000),
-			  });
-
-		}, 1000);
-
-		return () => clearInterval(intervalId);
-	}, [targetDate]);
-
-	return countDown; */

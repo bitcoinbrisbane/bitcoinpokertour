@@ -6,7 +6,6 @@ import { unstable_noStore } from "next/cache";
 export default async function Home() {
 	unstable_noStore();
 	const target = await getDate();
-
 	return (
 		<>
 			<div className="flex flex-col text-center">

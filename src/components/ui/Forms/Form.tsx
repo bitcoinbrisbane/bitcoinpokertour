@@ -11,8 +11,6 @@ const Forms = (id: any) => {
 		email: "",
 		bitcoin_address: ""
 	};
-
-	const newId = id.id;
 	const router = useRouter();
 	return (
 		<>
@@ -22,13 +20,19 @@ const Forms = (id: any) => {
 					onSubmit={(values: IRegisterEvent, { setSubmitting }: FormikHelpers<IRegisterEvent>) => {
 						setTimeout(() => {
 							postRegistration(values).then((response) => {
-								console.log(response.data);
 								setSubmitting(false);
-								if (!response.data.third_party_id) {
-									console.log("error");
-									return;
-								}
-								router.push(`https://btcpay.bitcoinpokertour.com/i/${response.data.third_party_id}`);
+								if(response){
+									if (!response.data.third_party_id) {
+										console.log("error");
+										return;
+									}
+									try {
+										  router.push(`https://btcpay.bitcoinpokertour.com/i/${response.data.third_party_id}`);
+										} catch (error) {
+											console.error("Redirection error:", error);
+										}
+								}	
+								
 							});
 
 							// setSubmitting(false);
