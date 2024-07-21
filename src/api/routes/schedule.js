@@ -43,6 +43,38 @@ router.get("/:id/results", async (req, res) => {
 	res.json(results);
 });
 
+router.post("/:id/results", async (req, res) => {
+	const apiKey = req.headers["x-api-key"];
+
+	if (apiKey !== process.env.API_KEY) {
+		return res.status(401).json({ error: "Unauthorized" });
+	}
+
+	const { id } = req.params;
+	const { data } = req.body;
+
+	const event = await Event.findOne({
+		_id: id
+	});
+
+	if (!event) {
+		return res.sendStatus(404);
+	}
+
+	const results = [];
+	for (i = 0; i < data.length; i++) {
+		const data = data[i];
+		const payout = 0.001; // do the algo
+		const result = new Result(event._id, data.name, data.place, payout);
+		result.save()
+		results.push(result);
+	}
+
+	await Promise.all(results);
+
+	return res.status(201).json(results);
+});
+
 router.get("/:id/stats", async (req, res) => {
 	const { id } = req.params;
 	console.log(`Stats for event ${id}`);

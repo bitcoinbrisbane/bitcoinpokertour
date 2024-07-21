@@ -180,9 +180,4 @@ router.post("/:eventid", async (req, res) => {
 	return res.status(201).json(registration);
 });
 
-router.post("/:eventid/results", async (req, res) => {
-	const { eventid } = req.params;
-	console.log("eventid", eventid);
-});
-
 module.exports = router;

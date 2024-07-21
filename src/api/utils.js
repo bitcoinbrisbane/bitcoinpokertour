@@ -36,7 +36,6 @@ const getAddress = path => {
 
 	const seed = bip39.mnemonicToSeedSync(mnemonic);
 	const root = bip32.fromSeed(seed, network);
-	// console.log("root", root);
 	const child = root.derivePath(path);
 	const address = bitcoin.payments.p2wpkh({
 		pubkey: child.publicKey,
