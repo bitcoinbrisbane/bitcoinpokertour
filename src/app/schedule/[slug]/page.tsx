@@ -72,65 +72,79 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{game_type}</dd>
 					</div>
 				</dl>
-				<h2 className="text-xl top-0 font-bold">Entries</h2>
 			</div>
 
-			{results && (
+			<div>
+				<h2 className="text-xl top-0 font-bold">Results</h2>
+				{results && (
+					<Table>
+						<TableHeader>
+							<TableRow className="border-x-2 border-y-2">
+								<TableHead className="w-[350px] border-x-2">Name</TableHead>
+								<TableHead className="w-[350px] border-x-2">Place</TableHead>
+								<TableHead className="w-[180px] text-center">Payout</TableHead>
+							</TableRow>
+						</TableHeader>
+						{results.map((result: any) => (
+							<TableBody key={result._id} className="border-x-2 border-y-2">
+								<TableRow>
+									<TableCell className="font-medium border-r-2 md:w-5 lg:w-10">{result.name}</TableCell>
+									<TableCell className="font-medium border-x-2 lg:w-20">{result.place}</TableCell>
+									<TableCell className="font-medium border-x-2 lg:w-20">{result.payout}</TableCell>
+								</TableRow>
+							</TableBody>
+						))}
+					</Table>
+				)}
+			</div>
+
+			<div>
+				<h2 className="text-xl top-0 font-bold">Entries</h2>
 				<Table>
 					<TableHeader>
 						<TableRow className="border-x-2 border-y-2">
 							<TableHead className="w-[350px] border-x-2">Name</TableHead>
-							<TableHead className="w-[350px] border-x-2">Place</TableHead>
-							<TableHead className="w-[180px] text-center">Payout</TableHead>
+							<TableHead className="w-[350px] border-x-2">Buy In Address</TableHead>
+							<TableHead className="-[100px] border-x-2">BTC Received</TableHead>
+							<TableHead className="w-[180px] text-center">Status</TableHead>
 						</TableRow>
 					</TableHeader>
-				</Table>
-			)}
-
-			<Table>
-				<TableHeader>
-					<TableRow className="border-x-2 border-y-2">
-						<TableHead className="w-[350px] border-x-2">Name</TableHead>
-						<TableHead className="w-[350px] border-x-2">Buy In Address</TableHead>
-						<TableHead className="-[100px] border-x-2">BTC Received</TableHead>
-						<TableHead className="w-[180px] text-center">Status</TableHead>
-					</TableRow>
-				</TableHeader>
-				{registrations ? (
-					registrations.map((items: IRegistrations) => (
-						<TableBody key={items._id} className="border-x-2 border-y-2">
+					{registrations ? (
+						registrations.map((items: IRegistrations) => (
+							<TableBody key={items._id} className="border-x-2 border-y-2">
+								<TableRow>
+									<TableCell className="font-medium border-r-2 md:w-5 lg:w-10">{items.name}</TableCell>
+									<TableCell className="flex-row">
+										<div>
+											<span>{items.buy_in_address}</span>
+										</div>
+										<div className="mt-3 ">
+											<Link
+												className="p-2 border-2 shadow rounded-3xl hover:bg-blue-400 hover:text-white hover:cursor-pointer"
+												href={
+													items.status !== "Complete"
+														? `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`
+														: `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}/receipt/${items._id}`
+												}
+											>
+												{items.status !== "Complete" ? "Click to Pay" : "View Receipt"}
+											</Link>
+										</div>
+									</TableCell>
+									<TableCell className="font-medium border-x-2 lg:w-20">{items.btc_received}</TableCell>
+									<TableCell>{items.status}</TableCell>
+								</TableRow>
+							</TableBody>
+						))
+					) : (
+						<TableBody key={0} className="hover:cursor-pointer border-x-2 border-y-2">
 							<TableRow>
-								<TableCell className="font-medium border-r-2 md:w-5 lg:w-10">{items.name}</TableCell>
-								<TableCell className="flex-row">
-									<div>
-										<span>{items.buy_in_address}</span>
-									</div>
-									<div className="mt-3 ">
-										<Link
-											className="p-2 border-2 shadow rounded-3xl hover:bg-blue-400 hover:text-white hover:cursor-pointer"
-											href={
-												items.status !== "Complete"
-													? `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`
-													: `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}/receipt/${items._id}`
-											}
-										>
-											{items.status !== "Complete" ? "Click to Pay" : "View Receipt"}
-										</Link>
-									</div>
-								</TableCell>
-								<TableCell className="font-medium border-x-2 lg:w-20">{items.btc_received}</TableCell>
-								<TableCell>{items.status}</TableCell>
+								<TableCell className="font-medium border-r-2">No registration for this event yet</TableCell>
 							</TableRow>
 						</TableBody>
-					))
-				) : (
-					<TableBody key={0} className="hover:cursor-pointer border-x-2 border-y-2">
-						<TableRow>
-							<TableCell className="font-medium border-r-2">No registration for this event yet</TableCell>
-						</TableRow>
-					</TableBody>
-				)}
-			</Table>
+					)}
+				</Table>
+			</div>
 		</main>
 	);
 }
