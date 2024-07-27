@@ -13,6 +13,16 @@ const Result = require("../schemas/result");
 const { getRegistrationCount } = require("../utils");
 
 router.get("/", async (req, res) => {
+	const { city } = req.query;
+
+	if (city) {
+		const events = await Event.find({
+			location: { $regex: new RegExp(city, "i") },
+			date: { $gte: new Date() }
+		});
+		return res.json(events);
+	}
+	
 	// Only show future events
 	const events = await Event.find({ date: { $gte: new Date() } });
 	res.json(events);
