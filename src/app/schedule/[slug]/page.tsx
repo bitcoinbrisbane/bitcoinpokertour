@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import moment from "moment";
 import { IEvent, IRegistrations } from "@/types";
-import { getEventById, getEventStats, getRegistrations } from "@/lib/utils";
+import { getEventById, getEventStats, getRegistrations, getResults } from "@/lib/utils";
 import { unstable_noStore } from "next/cache";
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -14,13 +14,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const eventDate = getFormattedDate(date);
 	const registrations = await getRegistrations(_id);
 	const stats = await getEventStats(_id);
+	const results = await getResults(_id);
 
 	return (
 		<main className="flex h-full w-full md:w-3/4 flex-col justify-between">
 			<div className="text-left py-3 space-y-10 mb-4">
 				<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">{title}</h1>
 
-				{ date < moment().format("L LT") && (
+				{moment(date) > moment() && (
 					<Link href={`/registration/${_id}`} className="mt-6">
 						<h2 className="w-60 text-xl mt-10 font-bold hover:cursor-pointer focus:ring hover:underline">
 							Click here to Register
@@ -74,12 +75,24 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				<h2 className="text-xl top-0 font-bold">Entries</h2>
 			</div>
 
+			{results && (
+				<Table>
+					<TableHeader>
+						<TableRow className="border-x-2 border-y-2">
+							<TableHead className="w-[350px] border-x-2">Name</TableHead>
+							<TableHead className="w-[350px] border-x-2">Place</TableHead>
+							<TableHead className="w-[180px] text-center">Payout</TableHead>
+						</TableRow>
+					</TableHeader>
+				</Table>
+			)}
+
 			<Table>
 				<TableHeader>
 					<TableRow className="border-x-2 border-y-2">
 						<TableHead className="w-[350px] border-x-2">Name</TableHead>
 						<TableHead className="w-[350px] border-x-2">Buy In Address</TableHead>
-						<TableHead className="-[100px] border-x-2">BTC Recieved</TableHead>
+						<TableHead className="-[100px] border-x-2">BTC Received</TableHead>
 						<TableHead className="w-[180px] text-center">Status</TableHead>
 					</TableRow>
 				</TableHeader>

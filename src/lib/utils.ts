@@ -75,3 +75,13 @@ export const getEventStats = async(id: string) => {
 		console.error(error);
 	}
 };
+
+export const getResults = async (id: string) => {
+	try {
+		const { data } = await axios.get(`${API}/schedule/${id}/results`);
+		return data;
+	} catch (error) {
+		//throw new Error("Failed to fetch the event results. Please check the event ID, network connection, and the URL.");
+		console.error(error);
+	}
+};
