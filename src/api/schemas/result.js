@@ -5,6 +5,10 @@ const resultSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  registration_id: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -16,6 +20,10 @@ const resultSchema = new mongoose.Schema({
   payout: {
     type: Number,
     required: true,
+  },
+  tx_id: {
+    type: String,
+    required: false,
   },
 });
 
