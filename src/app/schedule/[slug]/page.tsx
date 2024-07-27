@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import moment from "moment";
 import { IEvent, IRegistrations } from "@/types";
-import { getEventById, getEventStats, getRegistrations, getResults } from "@/lib/utils";
+import { getEventById, getEventStats, getRegistrations, getResults, getFormattedDate } from "@/lib/utils";
 import { unstable_noStore } from "next/cache";
 
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -12,9 +12,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const { title, date, buy_in, fee, description, location, game_type, blind_levels, start_stack, _id } = event;
 
 	const eventDate = getFormattedDate(date);
-	const registrations = await getRegistrations(_id);
-	const stats = await getEventStats(_id);
-	const results = await getResults(_id);
+
+	const [registrations, stats, results] = await Promise.all([getRegistrations(_id), getEventStats(_id), getResults(_id)]);
 
 	return (
 		<main className="flex h-full w-full md:w-3/4 flex-col justify-between">
@@ -88,9 +87,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						{results.map((result: any) => (
 							<TableBody key={result._id} className="border-x-2 border-y-2">
 								<TableRow>
-									<TableCell className="font-medium border-r-2 md:w-5 lg:w-10">{result.name}</TableCell>
 									<TableCell className="font-medium border-x-2 lg:w-20">{result.place}</TableCell>
-									<TableCell className="font-medium border-x-2 lg:w-20">{result.payout}</TableCell>
+									<TableCell className="font-medium border-r-2 lg:w-10">{result.name}</TableCell>
+									<TableCell className="font-medium border-x-2 lg:w-20">
+										{result.payout} {result.tx_id}
+									</TableCell>
 								</TableRow>
 							</TableBody>
 						))}
@@ -148,9 +149,3 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		</main>
 	);
 }
-
-const getFormattedDate = (date: any) => {
-	const momentDate = moment.parseZone(date);
-	const formatted = momentDate.format("L LT");
-	return formatted ? formatted : "Invalid Date";
-};
