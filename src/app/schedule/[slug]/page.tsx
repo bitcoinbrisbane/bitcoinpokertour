@@ -16,15 +16,19 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const stats = await getEventStats(_id);
 
 	return (
-		<main className="flex h-full w-full md:w-3/4 flex-col  justify-between ">
+		<main className="flex h-full w-full md:w-3/4 flex-col justify-between">
 			<div className="text-left py-3 space-y-10 mb-4">
 				<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">{title}</h1>
-				<Link href={`/registration/${_id}`} className="mt-6">
-					<h2 className="w-60 text-xl mt-10 font-bold hover:cursor-pointer focus:ring hover:underline">
-						Click here to Register
-						<span className="inline-block transition-transform hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
-					</h2>
-				</Link>
+
+				{ date < moment().format("L LT") && (
+					<Link href={`/registration/${_id}`} className="mt-6">
+						<h2 className="w-60 text-xl mt-10 font-bold hover:cursor-pointer focus:ring hover:underline">
+							Click here to Register
+							<span className="inline-block transition-transform hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
+						</h2>
+					</Link>
+				)}
+
 				<dl className="divide-y divide-gray-200">
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Number of entrants</dt>
@@ -32,7 +36,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Prize Pool</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.prize_pool}BTC / {stats.prize_pool_usd} USD</dd>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+							{stats.prize_pool}BTC / {stats.prize_pool_usd} USD
+						</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Location</dt>
@@ -89,7 +95,11 @@ export default async function Page({ params }: { params: { slug: string } }) {
 									<div className="mt-3 ">
 										<Link
 											className="p-2 border-2 shadow rounded-3xl hover:bg-blue-400 hover:text-white hover:cursor-pointer"
-											href={items.status !== "Complete" ? `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}` : `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}/receipt/${items._id}`}
+											href={
+												items.status !== "Complete"
+													? `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`
+													: `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}/receipt/${items._id}`
+											}
 										>
 											{items.status !== "Complete" ? "Click to Pay" : "View Receipt"}
 										</Link>
@@ -112,7 +122,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	);
 }
 
-const getFormattedDate = async (date: any) => {
+const getFormattedDate = (date: any) => {
 	const momentDate = moment.parseZone(date);
 	const formatted = momentDate.format("L LT");
 	return formatted ? formatted : "Invalid Date";
