@@ -28,6 +28,22 @@ router.get("/", async (req, res) => {
 	res.json(events);
 });
 
+router.get("/past", async (req, res) => {
+	const { city } = req.query;
+
+	if (city) {
+		const events = await Event.find({
+			location: { $regex: new RegExp(city, "i") },
+			date: { $lte: new Date() }
+		});
+		return res.json(events);
+	}
+	
+	// Only show future events
+	const events = await Event.find({ date: { $lte: new Date() } });
+	res.json(events);
+});
+
 router.get("/:id", async (req, res) => {
 	const { id } = req.params;
 	console.log(id);
