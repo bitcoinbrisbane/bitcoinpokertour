@@ -2,8 +2,9 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { IRegisterEvent } from "@/types";
 import axios from "axios";
+import moment from "moment";
 
-const API =  process.env.API || "https://api.bitcoinpokertour.com" // "http://localhost:5001";
+const API = process.env.API || "https://api.bitcoinpokertour.com"; // "http://localhost:5001";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -12,11 +13,11 @@ export function cn(...inputs: ClassValue[]) {
 export const getDate = async () => {
 	try {
 		const { data } = await axios.get(`${API}/schedule`);
-		console.log(data[0].date, 'date')
+		console.log(data[0].date, "date");
 		return data[0].date;
 	} catch (error) {
 		//throw new Error("Failed to fetch the date from the API. Please check the network connection and the URL.");
-		return "00"
+		return "00";
 	}
 };
 
@@ -66,7 +67,7 @@ export const getRegistrations = async (id: string) => {
 	}
 };
 
-export const getEventStats = async(id: string) => {
+export const getEventStats = async (id: string) => {
 	try {
 		const { data } = await axios.get(`${API}/schedule/${id}/stats`);
 		return data;
@@ -74,4 +75,21 @@ export const getEventStats = async(id: string) => {
 		//throw new Error("Failed to fetch the event stats. Please check the event ID, network connection, and the URL.");
 		console.error(error);
 	}
+};
+
+export const getResults = async (id: string) => {
+	try {
+		const { data } = await axios.get(`${API}/schedule/${id}/results`);
+		return data;
+	} catch (error) {
+		//throw new Error("Failed to fetch the event results. Please check the event ID, network connection, and the URL.");
+		console.error(error);
+	}
+};
+
+
+export const getFormattedDate = (date: any) => {
+	const momentDate = moment.parseZone(date);
+	const formatted = momentDate.format("L LT");
+	return formatted ? formatted : "Invalid Date";
 };

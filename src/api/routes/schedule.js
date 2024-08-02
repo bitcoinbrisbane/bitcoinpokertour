@@ -13,8 +13,34 @@ const Result = require("../schemas/result");
 const { getRegistrationCount } = require("../utils");
 
 router.get("/", async (req, res) => {
+	const { city } = req.query;
+
+	if (city) {
+		const events = await Event.find({
+			location: { $regex: new RegExp(city, "i") },
+			date: { $gte: new Date() }
+		});
+		return res.json(events);
+	}
+	
 	// Only show future events
 	const events = await Event.find({ date: { $gte: new Date() } });
+	res.json(events);
+});
+
+router.get("/past", async (req, res) => {
+	const { city } = req.query;
+
+	if (city) {
+		const events = await Event.find({
+			location: { $regex: new RegExp(city, "i") },
+			date: { $lte: new Date() }
+		});
+		return res.json(events);
+	}
+	
+	// Only show future events
+	const events = await Event.find({ date: { $lte: new Date() } });
 	res.json(events);
 });
 
@@ -224,6 +250,91 @@ router.patch("/:id", async (req, res) => {
 	await event.save();
 
 	return res.status(201).json(event);
+});
+
+
+// add results to event
+router.post("/:eventid/results", async (req, res) => {
+	const apiKey = req.headers["x-api-key"];
+
+	if (apiKey !== process.env.API_KEY) {
+		return res.status(401).json({ error: "Unauthorized" });
+	}
+
+	const { eventid } = req.params;
+	const results = req.body;
+
+	const event = await Event.findOne({ _id: eventid });
+
+	if (!event) {
+		return res.status(404).json({ error: "Event not found" });
+	}
+
+	let count = 0;
+
+	for (let i = 0; i < results.length; i++) {
+		const _result = results[i];
+
+		const registration = await Registration.findOne({ registration_id: _result.registration_id });
+
+		if (!registration) {
+			return res.status(404).json({ error: `Registration ${_result.name} not found` });
+		}
+
+		const result = new Result({
+			event_id: eventid,
+			registration_id: registration._id,
+			name: _result.name,
+			place: _result.place,
+			payout: _result.payout,
+			tx_id: _result.tx_id
+		});
+
+		await result.save();
+		count += 1;
+	}
+
+	return res.status(201).json({ message: `${count} results added` });
+});
+
+// add results to event
+router.patch("/:eventid/results", async (req, res) => {
+	const apiKey = req.headers["x-api-key"];
+
+	if (apiKey !== process.env.API_KEY) {
+		return res.status(401).json({ error: "Unauthorized" });
+	}
+
+	const { eventid } = req.params;
+	const results = req.body;
+
+	const event = await Event.findOne({ _id: eventid });
+
+	if (!event) {
+		return res.status(404).json({ error: "Event not found" });
+	}
+
+	let count = 0;
+
+	for (let i = 0; i < results.length; i++) {
+		const _result = results[i];
+
+		// Could be primary key
+		const result = await Result.findOne({ _id: _result.id });
+
+		if (!result) {
+			return res.status(404).json({ error: `Result ${_result.id} not found` });
+		}
+
+		if (!result.tx_id) {
+			result.tx_id = _result.tx_id;
+			await result.save();
+
+			count += 1;
+		}
+	}
+
+	return res.status(201).json({ message: `${count} results added` });
 });
 
 module.exports = router;
