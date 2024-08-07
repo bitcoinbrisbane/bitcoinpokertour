@@ -102,3 +102,16 @@ export const validateEmail = (value: string) => {
 	}
 	return error;
 };
+
+export const validateBitcoinAddress = (value: string) => {
+	if (!value) {
+		return "Required";
+	}
+
+	const bitcoinAddressRegex = /\b(?:bc1([ac-hj-np-z02-9]{8,87})|[13][a-km-zA-HJ-NP-Z1-9]{25,34})\b/;
+	if (bitcoinAddressRegex.test(value) === false) {
+		return "Invalid Bitcoin address";
+	}
+
+	return;
+};

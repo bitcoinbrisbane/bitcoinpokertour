@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
-import { postRegistration, validateEmail } from "@/lib/utils";
+import { postRegistration, validateBitcoinAddress, validateEmail } from "@/lib/utils";
 import { IRegisterEvent } from "@/types";
 
 const Event = (id: any) => {
@@ -60,9 +60,10 @@ const Event = (id: any) => {
 							className="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							name="bitcoin_address"
 							placeholder="Your Bitcoin payout address"
+							validate={validateBitcoinAddress}
 							required
 						/>
-						<ErrorMessage component="a" className="" name="bitcoin_address" />
+						<ErrorMessage component="a" className="mb-2 text-red-400" name="bitcoin_address" />
 						<button
 							type="submit"
 							className="shadow-md w-full font-bold hover:cursor-pointer hover:bg-blue-500 hover:text-white rounded-lg border text-sm px-5 py-2.5 text-center"
