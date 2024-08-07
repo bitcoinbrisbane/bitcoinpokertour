@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import moment from "moment-timezone";
 
 interface CountdownState {
 	days: number;
@@ -14,16 +13,16 @@ const useCountdown = (targetDate: Date): CountdownState => {
 		days: 0,
 		hours: 0,
 		minutes: 0,
-		seconds: 0,
-	  });
+		seconds: 0
+	});
 
-	  const tenHrs = 36000000;
+	const tenHrs = 36000000;
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
 			const now = new Date();
 			const delta = targetDate.getTime() - now.getTime();
-			const diff = delta - tenHrs; 
+			const diff = delta - tenHrs;
 
 			if (delta < 0) {
 				clearInterval(intervalId);
@@ -42,8 +41,7 @@ const useCountdown = (targetDate: Date): CountdownState => {
 	}, [targetDate]);
 
 	return countDown;
-	 
-}
+};
 
 const Countdown = ({ newTarget }: any) => {
 	const targetDate = new Date(newTarget);

@@ -1,10 +1,10 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
-import { postRegistration } from "@/lib/utils";
+import { postRegistration, validateEmail } from "@/lib/utils";
 import { IRegisterEvent } from "@/types";
 
-const Forms = (id: any) => {
+const Event = (id: any) => {
 	const initVals: IRegisterEvent = {
 		evt_id: id,
 		name: "",
@@ -19,26 +19,24 @@ const Forms = (id: any) => {
 					initialValues={initVals}
 					onSubmit={(values: IRegisterEvent, { setSubmitting }: FormikHelpers<IRegisterEvent>) => {
 						setTimeout(() => {
-							postRegistration(values).then((response) => {
+							postRegistration(values).then(response => {
 								setSubmitting(false);
-								if(response){
+								if (response) {
 									if (!response.data.third_party_id) {
 										console.log("error");
 										return;
 									}
 									try {
-										  router.push(`https://btcpay.bitcoinpokertour.com/i/${response.data.third_party_id}`);
-										} catch (error) {
-											console.error("Redirection error:", error);
-										}
-								}	
-								
+										router.push(`https://btcpay.bitcoinpokertour.com/i/${response.data.third_party_id}`);
+									} catch (error) {
+										console.error("Redirection error:", error);
+									}
+								}
 							});
 
 							// setSubmitting(false);
 							// router.push(`/schedule/${newId}`);
-							
-						}, 1500);		
+						}, 1500);
 					}}
 				>
 					<Form className="max-w-sm mx-auto space-y-5">
@@ -78,14 +76,4 @@ const Forms = (id: any) => {
 	);
 };
 
-function validateEmail(value: string) {
-	let error;
-	if (!value) {
-		error = "Required";
-	} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-		error = "Invalid email address";
-	}
-	return error;
-}
-
-export default Forms;
+export default Event;
