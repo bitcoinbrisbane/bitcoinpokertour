@@ -99,8 +99,8 @@ router.post("/:eventid", async (req, res) => {
 	}
 
 	let registration = new Registration({
-		name,
-		email: email.toLowerCase(),
+		name: name.trim(),
+		email: email.toLowerCase().trim(),
 		bitcoin_address,
 		date: new Date(),
 		event_id: eventid
