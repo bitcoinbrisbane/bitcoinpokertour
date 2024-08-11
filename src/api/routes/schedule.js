@@ -28,8 +28,9 @@ router.get("/", async (req, res) => {
 	res.json(events);
 });
 
-router.get("/past", async (req, res) => {
+router.get("/previous", async (req, res) => {
 	const { city } = req.query;
+	const { limit } = req.query || 10;
 
 	if (city) {
 		const events = await Event.find({
@@ -40,7 +41,7 @@ router.get("/past", async (req, res) => {
 	}
 	
 	// Only show future events
-	const events = await Event.find({ date: { $lte: new Date() } });
+	const events = await Event.find({ date: { $lte: new Date() } }).sort({ date: -1 }).limit(Number(limit));
 	res.json(events);
 });
 

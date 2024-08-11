@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import Menu from "@/components/ui/menu";
+import NavBar from "../components/navbar";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,7 +34,7 @@ export default function RootLayout({
 							/>
 						</Link>
 					</div>
-					<Menu />
+					<NavBar/>
 					{children}
 				</main>
 			</body>

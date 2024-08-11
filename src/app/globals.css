@@ -103,3 +103,34 @@ ul#countdownul {
     }
   }
 }
+
+/* components/NavBar.module.css */
+
+.navbar {
+  width: 100%;
+  background-color: black;
+  padding: 1rem;
+}
+
+.navlist {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+.navitem {
+  margin: 0;
+}
+
+.navlink {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.navlink:hover {
+  color: grey;
+}
