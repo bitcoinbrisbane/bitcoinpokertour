@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { MenuExp, Classes } from "../../types";
 import { RiCloseFill as CloseIcon, RiMenuLine as MenuIcon } from "react-icons/ri";
 import { Icon } from "./Icon";
-import { navigation } from "@/constansts/constants";
+import { navigation } from "@/constants/constants";
 
 const NavLinks = ({ classes, menuExp, setMenuExpanded, closeMenu }: Classes & { closeMenu: () => void }) => {
 	const handleLinkClick = () => {

@@ -4,7 +4,10 @@ import { IRegisterEvent } from "@/types";
 import axios from "axios";
 import moment from "moment";
 
-const API = process.env.API || "http://localhost:5000"; // "https://api.bitcoinpokertour.com"; //
+import dotenv from "dotenv";
+dotenv.config();
+
+const API = process.env.API || "https://api.bitcoinpokertour.com"; //
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
