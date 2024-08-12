@@ -63,15 +63,20 @@ const getRegistrationCount = async event_id => {
 		for (let i = 0; i < registrations.length; i++) {
 			const registration = registrations[i];
 
-			const { data } = await axios.get(
-				`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
-				config
-			);
+			try {
+				const { data } = await axios.get(
+					`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
+					config
+				);
 
-			console.log(`Response for ${registration.third_party_id}: ${data.status}`);
+				console.log(`Response for ${registration.third_party_id}: ${data.status}`);
 
-			if (data.status === "Settled") {
-				count += 1;
+				if (data.status === "Settled") {
+					count += 1;
+				}
+			} catch (error) {
+				console.error(error);
+				registrations.status = "Error";
 			}
 		}
 	}

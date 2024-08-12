@@ -7,7 +7,10 @@ import { unstable_noStore } from "next/cache";
 
 export default async function Page({ params }: { params: { slug: string } }) {
 	unstable_noStore();
+
 	const { slug } = params;
+	console.log(slug);
+	
 	const event: IEvent = await getEventById(slug);
 	const { title, date, buy_in, fee, description, location, game_type, blind_levels, start_stack, _id } = event;
 
@@ -32,7 +35,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				<dl className="divide-y divide-gray-200">
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Number of entrants</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.entries}</dd>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.entries || 0}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Prize Pool</dt>

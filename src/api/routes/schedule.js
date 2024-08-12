@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 		});
 		return res.json(events);
 	}
-	
+
 	// Only show future events
 	const events = await Event.find({ date: { $gte: new Date() } });
 	res.json(events);
@@ -38,7 +38,7 @@ router.get("/past", async (req, res) => {
 		});
 		return res.json(events);
 	}
-	
+
 	// Only show future events
 	const events = await Event.find({ date: { $lte: new Date() } });
 	res.json(events);
@@ -92,7 +92,7 @@ router.post("/:id/results", async (req, res) => {
 		const data = data[i];
 		const payout = 0.001; // do the algo
 		const result = new Result(event._id, data.name, data.place, payout);
-		result.save()
+		result.save();
 		results.push(result);
 	}
 
@@ -127,16 +127,20 @@ router.get("/:id/stats", async (req, res) => {
 		for (let i = 0; i < registrations.length; i++) {
 			const registration = registrations[i];
 
-			const { data } = await axios.get(
-				`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
-				config
-			);
+			try {
+				const { data } = await axios.get(
+					`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
+					config
+				);
 
-			console.log(`Response for ${registration.third_party_id}: ${data.status}`);
+				console.log(`Response for ${registration.third_party_id}: ${data.status}`);
 
-			if (data.status === "Settled") {
-				response.entries += 1;
-				response.prize_pool += Number(data.amount);
+				if (data.status === "Settled") {
+					response.entries += 1;
+					response.prize_pool += Number(data.amount);
+				}
+			} catch (error) {
+				console.error(error);
 			}
 		}
 	}
@@ -251,7 +255,6 @@ router.patch("/:id", async (req, res) => {
 
 	return res.status(201).json(event);
 });
-
 
 // add results to event
 router.post("/:eventid/results", async (req, res) => {

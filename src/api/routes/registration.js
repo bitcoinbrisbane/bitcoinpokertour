@@ -36,20 +36,27 @@ router.get("/:eventid", async (req, res) => {
 
 		// Do parallel requests to btc pay server
 		for (let i = 0; i < responses.length; i++) {
+
 			const registration = responses[i];
-			const response = await axios.get(
-				`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
-				config
-			);
 
-			if (response.data.status === "Settled") {
-				registration.status = "Complete";
-				registration.btc_received = Number(response.data.amount);
-				// 	await registration.save();
-			}
+			try {
+				const response = await axios.get(
+					`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
+					config
+				);
 
-			if (response.data.status === "Expired") {
-				registration.status = "Expired";
+				if (response.data.status === "Settled") {
+					registration.status = "Complete";
+					registration.btc_received = Number(response.data.amount);
+					// 	await registration.save();
+				}
+
+				if (response.data.status === "Expired") {
+					registration.status = "Expired";
+				}
+			} catch (error) {
+				console.error(error);
+				registration.status = "Error";
 			}
 		}
 	}
@@ -71,7 +78,7 @@ router.post("/:eventid", async (req, res) => {
 	}
 
 	// Check to see if registration is closed
-	if (event.registration_closed) {
+	if (event.registration_close && new Date() > event.registration_close) {
 		return res.status(400).json({ error: "Registration is closed" });
 	}
 
