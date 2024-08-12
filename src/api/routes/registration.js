@@ -68,7 +68,7 @@ router.get("/:eventid", async (req, res) => {
 
 router.post("/:eventid", async (req, res) => {
 	const { eventid } = req.params;
-	console.log("eventid", eventid);
+	console.log("registering player for event ", id);
 
 	const { name, email, bitcoin_address } = req.body;
 
@@ -147,7 +147,7 @@ router.post("/:eventid", async (req, res) => {
 		};
 
 		const response = await axios.post(`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices`, invoice, config);
-		console.log("response", response.data);
+		console.log("invoice response ", response.data);
 
 		registration.third_party_id = response.data.id;
 
