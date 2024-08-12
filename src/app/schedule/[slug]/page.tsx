@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 	const { slug } = params;
 	console.log(slug);
-	
+
 	const event: IEvent = await getEventById(slug);
 	const { title, date, buy_in, fee, description, location, game_type, blind_levels, start_stack, _id } = event;
 
@@ -77,7 +77,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 			</div>
 
 			<div>
-				<h2 className="text-xl top-0 font-bold">Results</h2>
+				{results && <h2 className="text-xl top-0 font-bold">Results</h2>}
 				{results && (
 					<Table>
 						<TableHeader>
