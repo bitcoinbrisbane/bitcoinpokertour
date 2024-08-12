@@ -15,12 +15,14 @@ connectDB();
 
 // Routes
 const news = require("./routes/news");
+const players = require("./routes/players");
 const registration = require("./routes/registration");
 const schedule = require("./routes/schedule");
 const sponsors = require("./routes/sponsors");
 
 // Routes
 app.use("/news", news);
+app.use("/players", players);
 app.use("/registration", registration);
 app.use("/schedule", schedule);
 app.use("/sponsors", sponsors);
