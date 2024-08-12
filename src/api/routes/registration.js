@@ -68,7 +68,7 @@ router.get("/:eventid", async (req, res) => {
 
 router.post("/:eventid", async (req, res) => {
 	const { eventid } = req.params;
-	console.log("registering player for event ", id);
+	console.log("registering player for event ", eventid);
 
 	const { name, email, bitcoin_address } = req.body;
 
