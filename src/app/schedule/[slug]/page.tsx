@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Prize Pool</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-							{stats.prize_pool}BTC / {stats.prize_pool_usd} USD
+							{stats.prize_pool} BTC / {stats.prize_pool_usd} USD
 						</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
