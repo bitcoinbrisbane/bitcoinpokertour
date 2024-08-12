@@ -24,14 +24,14 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-	const jwt = req.headers["authorization"];
+	let token = req.headers["authorization"];
 
 	if (!jwt) {
 		return res.status(401).json({ error: "Unauthorized" });
 	}
 
 	// Remove Bearer from token
-	const token = jwt.slice(7);
+	token = token.replace("Bearer ", "");
 	const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
 	// Check if token is valid
