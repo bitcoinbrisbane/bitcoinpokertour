@@ -7,7 +7,7 @@ import moment from "moment";
 import dotenv from "dotenv";
 dotenv.config();
 
-const API = process.env.API || "http://localhost:5000" // "https://api.bitcoinpokertour.com"; //
+const API = process.env.API || "https://api.bitcoinpokertour.com"; //
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
