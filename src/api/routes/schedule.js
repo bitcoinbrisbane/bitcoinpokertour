@@ -46,7 +46,7 @@ router.get("/past", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
 	const { id } = req.params;
-	console.log("getting event ", id);
+	console.log("Getting event ", id);
 
 	const event = await Event.findOne({ _id: id });
 

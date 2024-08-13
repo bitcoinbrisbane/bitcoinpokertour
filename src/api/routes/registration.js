@@ -12,7 +12,7 @@ router.use(express.json());
 
 router.get("/:eventid", async (req, res) => {
 	const { eventid } = req.params;
-	console.log("registrations for ", eventid);
+	console.log("Registrations for ", eventid);
 	const registrations = await Registration.find({ event_id: eventid.toString() });
 
 	// Create new response and map in the status from btc pay server
@@ -36,7 +36,6 @@ router.get("/:eventid", async (req, res) => {
 
 		// Do parallel requests to btc pay server
 		for (let i = 0; i < responses.length; i++) {
-
 			const registration = responses[i];
 
 			try {
@@ -68,7 +67,7 @@ router.get("/:eventid", async (req, res) => {
 
 router.post("/:eventid", async (req, res) => {
 	const { eventid } = req.params;
-	console.log("registering player for event ", eventid);
+	console.log("Registering player for event ", eventid);
 
 	const { name, email, bitcoin_address } = req.body;
 
@@ -83,7 +82,7 @@ router.post("/:eventid", async (req, res) => {
 	}
 
 	// Check to see if the email is already registered
-	const existingRegistration = await Registration.findOne({ email: email, _id: { $ne: eventid } });
+	const existingRegistration = await Registration.findOne({ email: email, event_id: eventid });
 
 	if (existingRegistration) {
 		const basic_auth = Buffer.from(`${process.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
@@ -147,7 +146,7 @@ router.post("/:eventid", async (req, res) => {
 		};
 
 		const response = await axios.post(`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices`, invoice, config);
-		console.log("invoice response ", response.data);
+		console.log("Invoice response ", response.data);
 
 		registration.third_party_id = response.data.id;
 
@@ -155,7 +154,7 @@ router.post("/:eventid", async (req, res) => {
 			`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${response.data.id}/payment-methods`,
 			config
 		);
-		console.log("payment_response", payment_response.data);
+		console.log("Payment_response", payment_response.data);
 
 		const btc_payment = payment_response.data.find(payment => payment.currency === "BTC");
 
