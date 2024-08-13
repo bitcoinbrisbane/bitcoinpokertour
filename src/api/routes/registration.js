@@ -83,7 +83,7 @@ router.post("/:eventid", async (req, res) => {
 	}
 
 	// Check to see if the email is already registered
-	const existingRegistration = await Registration.findOne({ email: email });
+	const existingRegistration = await Registration.findOne({ email: email, _id: { $ne: eventid } });
 
 	if (existingRegistration) {
 		const basic_auth = Buffer.from(`${process.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
@@ -96,7 +96,7 @@ router.post("/:eventid", async (req, res) => {
 		};
 
 		const response = await axios.get(
-			`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
+			`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${existingRegistration.third_party_id}`,
 			config
 		);
 
