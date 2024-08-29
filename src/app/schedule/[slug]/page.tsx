@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 				<dl className="divide-y divide-gray-200">
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Number of entrants</dt>
+						<dt className="text-md font-bold leading-6 text-gray-900">Number of runners</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.entries || 0}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -101,7 +101,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 			</div>
 
 			<div>
-				<h2 className="text-xl top-0 font-bold">Entries</h2>
+				<h2 className="text-xl top-0 font-bold">Runners</h2>
 				<Table>
 					<TableHeader>
 						<TableRow className="border-x-2 border-y-2">
