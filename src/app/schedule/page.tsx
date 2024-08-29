@@ -15,12 +15,14 @@ export default async function Page() {
 				{data && data.length > 0 ? "Upcoming events" : "No scheduled events"}
 			</h1>
 
+			{data && data.length === 0 && <NoRegistrations />}
+
 			{data && data.length > 0 && (
 				<Table className="">
 					<TableHeader>
 						<TableSchedule />
 					</TableHeader>
-					{data ? (
+					{data &&
 						data.map((items: IEvents) => (
 							<TableRows
 								key={items.title}
@@ -34,10 +36,7 @@ export default async function Page() {
 								game_type={items.game_type}
 								blind_levels={items.blind_levels}
 							/>
-						))
-					) : (
-						<NoRegistrations />
-					)}
+						))}
 				</Table>
 			)}
 		</main>
@@ -46,6 +45,6 @@ export default async function Page() {
 
 const NoRegistrations = () => (
 	<>
-		<h2 className="font-bold">There are no events, check back later</h2>
+		<h2>There are no scheduled events, check back later or joint our Telegram group.</h2>
 	</>
 );
