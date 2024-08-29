@@ -3,12 +3,15 @@ import { useRouter } from "next/navigation";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import { createEvent } from "@/lib/utils";
 import { IEvent } from "@/types";
+import moment from "moment";
 
 const CreateEvent = () => {
+	let date = moment().add(1, "months").format("YYYY-MM-DDT18:30");
+
 	const initVals: IEvent = {
 		_id: "0",
 		title: "",
-		date: "",
+		date: date,
 		location: "",
 		description: "",
 		game_type: "No Limit Texas Hold'em",
@@ -27,23 +30,16 @@ const CreateEvent = () => {
 					onSubmit={(values: IEvent, { setSubmitting }: FormikHelpers<IEvent>) => {
 						console.log(values);
 						setTimeout(() => {
-							createEvent(values, "").then(response => {
+							createEvent(values, "aa90a948-2e5d-49b1-8632-842b623be99e").then(response => {
 								setSubmitting(false);
-								// if (response) {
-								// 	if (!response.data.third_party_id) {
-								// 		console.log("error");
-								// 		return;
-								// 	}
-								// 	try {
-								// 		router.push(`https://btcpay.bitcoinpokertour.com/i/${response.data.third_party_id}`);
-								// 	} catch (error) {
-								// 		console.error("Redirection error:", error);
-								// 	}
-								// }
+								if (response) {
+									try {
+										router.push(`/`);
+									} catch (error) {
+										console.error("Redirection error:", error);
+									}
+								}
 							});
-
-							// setSubmitting(false);
-							// router.push(`/schedule/${newId}`);
 						}, 1500);
 					}}
 				>
@@ -96,37 +92,37 @@ const CreateEvent = () => {
 							required
 						/>
 
-                        <Field
-                            className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            id="buy_in"
-                            name="buy_in"
-                            placeholder="Buy In"
-                            required
-                        />
+						<Field
+							className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							id="buy_in"
+							name="buy_in"
+							placeholder="Buy In"
+							required
+						/>
 
-                        <Field
-                            className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            id="fee"
-                            name="fee"
-                            placeholder="Fee"
-                            required
-                        />
+						<Field
+							className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							id="fee"
+							name="fee"
+							placeholder="Fee"
+							required
+						/>
 
-                        <Field
-                            className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            id="start_stack"
-                            name="start_stack"
-                            placeholder="Start Stack"
-                            required
-                        />
+						<Field
+							className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							id="start_stack"
+							name="start_stack"
+							placeholder="Start Stack"
+							required
+						/>
 
-                        <Field
-                            className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            id="blind_levels"
-                            name="blind_levels"
-                            placeholder="Blind Levels"
-                            required
-                        />
+						<Field
+							className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							id="blind_levels"
+							name="blind_levels"
+							placeholder="Blind Levels"
+							required
+						/>
 
 						<button
 							type="submit"

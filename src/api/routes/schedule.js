@@ -36,20 +36,20 @@ router.post("/", async (req, res) => {
 		return res.status(401).json({ error: "Unauthorized" });
 	}
 
-	const { title, description, date, location, start_stack, blind_levels, game_type, buy_in, max_players } = req.body;
+	const { title, description, date, location, start_stack, blind_levels, game_type, buy_in, fee } = req.body;
 
 	const event = new Event({
 		title,
-		description,
 		date,
+		registration_close: date,
 		location,
-		start_stack,
-		blind_levels,
+		description,
 		game_type,
 		buy_in,
+		fee,
 		start_stack,
 		blind_levels,
-		max_players
+		max_players: 100
 	});
 
 	await event.save();
