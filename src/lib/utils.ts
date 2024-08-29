@@ -34,6 +34,16 @@ export const getEvents = async () => {
 	}
 };
 
+export const getPastEvents = async (max: number = 10) => {
+	try {
+		const { data } = await axios.get(`${API}/schedule/past?max=${max}`);
+		return data;
+	} catch (error) {
+		//throw new Error("Failed to fetch event data from the API. Please check the network connection and the URL.");
+		console.error(error);
+	}
+};
+
 export const getEventById = async (id: string) => {
 	try {
 		const { data } = await axios.get(`${API}/schedule/${id}`);
