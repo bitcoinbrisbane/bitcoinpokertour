@@ -2,7 +2,7 @@ import { Table, TableHeader } from "@/components/ui/table";
 import { getEvents, getPastEvents } from "@/lib/utils";
 import TableRows from "@/components/ui/TableRows";
 import TableSchedule from "@/components/ui/TableSchedule";
-import { IEvents } from "@/types";
+import { IEvent } from "@/types";
 import { unstable_noStore } from "next/cache";
 
 export default async function Page() {
@@ -24,7 +24,7 @@ export default async function Page() {
 						<TableSchedule />
 					</TableHeader>
 					{events &&
-						events.map((items: IEvents) => (
+						events.map((items: IEvent) => (
 							<TableRows
 								key={items.title}
 								_id={items._id}
@@ -49,7 +49,7 @@ export default async function Page() {
 						<TableSchedule />
 					</TableHeader>
 					{pastEvents &&
-						pastEvents.map((items: IEvents) => (
+						pastEvents.map((items: IEvent) => (
 							<TableRows
 								key={items.title}
 								_id={items._id}
