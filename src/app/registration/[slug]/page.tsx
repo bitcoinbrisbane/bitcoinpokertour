@@ -1,4 +1,4 @@
-import Forms from "@/components/ui/Forms/event";
+import Forms from "@/components/ui/Forms/Event";
 import { getEventById } from "@/lib/utils";
 import { unstable_noStore } from "next/cache";
 

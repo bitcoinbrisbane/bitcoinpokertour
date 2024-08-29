@@ -7,35 +7,35 @@ export interface Classes extends MenuExp {
 	classes: string;
 }
 
-export interface IEvents {
-	_id: string;
-	title: string;
-	description: string;
-	date: string;
-	location: string;
-	buy_in: number;
-	fee?: number;
-	start_stack: number;
-	blind_levels: number;
-	game_type: string;
-}
-
-export interface IDates {
-	dates: string;
-}
-
 export interface IEvent {
 	_id: string;
 	title: string;
-	date: string;
-	location: string;
 	description: string;
-	game_type: number;
+	location: string;
+	date: string;
+	game_type: string;
 	buy_in: number;
 	fee?: number;
 	start_stack: number;
 	blind_levels: number;
-	__v: number;
+	// __v: number;
+}
+
+// export interface IEvents {
+// 	_id: string;
+// 	title: string;
+// 	description: string;
+// 	game_type: string;
+// 	date: string;
+// 	location: string;
+// 	buy_in: number;
+// 	fee?: number;
+// 	start_stack: number;
+// 	blind_levels: number;
+// }
+
+export interface IDates {
+	dates: string;
 }
 
 export interface IRegistrations {

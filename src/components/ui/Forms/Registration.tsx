@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import { postRegistration, validateBitcoinAddress, validateEmail } from "@/lib/utils";
 import { IRegisterEvent } from "@/types";
 
-const Event = (id: any) => {
+const Registration = (id: any) => {
 	const initVals: IRegisterEvent = {
 		evt_id: id,
 		name: "",
@@ -77,4 +77,4 @@ const Event = (id: any) => {
 	);
 };
 
-export default Event;
+export default Registration;
