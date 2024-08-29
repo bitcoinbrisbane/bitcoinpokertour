@@ -4,6 +4,7 @@ import { unstable_noStore } from "next/cache";
 
 export default async function Register({ params }: { params: { slug: string } }) {
 	unstable_noStore();
+	
 	const { slug } = params;
 	const event = await getEventById(slug);
 	const { title } = event;

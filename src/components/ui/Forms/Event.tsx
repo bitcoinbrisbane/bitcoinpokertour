@@ -12,8 +12,8 @@ const CreateEvent = () => {
 		location: "",
 		description: "",
 		game_type: "No Limit Texas Hold'em",
-		fee: 0,
-		buy_in: 0,
+		fee: 0.00035,
+		buy_in: 0.002,
 		start_stack: 30000,
 		blind_levels: 20
 	};
@@ -25,6 +25,7 @@ const CreateEvent = () => {
 				<Formik
 					initialValues={initVals}
 					onSubmit={(values: IEvent, { setSubmitting }: FormikHelpers<IEvent>) => {
+						console.log(values);
 						setTimeout(() => {
 							createEvent(values, "").then(response => {
 								setSubmitting(false);
@@ -52,13 +53,6 @@ const CreateEvent = () => {
 							name="password"
 							placeholder="Password"
 							type="password"
-							required
-						/>
-
-						<Field
-							className="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-							name="name"
-							placeholder="Event name"
 							required
 						/>
 

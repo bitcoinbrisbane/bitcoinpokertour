@@ -28,6 +28,35 @@ router.get("/", async (req, res) => {
 	res.json(events);
 });
 
+
+router.post("/", async (req, res) => {
+	const apiKey = req.headers["x-api-key"];
+
+	if (apiKey !== process.env.API_KEY) {
+		return res.status(401).json({ error: "Unauthorized" });
+	}
+
+	const { title, description, date, location, start_stack, blind_levels, game_type, buy_in, max_players } = req.body;
+
+	const event = new Event({
+		title,
+		description,
+		date,
+		location,
+		start_stack,
+		blind_levels,
+		game_type,
+		buy_in,
+		start_stack,
+		blind_levels,
+		max_players
+	});
+
+	await event.save();
+
+	return res.status(201).json(event);
+});
+
 router.get("/past", async (req, res) => {
 	const { city } = req.query;
 
@@ -193,34 +222,6 @@ router.get("/:id/payouts", async (req, res) => {
 	payouts.push({ place: 3, percent: 0.1, amount: prize_pool * 0.1 });
 
 	return res.json(payouts);
-});
-
-router.post("/", async (req, res) => {
-	const apiKey = req.headers["x-api-key"];
-
-	if (apiKey !== process.env.API_KEY) {
-		return res.status(401).json({ error: "Unauthorized" });
-	}
-
-	const { title, description, date, location, start_stack, blind_levels, game_type, buy_in, max_players } = req.body;
-
-	const event = new Event({
-		title,
-		description,
-		date,
-		location,
-		start_stack,
-		blind_levels,
-		game_type,
-		buy_in,
-		start_stack,
-		blind_levels,
-		max_players
-	});
-
-	await event.save();
-
-	return res.status(201).json(event);
 });
 
 router.patch("/:id", async (req, res) => {

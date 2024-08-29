@@ -65,11 +65,20 @@ export const createEvent = async (event: IEvent, password: string) => {
 		buy_in,
 		fee,
 		start_stack,
-		blind_levels,
-		password
+		blind_levels
 	};
+
 	try {
-		return await axios.post(`${API}/event`, data);
+
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				"x-api-key": password
+			}
+		};
+
+		return await axios.post(`${API}/schedule`, data, config);
+
 	} catch (error) {
 		console.error(error);
 	}
