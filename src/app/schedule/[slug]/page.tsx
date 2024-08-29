@@ -82,8 +82,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<Table>
 						<TableHeader>
 							<TableRow className="border-x-2 border-y-2">
-								<TableHead className="w-[350px] border-x-2">Name</TableHead>
 								<TableHead className="w-[350px] border-x-2">Place</TableHead>
+								<TableHead className="w-[350px] border-x-2">Name</TableHead>
 								<TableHead className="w-[180px] text-center">Payout</TableHead>
 							</TableRow>
 						</TableHeader>
