@@ -36,7 +36,8 @@
     "swagger-ui-express": "^5.0.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "tiny-secp256k1": "^2.2.3"
+    "tiny-secp256k1": "^2.2.3",
+    "twitter-api-v2": "^1.17.2"
   },
   "devDependencies": {
     "@types/node": "^20",
