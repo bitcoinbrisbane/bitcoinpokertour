@@ -206,31 +206,45 @@ router.post("/", async (req, res) => {
 	console.log("Creating event");
 	console.log(req.body);
 
-	if (
-		!req.body.title ||
-		!req.body.description ||
-		!req.body.date ||
-		!req.body.location ||
-		!req.body.start_stack ||
-		!req.body.blind_levels ||
-		!req.body.game_type ||
-		!req.body.buy_in ||
-		!req.body.max_players
-	) {
-		return res.status(400).json({ error: "Missing required fields" });
+	// if (
+	// 	!req.body.title ||
+	// 	!req.body.description ||
+	// 	!req.body.date ||
+	// 	!req.body.location ||
+	// 	!req.body.start_stack ||
+	// 	!req.body.blind_levels ||
+	// 	!req.body.game_type ||
+	// 	!req.body.buy_in ||
+	// 	!req.body.max_players
+	// ) {
+	// 	return res.status(400).json({ error: "Missing required fields" });
+	// }
+
+	let { title, description, date, location, start_stack, blind_levels, game_type, buy_in, fee, registration_close, max_players } = req.body;
+
+	if (!registration_close) {
+		registration_close = date;
 	}
 
-	const { title, description, date, location, start_stack, blind_levels, game_type, buy_in, max_players } = req.body;
+	if (!max_players) {
+		max_players = 0;
+	}
+
+	if (!fee) {
+		fee = buy_in * 0.2;
+	}
 
 	const event = new Event({
 		title,
 		description,
 		date,
+		registration_close,
 		location,
 		start_stack,
 		blind_levels,
 		game_type,
 		buy_in,
+		fee,
 		start_stack,
 		blind_levels,
 		max_players
