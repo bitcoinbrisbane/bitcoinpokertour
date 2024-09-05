@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { IEvent, IRegisterEvent } from "@/types";
+import { INewEvent, IRegisterEvent } from "@/types";
 import axios from "axios";
 import moment from "moment";
 
@@ -54,22 +54,29 @@ export const getEventById = async (id: string) => {
 	}
 };
 
-export const createEvent = async (event: IEvent, password: string) => {
-	const { title, description, location, date, game_type, buy_in, fee, start_stack, blind_levels } = event;
+export const createEvent = async (event: INewEvent) => {
+	const { title, description, location, date, registration_close, game_type, buy_in, fee, start_stack, blind_levels, password } = event;
 	const data = {
 		title,
 		description,
 		location,
 		date,
+		registration_close,
 		game_type,
 		buy_in,
 		fee,
 		start_stack,
-		blind_levels,
-		password
+		blind_levels
 	};
 	try {
-		return await axios.post(`${API}/event`, data);
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				"x-api-key": password
+			}
+		};
+
+		return await axios.post(`${API}/schedule`, data, config);
 	} catch (error) {
 		console.error(error);
 	}

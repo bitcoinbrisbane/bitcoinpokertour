@@ -21,6 +21,11 @@ export interface IEvent {
 	// __v: number;
 }
 
+export interface INewEvent extends IEvent {
+	password: string;
+	registration_close: string;
+}
+
 // export interface IEvents {
 // 	_id: string;
 // 	title: string;
