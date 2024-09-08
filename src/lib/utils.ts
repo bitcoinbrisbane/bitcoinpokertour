@@ -7,7 +7,7 @@ import moment from "moment";
 import dotenv from "dotenv";
 dotenv.config();
 
-const API = process.env.API || "https://api.bitcoinpokertour.com"; //
+const API = "http://localhost:5000"; // process.env.API || "https://api.bitcoinpokertour.com"; //
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -55,6 +55,9 @@ export const getEventById = async (id: string) => {
 };
 
 export const createEvent = async (event: INewEvent) => {
+
+	console.log(event, "event");
+
 	const { title, description, location, date, registration_close, game_type, buy_in, fee, start_stack, blind_levels, password } = event;
 	const data = {
 		title,

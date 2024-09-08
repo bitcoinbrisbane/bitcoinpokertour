@@ -47,8 +47,8 @@ const CreateEvent = () => {
 								// 	}
 								// }
 								setSubmitting(false);
-								const newId = response?.data._id;
-								router.push(`/schedule/${newId}`);
+								// const newId = response?.data._id;
+								router.push(`/schedule/`);
 							});
 
 							// setSubmitting(false);
