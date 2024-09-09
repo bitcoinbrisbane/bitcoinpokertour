@@ -9,8 +9,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	unstable_noStore();
 
 	const { slug } = params;
-	console.log(slug);
-
 	const event: IEvent = await getEventById(slug);
 	const { title, date, buy_in, fee, description, location, game_type, blind_levels, start_stack, _id } = event;
 
@@ -34,13 +32,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 				<dl className="divide-y divide-gray-200">
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Number of entrants</dt>
+						<dt className="text-md font-bold leading-6 text-gray-900">Number of runners</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.entries || 0}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Prize Pool</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-							{stats.prize_pool} BTC / {stats.prize_pool_usd} USD
+							{stats.prize_pool.toFixed(6)} BTC / {stats.prize_pool_usd.toFixed(0)} USD
 						</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -82,18 +80,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<Table>
 						<TableHeader>
 							<TableRow className="border-x-2 border-y-2">
-								<TableHead className="w-[350px] border-x-2">Name</TableHead>
-								<TableHead className="w-[350px] border-x-2">Place</TableHead>
-								<TableHead className="w-[180px] text-center">Payout</TableHead>
+								<TableHead className="font-medium w-[100px] border-x-2">Place</TableHead>
+								<TableHead className="font-medium w-[180px] border-x-2">Name</TableHead>
+								<TableHead className="font-medium w-[180px] text-center">On Chain Payout</TableHead>
 							</TableRow>
 						</TableHeader>
 						{results.map((result: any) => (
 							<TableBody key={result._id} className="border-x-2 border-y-2">
 								<TableRow>
-									<TableCell className="font-medium border-x-2 lg:w-20">{result.place}</TableCell>
-									<TableCell className="font-medium border-r-2 lg:w-10">{result.name}</TableCell>
-									<TableCell className="font-medium border-x-2 lg:w-20">
-										{result.payout} {result.tx_id}
+									<TableCell className="border-x-2 lg:w-20">{result.place}</TableCell>
+									<TableCell className="border-r-2 lg:w-10">{result.name}</TableCell>
+									<TableCell className="border-x-2 lg:w-20">
+										{result.payout} BTC sent with TX ID <Link href={`https://mempool.space/tx/${result.tx_id}`}>{result.tx_id}</Link>
 									</TableCell>
 								</TableRow>
 							</TableBody>
@@ -103,24 +101,30 @@ export default async function Page({ params }: { params: { slug: string } }) {
 			</div>
 
 			<div>
-				<h2 className="text-xl top-0 font-bold">Entries</h2>
+				<h2 className="text-xl top-0 font-bold">Runners</h2>
 				<Table>
 					<TableHeader>
 						<TableRow className="border-x-2 border-y-2">
-							<TableHead className="w-[350px] border-x-2">Name</TableHead>
+							<TableHead className="w-[180px] border-x-2">Name</TableHead>
 							<TableHead className="w-[350px] border-x-2">Buy In Address</TableHead>
 							<TableHead className="-[100px] border-x-2">BTC Received</TableHead>
 							<TableHead className="w-[180px] text-center">Status</TableHead>
 						</TableRow>
 					</TableHeader>
+
 					{registrations ? (
 						registrations.map((items: IRegistrations) => (
 							<TableBody key={items._id} className="border-x-2 border-y-2">
 								<TableRow>
 									<TableCell className="font-medium border-r-2 md:w-5 lg:w-10">{items.name}</TableCell>
 									<TableCell className="flex-row">
-										<div>
+										<Link href={`https://mempool.space/address/${items.buy_in_address}`}>
 											<span>{items.buy_in_address}</span>
+										</Link>
+										{/* <div>
+											<Link href={`https://mempool.space/address/${items.buy_in_address}`}>
+												<span>{items.buy_in_address}</span>
+											</Link>
 										</div>
 										<div className="mt-3 ">
 											<Link
@@ -133,7 +137,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 											>
 												{items.status !== "Complete" ? "Click to Pay" : "View Receipt"}
 											</Link>
-										</div>
+										</div> */}
 									</TableCell>
 									<TableCell className="font-medium border-x-2 lg:w-20">{items.btc_received}</TableCell>
 									<TableCell>{items.status}</TableCell>

@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { IRegisterEvent } from "@/types";
+import { INewEvent, IRegisterEvent } from "@/types";
 import axios from "axios";
 import moment from "moment";
 
@@ -34,12 +34,53 @@ export const getEvents = async () => {
 	}
 };
 
+export const getPastEvents = async (max: number = 10) => {
+	try {
+		const { data } = await axios.get(`${API}/schedule/past?max=${max}`);
+		return data;
+	} catch (error) {
+		//throw new Error("Failed to fetch event data from the API. Please check the network connection and the URL.");
+		console.error(error);
+	}
+};
+
 export const getEventById = async (id: string) => {
 	try {
 		const { data } = await axios.get(`${API}/schedule/${id}`);
 		return data;
 	} catch (error) {
 		//throw new Error("Failed to fetch the event data. Please check the event ID, network connection, and the URL.");
+		console.error(error);
+	}
+};
+
+export const createEvent = async (event: INewEvent) => {
+
+	console.log(event, "event");
+
+	const { title, description, location, date, registration_close, game_type, buy_in, fee, start_stack, blind_levels, password } = event;
+	const data = {
+		title,
+		description,
+		location,
+		date,
+		registration_close,
+		game_type,
+		buy_in,
+		fee,
+		start_stack,
+		blind_levels
+	};
+	try {
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				"x-api-key": password
+			}
+		};
+
+		return await axios.post(`${API}/schedule`, data, config);
+	} catch (error) {
 		console.error(error);
 	}
 };

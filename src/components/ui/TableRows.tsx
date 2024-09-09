@@ -3,9 +3,9 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import moment from "moment";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { IEvents, IDates } from "@/types";
+import { IEvent, IDates } from "@/types";
 
-const TableRows = ({ _id, date, title, description, location, buy_in, start_stack, game_type, blind_levels }: IEvents) => {
+const TableRows = ({ _id, date, title, description, location, buy_in, start_stack, game_type, blind_levels }: IEvent) => {
 	const router = useRouter();
 
 	const size = typeof window !== "undefined" ? window.innerWidth : 0;

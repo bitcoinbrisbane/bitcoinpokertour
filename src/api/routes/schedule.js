@@ -77,7 +77,8 @@ router.post("/:id/results", async (req, res) => {
 	}
 
 	const { id } = req.params;
-	const { data } = req.body;
+
+	console.log(req.body);
 
 	const event = await Event.findOne({
 		_id: id
@@ -88,8 +89,8 @@ router.post("/:id/results", async (req, res) => {
 	}
 
 	const results = [];
-	for (i = 0; i < data.length; i++) {
-		const data = data[i];
+	for (i = 0; i < req.body.length; i++) {
+		const data = req.body[i];
 		const payout = 0.001; // do the algo
 		const result = new Result(event._id, data.name, data.place, payout);
 		result.save();
@@ -202,17 +203,48 @@ router.post("/", async (req, res) => {
 		return res.status(401).json({ error: "Unauthorized" });
 	}
 
-	const { title, description, date, location, start_stack, blind_levels, game_type, buy_in, max_players } = req.body;
+	console.log("Creating event");
+	console.log(req.body);
+
+	// if (
+	// 	!req.body.title ||
+	// 	!req.body.description ||
+	// 	!req.body.date ||
+	// 	!req.body.location ||
+	// 	!req.body.start_stack ||
+	// 	!req.body.blind_levels ||
+	// 	!req.body.game_type ||
+	// 	!req.body.buy_in ||
+	// 	!req.body.max_players
+	// ) {
+	// 	return res.status(400).json({ error: "Missing required fields" });
+	// }
+
+	let { title, description, date, location, start_stack, blind_levels, game_type, buy_in, fee, registration_close, max_players } = req.body;
+
+	if (!registration_close) {
+		registration_close = date;
+	}
+
+	if (!max_players) {
+		max_players = 0;
+	}
+
+	if (!fee) {
+		fee = buy_in * 0.2;
+	}
 
 	const event = new Event({
 		title,
 		description,
 		date,
+		registration_close,
 		location,
 		start_stack,
 		blind_levels,
 		game_type,
 		buy_in,
+		fee,
 		start_stack,
 		blind_levels,
 		max_players
