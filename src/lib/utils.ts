@@ -55,9 +55,6 @@ export const getEventById = async (id: string) => {
 };
 
 export const createEvent = async (event: INewEvent) => {
-
-	console.log(event, "event");
-
 	const { title, description, location, date, registration_close, game_type, buy_in, fee, start_stack, blind_levels, password } = event;
 	const data = {
 		title,

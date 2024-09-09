@@ -62,3 +62,10 @@ export interface IRegisterEvent {
 	email: string;
 	bitcoin_address: string;
 }
+
+export interface INewPlayer {
+	name: string;
+	email: string;
+	password: string;
+	bitcoin_address: string;
+}
