@@ -8,8 +8,8 @@ const Registration = (id: any) => {
 	const initVals: INewPlayer = {
 		name: "",
 		email: "",
-		bitcoin_address: "",
 		password: "",
+		bitcoin_address: "",
 	};
 	const router = useRouter();
 	return (
@@ -58,24 +58,22 @@ const Registration = (id: any) => {
 						<ErrorMessage component="a" className="mb-2 text-red-400" name="email" />
 						<Field
 							className="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-							name="bitcoin_address"
-							placeholder="Your Bitcoin payout address"
-							validate={validateBitcoinAddress}
-							required
-						/>
-						<ErrorMessage component="a" className="mb-2 text-red-400" name="password" />
-						<Field
-							className="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							name="password"
 							placeholder="Password"
 							type="password"
 							required
 						/>
+						<ErrorMessage component="a" className="mb-2 text-red-400" name="password" />
+						<Field
+							className="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							name="bitcoin_address"
+							placeholder="Your Bitcoin payout address"
+						/>
 						<button
 							type="submit"
 							className="shadow-md w-full font-bold hover:cursor-pointer hover:bg-blue-500 hover:text-white rounded-lg border text-sm px-5 py-2.5 text-center"
 						>
-							Register
+							Create Account
 						</button>
 					</Form>
 				</Formik>

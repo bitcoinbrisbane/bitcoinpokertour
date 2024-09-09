@@ -1,8 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { INewEvent, IRegisterEvent } from "@/types";
+import { INewEvent, INewPlayer, IRegisterEvent } from "@/types";
 import axios from "axios";
 import moment from "moment";
+import bcrypt from "bcrypt";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -92,6 +93,26 @@ export const postRegistration = async (register: IRegisterEvent) => {
 	const { id }: any = evt_id;
 	try {
 		return await axios.post(`${API}/registration/${id}`, registration);
+	} catch (error) {
+		//throw new Error("Failed to sent the event registrations. Please check the event ID, network connection, and the URL.");
+		console.error(error);
+	}
+};
+
+export const postCreateAccount = async (data: INewPlayer) => {
+	const { name, email, bitcoin_address, password } = data;
+
+	const passwordHash = bcrypt.hashSync(password, 10);
+
+	const newPlayer = {
+		name: name.trim(),
+		email: email.toLowerCase().trim(),
+		bitcoin_address,
+		password: passwordHash
+	};
+
+	try {
+		return await axios.post(`${API}/player/`, newPlayer);
 	} catch (error) {
 		//throw new Error("Failed to sent the event registrations. Please check the event ID, network connection, and the URL.");
 		console.error(error);
