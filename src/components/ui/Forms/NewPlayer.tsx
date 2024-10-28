@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
-import { postRegistration, validateBitcoinAddress, validateEmail } from "@/lib/utils";
+import { postCreateAccount, postRegistration, validateBitcoinAddress, validateEmail } from "@/lib/utils";
 import { INewPlayer } from "@/types";
 
 const Registration = (id: any) => {
@@ -19,7 +19,7 @@ const Registration = (id: any) => {
 					initialValues={initVals}
 					onSubmit={(values: INewPlayer, { setSubmitting }: FormikHelpers<INewPlayer>) => {
 						setTimeout(() => {
-							postRegistration(values).then(response => {
+							postCreateAccount(values).then(response => {
 								setSubmitting(false);
 								if (response) {
 									if (!response.data.id) {

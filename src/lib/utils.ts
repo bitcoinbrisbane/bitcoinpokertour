@@ -3,7 +3,6 @@ import { twMerge } from "tailwind-merge";
 import { INewEvent, INewPlayer, IRegisterEvent } from "@/types";
 import axios from "axios";
 import moment from "moment";
-import bcrypt from "bcrypt";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -102,13 +101,11 @@ export const postRegistration = async (register: IRegisterEvent) => {
 export const postCreateAccount = async (data: INewPlayer) => {
 	const { name, email, bitcoin_address, password } = data;
 
-	const passwordHash = bcrypt.hashSync(password, 10);
-
 	const newPlayer = {
 		name: name.trim(),
 		email: email.toLowerCase().trim(),
 		bitcoin_address,
-		password: passwordHash
+		password
 	};
 
 	try {
