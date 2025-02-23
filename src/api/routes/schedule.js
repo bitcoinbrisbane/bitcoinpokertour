@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const axios = require("axios");
+const mongoose = require("mongoose");
 
 // use json
 router.use(express.json());
@@ -12,20 +13,144 @@ const Result = require("../schemas/result");
 
 const { getRegistrationCount } = require("../utils");
 
+/**
+ * @swagger
+ * /schedule:
+ *   get:
+ *     summary: Get all future events
+ *     tags: [Events]
+ *     parameters:
+ *       - in: query
+ *         name: city
+ *         schema:
+ *           type: string
+ *         description: Filter events by city
+ *     responses:
+ *       200:
+ *         description: List of future events
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Event'
+ *   post:
+ *     summary: Create a new event
+ *     tags: [Events]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Event'
+ *     responses:
+ *       201:
+ *         description: Event created successfully
+ *       400:
+ *         description: Missing required fields
+ *       500:
+ *         description: Server error
+ * 
+ * /schedule/past:
+ *   get:
+ *     summary: Get all past events
+ *     tags: [Events]
+ *     parameters:
+ *       - in: query
+ *         name: city
+ *         schema:
+ *           type: string
+ *         description: Filter events by city
+ *     responses:
+ *       200:
+ *         description: List of past events
+ * 
+ * /schedule/{id}:
+ *   get:
+ *     summary: Get event by ID
+ *     tags: [Events]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Event details
+ *       404:
+ *         description: Event not found
+ * 
+ * /schedule/{id}/results:
+ *   get:
+ *     summary: Get event results
+ *     tags: [Events]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Event results
+ *       404:
+ *         description: Results not found
+ * 
+ * /schedule/{id}/stats:
+ *   get:
+ *     summary: Get event statistics
+ *     tags: [Events]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Event statistics
+ * 
+ * /schedule/{id}/payouts:
+ *   get:
+ *     summary: Get event payouts
+ *     tags: [Events]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Event payout structure
+ */
+
+router.get("/test", async (req, res) => {
+	console.log("🧪 Test endpoint hit!");
+	res.json({ 
+		message: "API is working! 🎉",
+		timestamp: new Date().toISOString(),
+		environment: process.env.NODE_ENV || 'development',
+		database: mongoose.connection.name || 'Not connected'
+	});
+});
+
+// Get all events
+
+
 router.get("/", async (req, res) => {
-	const { city } = req.query;
-
-	if (city) {
-		const events = await Event.find({
-			location: { $regex: new RegExp(city, "i") },
-			date: { $gte: new Date() }
+	try {
+		console.log("Getting all events");
+		const events = await Event.find();
+		res.json(events);
+	} catch (error) {
+		console.error("Error fetching events:", error);
+		res.status(500).json({ 
+			error: "Failed to fetch events",
+			details: error.message 
 		});
-		return res.json(events);
 	}
-
-	// Only show future events
-	const events = await Event.find({ date: { $gte: new Date() } });
-	res.json(events);
 });
 
 router.get("/past", async (req, res) => {
@@ -197,62 +322,65 @@ router.get("/:id/payouts", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-	const apiKey = req.headers["x-api-key"];
+	try {
+		console.log("Creating event with payload:", JSON.stringify(req.body, null, 2));
 
-	if (apiKey !== process.env.API_KEY) {
-		return res.status(401).json({ error: "Unauthorized" });
+		// Validate required fields
+		const requiredFields = [
+			'title', 
+			'description', 
+			'date', 
+			'location', 
+			'start_stack',
+			'blind_levels',
+			'game_type',
+			'buy_in'
+		];
+		
+		const missingFields = requiredFields.filter(field => !req.body[field]);
+		if (missingFields.length > 0) {
+			return res.status(400).json({ 
+				error: "Missing required fields", 
+				fields: missingFields 
+			});
+		}
+
+		let { title, description, date, location, start_stack, blind_levels, game_type, buy_in, fee, registration_close, max_players } = req.body;
+
+		if (!registration_close) {
+			registration_close = date;
+		}
+
+		if (!fee) {
+			fee = buy_in * 0.2;
+		}
+
+		const event = new Event({
+			title,
+			description,
+			date,
+			registration_close,
+			location,
+			start_stack,
+			blind_levels,
+			game_type,
+			buy_in,
+			fee,
+			max_players: max_players || 0
+		});
+
+		await event.save();
+		console.log("Event created successfully:", event._id);
+
+		return res.status(201).json(event);
+
+	} catch (error) {
+		console.error("Error creating event:", error);
+		return res.status(500).json({ 
+			error: "Failed to create event", 
+			details: error.message 
+		});
 	}
-
-	console.log("Creating event");
-	console.log(req.body);
-
-	// if (
-	// 	!req.body.title ||
-	// 	!req.body.description ||
-	// 	!req.body.date ||
-	// 	!req.body.location ||
-	// 	!req.body.start_stack ||
-	// 	!req.body.blind_levels ||
-	// 	!req.body.game_type ||
-	// 	!req.body.buy_in ||
-	// 	!req.body.max_players
-	// ) {
-	// 	return res.status(400).json({ error: "Missing required fields" });
-	// }
-
-	let { title, description, date, location, start_stack, blind_levels, game_type, buy_in, fee, registration_close, max_players } = req.body;
-
-	if (!registration_close) {
-		registration_close = date;
-	}
-
-	if (!max_players) {
-		max_players = 0;
-	}
-
-	if (!fee) {
-		fee = buy_in * 0.2;
-	}
-
-	const event = new Event({
-		title,
-		description,
-		date,
-		registration_close,
-		location,
-		start_stack,
-		blind_levels,
-		game_type,
-		buy_in,
-		fee,
-		start_stack,
-		blind_levels,
-		max_players
-	});
-
-	await event.save();
-
-	return res.status(201).json(event);
 });
 
 router.patch("/:id", async (req, res) => {

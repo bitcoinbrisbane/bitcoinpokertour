@@ -7,7 +7,7 @@ import moment from "moment";
 import dotenv from "dotenv";
 dotenv.config();
 
-const API = process.env.API || "https://api.bitcoinpokertour.com"; //
+export const API = 'http://localhost:5001';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -16,21 +16,46 @@ export function cn(...inputs: ClassValue[]) {
 export const getDate = async () => {
 	try {
 		const { data } = await axios.get(`${API}/schedule`);
-		console.log(data[0].date, "date");
-		return data[0].date;
+		console.log('All events:', data);
+
+		if (!data || data.length === 0) {
+			console.log('No events found');
+			return moment().add(1, 'months').format();
+		}
+
+		// Filter out past events and sort by date
+		const upcomingEvents = data
+			.filter((event: any) => {
+				const eventDate = moment(event.date);
+				return eventDate.isAfter(moment());
+			})
+			.sort((a: any, b: any) => {
+				return moment(a.date).valueOf() - moment(b.date).valueOf();
+			});
+
+		console.log('Next upcoming event:', upcomingEvents[0]);
+
+		if (upcomingEvents.length === 0) {
+			console.log('No upcoming events found');
+			return moment().add(1, 'months').format();
+		}
+
+		return upcomingEvents[0].date;
 	} catch (error) {
-		//throw new Error("Failed to fetch the date from the API. Please check the network connection and the URL.");
-		return "00";
+		console.error('Error fetching date:', error);
+		return moment().add(1, 'months').format();
 	}
 };
 
 export const getEvents = async () => {
 	try {
+		console.log('Attempting to fetch from:', `${API}/schedule`);
 		const { data } = await axios.get(`${API}/schedule`);
 		return data;
 	} catch (error) {
-		//throw new Error("Failed to fetch event data from the API. Please check the network connection and the URL.");
-		console.error(error);
+		console.error('Error fetching events:', error);
+		console.error('API URL being used:', API);
+		return null;
 	}
 };
 
@@ -55,9 +80,8 @@ export const getEventById = async (id: string) => {
 };
 
 export const createEvent = async (event: INewEvent) => {
-
 	console.log(event, "event");
-
+	
 	const { title, description, location, date, registration_close, game_type, buy_in, fee, start_stack, blind_levels, password } = event;
 	const data = {
 		title,
@@ -71,6 +95,7 @@ export const createEvent = async (event: INewEvent) => {
 		start_stack,
 		blind_levels
 	};
+	
 	try {
 		const config = {
 			headers: {

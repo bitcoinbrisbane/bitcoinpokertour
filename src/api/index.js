@@ -9,9 +9,16 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const mongoose = require("mongoose");
-
 const connectDB = require("./config/dbConfig");
+
+// Import Swagger
+const swagger = require("./swagger");
+
+// Connect to database
 connectDB();
+
+// Initialize Swagger
+swagger(app);
 
 // Routes
 const news = require("./routes/news");
@@ -26,5 +33,8 @@ app.use("/schedule", schedule);
 app.use("/sponsors", sponsors);
 
 // Start server
-const PORT = process.env.API_PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+const PORT = process.env.API_PORT || 5001;
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+  console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
+});

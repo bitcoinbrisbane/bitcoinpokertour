@@ -1,28 +1,73 @@
+'use client'
 import Link from "next/link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import moment from "moment";
 import { IEvent, IRegistrations } from "@/types";
-import { getEventById, getEventStats, getRegistrations, getResults, getFormattedDate } from "@/lib/utils";
 import { unstable_noStore } from "next/cache";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default function Page({ params }: { params: { slug: string } }) {
 	unstable_noStore();
+	const [event, setEvent] = useState<IEvent | null>(null);
+	const [registrations, setRegistrations] = useState<IRegistrations[]>([]);
+	const [results, setResults] = useState<any[]>([]);
+	const [stats, setStats] = useState<any>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 
-	const { slug } = params;
-	const event: IEvent = await getEventById(slug);
-	const { title, date, buy_in, fee, description, location, game_type, blind_levels, start_stack, _id } = event;
+	useEffect(() => {
+		const fetchEventData = async () => {
+			try {
+				const [eventData, ] = await Promise.all([
+					axios.get(`http://localhost:5001/schedule/${params.slug}`),
+					// axios.get(`http://localhost:5001/registration/event/${params.slug}`),
+					// axios.get(`http://localhost:5001/schedule/${params.slug}/stats`),
+					// axios.get(`http://localhost:5001/schedule/${params.slug}/results`)
+				]);
 
-	const eventDate = getFormattedDate(date);
+				setEvent(eventData.data);
+				// setRegistrations(registrationsData.data);
+				// setStats(statsData.data);
+				// setResults(resultsData.data);
+			} catch (err) {
+				setError('Failed to load event data');
+				console.error('Error fetching event data:', err);
+			} finally {
+				setLoading(false);
+			}
+		};
 
-	const [registrations, stats, results] = await Promise.all([getRegistrations(_id), getEventStats(_id), getResults(_id)]);
+		fetchEventData();
+	}, [params.slug]);
+
+	if (loading) {
+		return (
+			<main className="flex h-full w-full md:w-3/4 flex-col justify-between p-4">
+				<div className="text-center">Loading event details...</div>
+			</main>
+		);
+	}
+
+	if (error || !event) {
+		return (
+			<main className="flex h-full w-full md:w-3/4 flex-col justify-between p-4">
+				<div className="text-center text-red-500">
+					{error || 'Event not found'}
+				</div>
+			</main>
+		);
+	}
+
+	const eventDate = moment(event.date).format('MMM D, YYYY h:mm A');
 
 	return (
-		<main className="flex h-full w-full md:w-3/4 flex-col justify-between">
+		<main className="flex h-full w-full md:w-3/4 flex-col justify-between p-4">
 			<div className="text-left py-3 space-y-10 mb-4">
-				<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">{title}</h1>
+				<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">{event.title}</h1>
 
-				{moment(date) > moment() && (
-					<Link href={`/registration/${_id}`} className="mt-6">
+				{moment(event.date) > moment() && (
+					<Link href={`/registration/${event._id}`} className="mt-6">
 						<h2 className="w-60 text-xl mt-10 font-bold hover:cursor-pointer focus:ring hover:underline">
 							Click here to Register
 							<span className="inline-block transition-transform hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
@@ -33,17 +78,17 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				<dl className="divide-y divide-gray-200">
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Number of runners</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.entries || 0}</dd>
+						{/* <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.entries || 0}</dd> */}
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Prize Pool</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+						{/* <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
 							{stats.prize_pool.toFixed(6)} BTC / {stats.prize_pool_usd.toFixed(0)} USD
-						</dd>
+						</dd> */}
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Location</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{location}</dd>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.location}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Start</dt>
@@ -51,25 +96,25 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Description</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{description}</dd>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.description}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Buy In (BTC)</dt>
 						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-							{buy_in} + {fee}
+							{event.buy_in} + {event.fee}
 						</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Stack Size</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{start_stack}</dd>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.start_stack}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Blind Levels (minutes)</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{blind_levels}</dd>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.blind_levels}</dd>
 					</div>
 					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 						<dt className="text-md font-bold leading-6 text-gray-900">Game Type</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{game_type}</dd>
+						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.game_type}</dd>
 					</div>
 				</dl>
 			</div>
