@@ -8,9 +8,13 @@ export default async function Event() {
 	unstable_noStore();
 
 	return (
-		<main className="flex max-h-screen w-full flex-col items-center justify-between space-y-5">
-			<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">Create a new event</h1>
-			<CreateEvent />
+		<main className="flex min-h-screen w-full flex-col items-center p-4">
+			<div className="w-full max-w-7xl space-y-8">
+				<h1 className="text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 animate-gradient">
+					Create New Tournament
+				</h1>
+				<CreateEvent />
+			</div>
 		</main>
 	);
 }

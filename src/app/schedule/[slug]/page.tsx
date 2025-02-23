@@ -43,160 +43,182 @@ export default function Page({ params }: { params: { slug: string } }) {
 
 	if (loading) {
 		return (
-			<main className="flex h-full w-full md:w-3/4 flex-col justify-between p-4">
-				<div className="text-center">Loading event details...</div>
-			</main>
+			<main className="flex min-h-screen w-full flex-col items-center p-4">
+                <div className="w-full max-w-4xl">
+                    <h1 className="text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 animate-gradient">
+                        Loading Event Details...
+                    </h1>
+                </div>
+            </main>
 		);
 	}
 
 	if (error || !event) {
 		return (
-			<main className="flex h-full w-full md:w-3/4 flex-col justify-between p-4">
-				<div className="text-center text-red-500">
-					{error || 'Event not found'}
-				</div>
-			</main>
+			<main className="flex min-h-screen w-full flex-col items-center p-4">
+                <div className="w-full max-w-4xl">
+                    <div className="text-center text-red-500 text-xl font-semibold">
+                        {error || 'Event not found'}
+                    </div>
+                </div>
+            </main>
 		);
 	}
 
 	const eventDate = moment(event.date).format('MMM D, YYYY h:mm A');
 
 	return (
-		<main className="flex h-full w-full md:w-3/4 flex-col justify-between p-4">
-			<div className="text-left py-3 space-y-10 mb-4">
-				<h1 className="text-4xl font-semibold text-center text-neutral-900 dark:text-neutral-100">{event.title}</h1>
+		<main className="flex min-h-screen w-full flex-col items-center p-4">
+			<div className="w-full max-w-4xl space-y-8">
+				<h1 className="text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 animate-gradient">
+					{event.title}
+				</h1>
 
 				{moment(event.date) > moment() && (
-					<Link href={`/registration/${event._id}`} className="mt-6">
-						<h2 className="w-60 text-xl mt-10 font-bold hover:cursor-pointer focus:ring hover:underline">
-							Click here to Register
-							<span className="inline-block transition-transform hover:translate-x-1 motion-reduce:transform-none">-&gt;</span>
-						</h2>
-					</Link>
+					<div className="text-center">
+						<Link 
+							href={`/registration/${event._id}`}
+							className="inline-block px-8 py-4 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-transform duration-200"
+						>
+							Register Now
+						</Link>
+					</div>
 				)}
 
-				<dl className="divide-y divide-gray-200">
-					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Number of runners</dt>
-						{/* <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{stats.entries || 0}</dd> */}
-					</div>
-					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Prize Pool</dt>
-						{/* <dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-							{stats.prize_pool.toFixed(6)} BTC / {stats.prize_pool_usd.toFixed(0)} USD
-						</dd> */}
-					</div>
-					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Location</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.location}</dd>
-					</div>
-					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Start</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{eventDate}</dd>
-					</div>
-					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Description</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.description}</dd>
-					</div>
-					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Buy In (BTC)</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-							{event.buy_in} + {event.fee}
-						</dd>
-					</div>
-					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Stack Size</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.start_stack}</dd>
-					</div>
-					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Blind Levels (minutes)</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.blind_levels}</dd>
-					</div>
-					<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-						<dt className="text-md font-bold leading-6 text-gray-900">Game Type</dt>
-						<dd className="mt-1 text-md leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{event.game_type}</dd>
-					</div>
-				</dl>
-			</div>
-
-			<div>
-				{results && <h2 className="text-xl top-0 font-bold">Results</h2>}
-				{results && (
-					<Table>
-						<TableHeader>
-							<TableRow className="border-x-2 border-y-2">
-								<TableHead className="font-medium w-[100px] border-x-2">Place</TableHead>
-								<TableHead className="font-medium w-[180px] border-x-2">Name</TableHead>
-								<TableHead className="font-medium w-[180px] text-center">On Chain Payout</TableHead>
-							</TableRow>
-						</TableHeader>
-						{results.map((result: any) => (
-							<TableBody key={result._id} className="border-x-2 border-y-2">
-								<TableRow>
-									<TableCell className="border-x-2 lg:w-20">{result.place}</TableCell>
-									<TableCell className="border-r-2 lg:w-10">{result.name}</TableCell>
-									<TableCell className="border-x-2 lg:w-20">
-										{result.payout} BTC sent with TX ID <Link href={`https://mempool.space/tx/${result.tx_id}`}>{result.tx_id}</Link>
+				<div className="space-y-4">
+					<h2 className="text-2xl font-semibold text-neutral-800 dark:text-neutral-200">Tournament Details</h2>
+					<div className="bg-white dark:bg-neutral-800 rounded-xl shadow-lg overflow-hidden">
+						<Table>
+							<TableHeader>
+								<TableRow className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500">
+									<TableHead className="text-white font-semibold">Detail</TableHead>
+									<TableHead className="text-white font-semibold">Value</TableHead>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								<TableRow className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									<TableCell className="font-semibold">Number of runners</TableCell>
+									<TableCell>{stats?.entries || 0}</TableCell>
+								</TableRow>
+								<TableRow className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									<TableCell className="font-semibold">Prize Pool</TableCell>
+									<TableCell>
+										<span className="text-orange-500">{stats?.prize_pool?.toFixed(6)} BTC</span> / {stats?.prize_pool_usd?.toFixed(0)} USD
 									</TableCell>
 								</TableRow>
+								<TableRow className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									<TableCell className="font-semibold">Location</TableCell>
+									<TableCell>{event.location}</TableCell>
+								</TableRow>
+								<TableRow className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									<TableCell className="font-semibold">Start</TableCell>
+									<TableCell>{eventDate}</TableCell>
+								</TableRow>
+								<TableRow className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									<TableCell className="font-semibold">Description</TableCell>
+									<TableCell>{event.description}</TableCell>
+								</TableRow>
+								<TableRow className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									<TableCell className="font-semibold">Buy In (BTC)</TableCell>
+									<TableCell>
+										<span className="text-orange-500">{event.buy_in}</span> + {event.fee}
+									</TableCell>
+								</TableRow>
+								<TableRow className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									<TableCell className="font-semibold">Stack Size</TableCell>
+									<TableCell>{event.start_stack}</TableCell>
+								</TableRow>
+								<TableRow className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									<TableCell className="font-semibold">Blind Levels</TableCell>
+									<TableCell>{event.blind_levels} minutes</TableCell>
+								</TableRow>
+								<TableRow className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									<TableCell className="font-semibold">Game Type</TableCell>
+									<TableCell>{event.game_type}</TableCell>
+								</TableRow>
 							</TableBody>
-						))}
-					</Table>
+						</Table>
+					</div>
+				</div>
+
+				{results && results.length > 0 && (
+					<div className="space-y-4">
+						<h2 className="text-2xl font-semibold text-neutral-800 dark:text-neutral-200">Results</h2>
+						<div className="bg-white dark:bg-neutral-800 rounded-xl shadow-lg overflow-hidden">
+							<Table>
+								<TableHeader>
+									<TableRow className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500">
+										<TableHead className="text-white font-semibold">Place</TableHead>
+										<TableHead className="text-white font-semibold">Name</TableHead>
+										<TableHead className="text-white font-semibold text-center">Payout</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{results.map((result: any) => (
+										<TableRow key={result._id} className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+											<TableCell>{result.place}</TableCell>
+											<TableCell>{result.name}</TableCell>
+											<TableCell className="text-center">
+												<span className="text-orange-500">{result.payout} BTC</span>
+												{result.tx_id && (
+													<Link 
+														href={`https://mempool.space/tx/${result.tx_id}`}
+														className="ml-2 text-blue-500 hover:underline"
+														target="_blank"
+													>
+														View Transaction
+													</Link>
+												)}
+											</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						</div>
+					</div>
 				)}
-			</div>
 
-			<div>
-				<h2 className="text-xl top-0 font-bold">Runners</h2>
-				<Table>
-					<TableHeader>
-						<TableRow className="border-x-2 border-y-2">
-							<TableHead className="w-[180px] border-x-2">Name</TableHead>
-							<TableHead className="w-[350px] border-x-2">Buy In Address</TableHead>
-							<TableHead className="-[100px] border-x-2">BTC Received</TableHead>
-							<TableHead className="w-[180px] text-center">Status</TableHead>
-						</TableRow>
-					</TableHeader>
-
-					{registrations ? (
-						registrations.map((items: IRegistrations) => (
-							<TableBody key={items._id} className="border-x-2 border-y-2">
-								<TableRow>
-									<TableCell className="font-medium border-r-2 md:w-5 lg:w-10">{items.name}</TableCell>
-									<TableCell className="flex-row">
-										<Link href={`https://mempool.space/address/${items.buy_in_address}`}>
-											<span>{items.buy_in_address}</span>
-										</Link>
-										{/* <div>
-											<Link href={`https://mempool.space/address/${items.buy_in_address}`}>
-												<span>{items.buy_in_address}</span>
-											</Link>
-										</div>
-										<div className="mt-3 ">
-											<Link
-												className="p-2 border-2 shadow rounded-3xl hover:bg-blue-400 hover:text-white hover:cursor-pointer"
-												href={
-													items.status !== "Complete"
-														? `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}`
-														: `https://btcpay.bitcoinpokertour.com/i/${items.third_party_id}/receipt/${items._id}`
-												}
-											>
-												{items.status !== "Complete" ? "Click to Pay" : "View Receipt"}
-											</Link>
-										</div> */}
-									</TableCell>
-									<TableCell className="font-medium border-x-2 lg:w-20">{items.btc_received}</TableCell>
-									<TableCell>{items.status}</TableCell>
+				<div className="space-y-4">
+					<h2 className="text-2xl font-semibold text-neutral-800 dark:text-neutral-200">Registered Players</h2>
+					<div className="bg-white dark:bg-neutral-800 rounded-xl shadow-lg overflow-hidden">
+						<Table>
+							<TableHeader>
+								<TableRow className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500">
+									<TableHead className="text-white font-semibold">Name</TableHead>
+									<TableHead className="text-white font-semibold">Buy In Address</TableHead>
+									<TableHead className="text-white font-semibold">BTC Received</TableHead>
+									<TableHead className="text-white font-semibold">Status</TableHead>
 								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{registrations.length > 0 ? (
+									registrations.map((registration: IRegistrations) => (
+										<TableRow key={registration._id} className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+											<TableCell>{registration.name}</TableCell>
+											<TableCell>
+												<Link 
+													href={`https://mempool.space/address/${registration.buy_in_address}`}
+													className="text-blue-500 hover:underline"
+													target="_blank"
+												>
+													{registration.buy_in_address}
+												</Link>
+											</TableCell>
+											<TableCell>
+												<span className="text-orange-500">{registration.btc_received}</span>
+											</TableCell>
+											<TableCell>{registration.status}</TableCell>
+										</TableRow>
+									))
+								) : (
+									<TableRow>
+										<TableCell colSpan={4} className="text-center">No registrations yet</TableCell>
+									</TableRow>
+								)}
 							</TableBody>
-						))
-					) : (
-						<TableBody key={0} className="hover:cursor-pointer border-x-2 border-y-2">
-							<TableRow>
-								<TableCell className="font-medium border-r-2">No registration for this event yet</TableCell>
-							</TableRow>
-						</TableBody>
-					)}
-				</Table>
+						</Table>
+					</div>
+				</div>
 			</div>
 		</main>
 	);
