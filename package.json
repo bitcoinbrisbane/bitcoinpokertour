@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "start:api": "node ./src/api/index.js",
+    "debug:api": "node --inspect-brk ./src/api/index.js",
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-menubar": "^1.0.4",
     "axios": "^1.7.2",
     "bip32": "^4.0.0",
@@ -29,6 +31,7 @@
     "mongoose": "^8.4.1",
     "next": "^14.2.5",
     "nodemon": "^3.1.2",
+    "qrcode.react": "^4.2.0",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
