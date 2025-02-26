@@ -111,6 +111,32 @@ app.post("/btcpaywebhook", async (req, res) => {
     }
 });
 
+// Add this new endpoint
+app.get("/checkregistrationstatus/:invoiceId", async (req, res) => {
+    try {
+        const { invoiceId } = req.params;
+        console.log(`Checking registration status for invoice: ${invoiceId}`);
+
+        const registration = await mongoose.model('Registration').findOne({
+            btcpay_invoice_id: invoiceId
+        });
+
+        if (!registration) {
+            return res.status(404).json({ error: "Registration not found" });
+        }
+
+        return res.json({
+            status: registration.btcpay_status,
+            registration_id: registration._id,
+            paid_date: registration.paid_date
+        });
+
+    } catch (error) {
+        console.error("Error checking registration status:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 // Routes
 const news = require("./routes/news");
 const registration = require("./routes/registration");
