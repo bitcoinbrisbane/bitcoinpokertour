@@ -140,7 +140,7 @@ export default function EventRegistrations({ params }: { params: { eventId: stri
                                     <TableHead className="text-white font-semibold">BTC Received</TableHead>
                                     <TableHead className="text-white font-semibold">BTCPay Status</TableHead>
                                     <TableHead className="text-white font-semibold">Payment Date</TableHead>
-                                    {/* <TableHead className="text-white font-semibold">Status</TableHead> */}
+                                    <TableHead className="text-white font-semibold">Invoice ID</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -189,15 +189,17 @@ export default function EventRegistrations({ params }: { params: { eventId: stri
                                                     : '-'
                                                 }
                                             </TableCell>
-                                            {/* <TableCell>
-                                                <span className={`px-2 py-1 rounded-full text-sm ${
-                                                    registration.status === 'Confirmed' 
-                                                        ? 'bg-green-100 text-green-800' 
-                                                        : 'bg-yellow-100 text-yellow-800'
-                                                }`}>
-                                                    {registration.status}
-                                                </span>
-                                            </TableCell> */}
+                                            <TableCell>
+                                                {registration.btcpay_invoice_id ? (
+                                                    <Link 
+                                                        href={`https://btcpay.bitcoinpokertour.com/i/${registration.btcpay_invoice_id}`}
+                                                        target="_blank"
+                                                        className="text-blue-500 hover:underline"
+                                                    >
+                                                        {registration.btcpay_invoice_id.substring(0, 8)}...
+                                                    </Link>
+                                                ) : '-'}
+                                            </TableCell>
                                         </TableRow>
                                     ))
                                 ) : (

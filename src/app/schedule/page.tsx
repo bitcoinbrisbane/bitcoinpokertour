@@ -11,6 +11,7 @@ export default function Page() {
 	const [previousEvents, setPreviousEvents] = useState<any[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [isAdmin, setIsAdmin] = useState(false);
+	const [registrationCounts, setRegistrationCounts] = useState<{[key: string]: number}>({});
 
 	useEffect(() => {
 		const adminPassword = localStorage.getItem('admin_password');
@@ -31,6 +32,19 @@ export default function Page() {
 				upcoming.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
 				previous.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+				// Fetch registration counts for all events
+				const counts: {[key: string]: number} = {};
+				await Promise.all(allEvents.map(async (event: any) => {
+					try {
+						const { data } = await axios.get(`http://localhost:5001/schedule/${event._id}/registrations/count`);
+						counts[event._id] = data.total_registrations;
+					} catch (error) {
+						console.error(`Error fetching registration count for event ${event._id}:`, error);
+						counts[event._id] = 0;
+					}
+				}));
+
+				setRegistrationCounts(counts);
 				setUpcomingEvents(upcoming);
 				setPreviousEvents(previous);
 				setLoading(false);
@@ -69,6 +83,7 @@ export default function Page() {
 							<TableHead className="text-white font-semibold w-[100px]">Stack</TableHead>
 							<TableHead className="text-white font-semibold w-[100px]">Levels</TableHead>
 							<TableHead className="text-white font-semibold w-[150px]">Players</TableHead>
+							<TableHead className="text-white font-semibold w-[100px]">Registered</TableHead>
 							{isAdmin && <TableHead className="text-white font-semibold w-[150px]">Admin</TableHead>}
 						</TableRow>
 					</TableHeader>
@@ -98,6 +113,11 @@ export default function Page() {
 								<TableCell>{event.blind_levels || 'TBA'} min</TableCell>
 								<TableCell>
 									{event.max_players > 1000000 ? 'Unlimited' : (event.max_players || 'Unlimited')}
+								</TableCell>
+								<TableCell>
+									<span className="text-orange-500 font-semibold">
+										{registrationCounts[event._id] || 0}
+									</span>
 								</TableCell>
 								{isAdmin && (
 									<TableCell>
@@ -162,6 +182,12 @@ export default function Page() {
 								<div className="font-medium text-gray-900 dark:text-gray-100">Players</div>
 								<div className="text-gray-600 dark:text-gray-300">
 									{event.max_players > 1000000 ? 'Unlimited' : (event.max_players || 'Unlimited')}
+								</div>
+							</div>
+							<div className="bg-white dark:bg-gray-700 p-3 rounded-md">
+								<div className="font-medium text-gray-900 dark:text-gray-100">Registered</div>
+								<div className="text-orange-500 font-semibold">
+									{registrationCounts[event._id] || 0}
 								</div>
 							</div>
 						</div>
