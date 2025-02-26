@@ -19,7 +19,7 @@ export default function Page() {
 		const fetchEvents = async () => {
 			try {
 				console.log('Fetching events from API...');
-				const { data: allEvents } = await axios.get('http://localhost:5001/schedule');
+				const { data: allEvents } = await axios.get(`${process.env.NEXT_PUBLIC_API}/schedule`);
 				console.log('Events received:', allEvents);
 
 				// Split events into upcoming and previous
