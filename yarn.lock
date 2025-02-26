@@ -539,6 +539,11 @@
     "@swc/counter" "^0.1.3"
     tslib "^2.4.0"
 
+"@types/emscripten@^1.40.0":
+  version "1.40.0"
+  resolved "https://registry.yarnpkg.com/@types/emscripten/-/emscripten-1.40.0.tgz#765f0c77080058faafd6b24de8ccebf573c1464c"
+  integrity sha512-MD2JJ25S4tnjnhjWyalMS6K6p0h+zQV6+Ylm+aGbiS8tSn/aHLSGNzBgduj6FB4zH0ax2GRMGYi/8G1uOxhXWA==
+
 "@types/hoist-non-react-statics@^3.3.1":
   version "3.3.6"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.6.tgz#6bba74383cdab98e8db4e20ce5b4a6b98caed010"
@@ -651,6 +656,14 @@
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.3.0.tgz#d06bbb384ebcf6c505fde1c3d0ed4ddffe0aaff8"
   integrity sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==
+
+"@yudiel/react-qr-scanner@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@yudiel/react-qr-scanner/-/react-qr-scanner-2.2.1.tgz#03b9c892d03ea00ab3ea61f7e578cdf62be9973d"
+  integrity sha512-5tmzoi9d8mqqaxKTxfI9kulS3N3Kph75AOqwU2lnl4IMwjmLcTXS8IyecDUvzFNuoMNhCpofrqqGueXm8IXkjA==
+  dependencies:
+    barcode-detector "^3.0.0"
+    webrtc-adapter "9.0.1"
 
 accepts@~1.3.8:
   version "1.3.8"
@@ -880,6 +893,13 @@ balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
+
+barcode-detector@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/barcode-detector/-/barcode-detector-3.0.1.tgz#ecff8cc23ae4ddb7076968344c973ae28d6f32a2"
+  integrity sha512-3fCzG/Py4SVgZJhubD1mt7rVprtHEVWrxQN4FUOG0oulPE4193evbgyptxcOYsfTNEtMlWc+Ec9tdxhjlR4/Ww==
+  dependencies:
+    zxing-wasm "^2.1.0"
 
 base-x@^3.0.2:
   version "3.0.10"
@@ -3453,6 +3473,11 @@ scheduler@^0.23.2:
   dependencies:
     loose-envify "^1.1.0"
 
+sdp@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/sdp/-/sdp-3.2.0.tgz#8961420552b36663b4d13ddba6f478d1461896a5"
+  integrity sha512-d7wDPgDV3DDiqulJjKiV2865wKsJ34YI+NDREbm+FySq6WuKOikwyNQcm+doLAZ1O6ltdO0SeKle2xMpN3Brgw==
+
 seedrandom@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/seedrandom/-/seedrandom-3.0.5.tgz#54edc85c95222525b0c7a6f6b3543d8e0b3aa0a7"
@@ -3995,6 +4020,11 @@ type-fest@^0.20.2:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.20.2.tgz#1bf207f4b28f91583666cb5fbd327887301cd5f4"
   integrity sha512-Ne+eE4r0/iWnpAxD852z3A+N0Bt5RN//NjJwRd2VFHEmrywxf5vsZlh4R6lixl6B+wz/8d+maTSAkN1FIkI3LQ==
 
+type-fest@^4.35.0:
+  version "4.35.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.35.0.tgz#007ed74d65c2ca0fb3b564b3dc8170d5c872d665"
+  integrity sha512-2/AwEFQDFEy30iOLjrvHDIH7e4HEWH+f1Yl1bI5XMqzuoCUqwYCdxachgsgv0og/JdVZUhbfjcJAoHj5L1753A==
+
 type-is@~1.6.18:
   version "1.6.18"
   resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.18.tgz#4e552cd05df09467dcbc4ef739de89f2cf37c131"
@@ -4147,6 +4177,13 @@ webidl-conversions@^7.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-7.0.0.tgz#256b4e1882be7debbf01d05f0aa2039778ea080a"
   integrity sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==
 
+webrtc-adapter@9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-9.0.1.tgz#d4efa22ca9604cb2c8cdb9e492815ba37acfa0b2"
+  integrity sha512-1AQO+d4ElfVSXyzNVTOewgGT/tAomwwztX/6e3totvyyzXPvXIIuUUjAmyZGbKBKbZOXauuJooZm3g6IuFuiNQ==
+  dependencies:
+    sdp "^3.2.0"
+
 "whatwg-url@^14.1.0 || ^13.0.0":
   version "14.1.1"
   resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-14.1.1.tgz#ce71e240c61541315833b5cdafd139a479e47058"
@@ -4274,3 +4311,11 @@ z-schema@^5.0.1:
     validator "^13.7.0"
   optionalDependencies:
     commander "^10.0.0"
+
+zxing-wasm@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/zxing-wasm/-/zxing-wasm-2.1.0.tgz#0167489a4a16c1c4262980b2fb9e4d850a02ad9a"
+  integrity sha512-CvuwDZHRHwg6PeCARaCDIp3dauD4cin0mbHrQQZtMDrr5mblPzCimAjdw/XMhD/Au10q/f5+SAupvYqYvUOg1Q==
+  dependencies:
+    "@types/emscripten" "^1.40.0"
+    type-fest "^4.35.0"

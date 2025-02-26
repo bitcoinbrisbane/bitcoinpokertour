@@ -11,6 +11,7 @@ import {
 	DialogTitle,
 } from "../dialog";
 import { QRCodeSVG } from "qrcode.react";
+import { Scanner } from "@yudiel/react-qr-scanner";
 
 const Registration = ({ id }: { id: string }) => {
 	const router = useRouter();
@@ -21,6 +22,7 @@ const Registration = ({ id }: { id: string }) => {
 	const [showPaymentModal, setShowPaymentModal] = useState(false);
 	const [paymentDetails, setPaymentDetails] = useState<any>(null);
 	const [paymentStatus, setPaymentStatus] = useState<string>('');
+	const [showScanner, setShowScanner] = useState(false);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -114,6 +116,13 @@ const Registration = ({ id }: { id: string }) => {
 		}
 	};
 
+	const handleScan = (result: string | null, formik: any) => {
+		if (result) {
+			formik.setFieldValue('bitcoin_address', result);
+			setShowScanner(false);
+		}
+	};
+
 	return (
 		<>
 			<div className="flex justify-center items-center w-full">
@@ -147,41 +156,74 @@ const Registration = ({ id }: { id: string }) => {
 						initialValues={initVals}
 						onSubmit={onSubmit}
 					>
-						<Form className="space-y-5">
-							<Field
-								className="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								name="name"
-								placeholder="Name, Nickname or BNS"
-								required
-							/>
-							<ErrorMessage component="a" className="text-red-400" name="name" />
-							
-							<Field
-								className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								id="email"
-								name="email"
-								placeholder="Email"
-								validate={validateEmail}
-								required
-							/>
-							<ErrorMessage component="a" className="text-red-400" name="email" />
-							
-							<Field
-								className="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-								name="bitcoin_address"
-								placeholder="Your Bitcoin payout address"
-								validate={validateBitcoinAddress}
-								required
-							/>
-							<ErrorMessage component="a" className="text-red-400" name="bitcoin_address" />
-							
-							<button
-								type="submit"
-								className="shadow-md w-full font-bold hover:cursor-pointer hover:bg-blue-500 hover:text-white rounded-lg border text-sm px-5 py-2.5 text-center"
-							>
-								Register & Pay {totalAmount} BTC (≈ ${audTotal} AUD)
-							</button>
-						</Form>
+						{(formikProps) => (
+							<>
+								<Form className="space-y-5">
+									<Field
+										className="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										name="name"
+										placeholder="Name, Nickname or BNS"
+										required
+									/>
+									<ErrorMessage component="a" className="text-red-400" name="name" />
+									
+									<Field
+										className="bg-gray-50 border border-gray-300 mb-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										id="email"
+										name="email"
+										placeholder="Email"
+										validate={validateEmail}
+										required
+									/>
+									<ErrorMessage component="a" className="text-red-400" name="email" />
+									
+									<div className="relative">
+										<Field
+											className="mb-5 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											name="bitcoin_address"
+											placeholder="Your Bitcoin payout address"
+											validate={validateBitcoinAddress}
+											required
+										/>
+										<button
+											type="button"
+											onClick={() => setShowScanner(true)}
+											className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-gray-700"
+										>
+											<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+											</svg>
+										</button>
+										<ErrorMessage component="a" className="text-red-400" name="bitcoin_address" />
+									</div>
+									
+									<button
+										type="submit"
+										className="shadow-md w-full font-bold hover:cursor-pointer hover:bg-blue-500 hover:text-white rounded-lg border text-sm px-5 py-2.5 text-center"
+									>
+										Register & Pay {totalAmount} BTC (≈ ${audTotal} AUD)
+									</button>
+								</Form>
+
+								<Dialog open={showScanner} onOpenChange={setShowScanner}>
+									<DialogContent>
+										<DialogHeader>
+											<DialogTitle>Scan Bitcoin Address QR Code</DialogTitle>
+										</DialogHeader>
+										<div className="relative h-64">
+											<Scanner
+												onScan={(detectedCodes) => {
+													const result = detectedCodes[0]?.rawValue ?? null;
+													handleScan(result, formikProps);
+												}}
+												onError={(error) => console.log(error)}
+											/>
+										</div>
+									</DialogContent>
+								</Dialog>
+							</>
+						)}
 					</Formik>
 				</div>
 			</div>
@@ -199,6 +241,11 @@ const Registration = ({ id }: { id: string }) => {
 								<p className="text-lg font-semibold">
 									Status: {paymentStatus || 'Pending'}
 								</p>
+								<div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-4">
+									<p className="font-medium">Amount Due:</p>
+									<p>{paymentDetails.amount} BTC</p>
+									<p className="text-sm text-gray-600">≈ ${(paymentDetails.amount * paymentDetails.btcPrice).toFixed(2)} AUD</p>
+								</div>
 								{paymentStatus === 'Settled' ? (
 									<p className="text-green-600">
 										Payment received! Redirecting to confirmation page...
@@ -211,7 +258,15 @@ const Registration = ({ id }: { id: string }) => {
 												size={256}
 											/>
 										</div>
-										<p className="text-sm text-gray-600">
+										<a 
+											href={paymentDetails.paymentUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-blue-500 hover:text-blue-700 underline"
+										>
+											Open BTCPay Invoice
+										</a>
+										<p className="text-sm text-gray-600 mt-2">
 											Waiting for payment confirmation...
 										</p>
 									</>
