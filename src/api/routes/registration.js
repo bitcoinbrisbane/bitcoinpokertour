@@ -12,7 +12,19 @@ const axios = require("axios");
 // use json
 router.use(express.json());
 
+// Standardize on BTCPAY_URL
+const btcPayServerUrl = process.env.BTCPAY_URL;
 
+if (!btcPayServerUrl) {
+	console.error("BTCPAY_URL not configured");
+	return res.status(500).json({
+		error: "Payment system configuration error",
+		details: "BTCPAY_URL not configured"
+	});
+}
+
+// Add some logging to help debug
+console.log("BTCPay Server URL:", btcPayServerUrl);
 
 router.get("/:eventid", async (req, res) => {
 	const { eventid } = req.params;
@@ -169,7 +181,7 @@ router.post("/:eventid", async (req, res) => {
 		};
 
 		console.log("Full BTCPay request:", {
-			url: `${process.env.BTCPAY_URL}/api/v1/stores/${process.env.BTCPAY_STORE_ID}/invoices`,
+			url: `${btcPayServerUrl}/api/v1/stores/${process.env.BTCPAY_STORE_ID}/invoices`,
 			headers: {
 				...config.headers,
 				Authorization: "token [MASKED]"
@@ -178,7 +190,14 @@ router.post("/:eventid", async (req, res) => {
 		});
 
 		try {
-			const btcpayResponse = await axios.post(`${process.env.BTCPAY_URL}/api/v1/stores/${process.env.BTCPAY_STORE_ID}/invoices`, invoiceData, config);
+			const invoiceUrl = `${btcPayServerUrl}/api/v1/stores/${process.env.BTCPAY_STORE_ID}/invoices`;
+			console.log("Creating invoice at:", invoiceUrl);
+			
+			const btcpayResponse = await axios.post(
+				invoiceUrl,
+				invoiceData,
+				config
+			);
 
 			console.log("BTCPay response:", btcpayResponse.data);
 
@@ -190,7 +209,7 @@ router.post("/:eventid", async (req, res) => {
 				success: true,
 				registration: registration,
 				btcpay_invoice_id: btcpayResponse.data.id,
-				checkoutUrl: btcpayResponse.data.checkoutLink || `${process.env.BTCPAY_URL}/i/${btcpayResponse.data.id}`
+				checkoutUrl: btcpayResponse.data.checkoutLink || `${btcPayServerUrl}/i/${btcpayResponse.data.id}`
 			});
 		} catch (btcpayError) {
 			console.error("BTCPay Server Error:", btcpayError.response?.data || btcpayError);
