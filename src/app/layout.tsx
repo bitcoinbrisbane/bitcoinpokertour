@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Menu from "@/components/ui/menu";
 import "./globals.css";
+import Footer from "@/components/ui/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
 						{children}
 					</div>
 				</main>
+				<Footer />
 			</body>
 		</html>
 	);
