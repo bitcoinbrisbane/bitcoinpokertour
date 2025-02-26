@@ -4,14 +4,27 @@ const app = express();
 // use cors
 const cors = require("cors");
 app.use(cors({
-  origin: [
-    'https://bitcoin-poker-tour-frontend-y8stp.ondigitalocean.app',
-    'https://bitcoinpokertour.com',
-    'http://localhost:3000' // Keep this for local development
-  ],
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'https://bitcoin-poker-tour-frontend-y8stp.ondigitalocean.app',
+      'https://bitcoinpokertour.com',
+      'http://localhost:3000'
+    ];
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('bitcoinpokertour.com')) {
+      callback(null, true);
+    } else {
+      console.log('Blocked origin:', origin); // Debug logging
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'btcpay-sig'],
-  credentials: true
+  allowedHeaders: ['Content-Type', 'Authorization', 'btcpay-sig', 'Accept'],
+  credentials: true,
+  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
 }));
 
 const dotenv = require("dotenv");
@@ -160,6 +173,12 @@ app.use("/sponsors", sponsors);
 
 // Add general request logging
 app.use((req, res, next) => {
+    console.log('Incoming request:', {
+        method: req.method,
+        path: req.path,
+        origin: req.get('origin'),
+        headers: req.headers
+    });
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
     next();
 });
