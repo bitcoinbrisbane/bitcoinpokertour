@@ -20,10 +20,10 @@ export default function Page({ params }: { params: { slug: string } }) {
 		const fetchEventData = async () => {
 			try {
 				const [eventData, ] = await Promise.all([
-					axios.get(`http://localhost:5001/schedule/${params.slug}`),
-					// axios.get(`http://localhost:5001/registration/event/${params.slug}`),
-					// axios.get(`http://localhost:5001/schedule/${params.slug}/stats`),
-					// axios.get(`http://localhost:5001/schedule/${params.slug}/results`)
+					axios.get(`${process.env.NEXT_PUBLIC_API}/schedule/${params.slug}`),
+					// axios.get(`${process.env.NEXT_PUBLIC_API}/registration/event/${params.slug}`),
+					// axios.get(`${process.env.NEXT_PUBLIC_API}/schedule/${params.slug}/stats`),
+					// axios.get(`${process.env.NEXT_PUBLIC_API}/schedule/${params.slug}/results`)
 				]);
 
 				setEvent(eventData.data);
