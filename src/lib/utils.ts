@@ -7,7 +7,15 @@ import moment from "moment";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const API = 'http://localhost:5001';
+// Use the environment variable instead
+const API = process.env.NEXT_PUBLIC_API || 'http://localhost:5001';
+
+// Helper function to get headers
+const getHeaders = () => {
+	return {
+		'ngrok-skip-browser-warning': 'true'
+	};
+};
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -64,18 +72,21 @@ export const getPastEvents = async (max: number = 10) => {
 		const { data } = await axios.get(`${API}/schedule/past?max=${max}`);
 		return data;
 	} catch (error) {
-		//throw new Error("Failed to fetch event data from the API. Please check the network connection and the URL.");
-		console.error(error);
+		console.error('Error fetching past events:', error);
+		return null;
 	}
 };
 
 export const getEventById = async (id: string) => {
 	try {
-		const { data } = await axios.get(`${API}/schedule/${id}`);
-		return data;
+		const response = await axios.get(
+			`${API}/schedule/${id}`,
+			{ headers: getHeaders() }
+		);
+		return response.data;
 	} catch (error) {
-		//throw new Error("Failed to fetch the event data. Please check the event ID, network connection, and the URL.");
-		console.error(error);
+		console.error('Error fetching event:', error);
+		return null;
 	}
 };
 
@@ -110,19 +121,26 @@ export const createEvent = async (event: INewEvent) => {
 	}
 };
 
-export const postRegistration = async (register: IRegisterEvent) => {
-	const { evt_id, name, email, bitcoin_address } = register;
-	const registration = {
-		name: name.trim(),
-		email: email.toLowerCase().trim(),
-		bitcoin_address
-	};
-	const { id }: any = evt_id;
+export const postRegistration = async (values: IRegisterEvent) => {
 	try {
-		return await axios.post(`${API}/registration/${id}`, registration);
+		console.log('Sending registration data:', values);
+		const response = await axios.post(
+			`${API}/registration/${values.evt_id}`,
+			{
+				name: values.name,
+				email: values.email,
+				bitcoin_address: values.bitcoin_address,
+				event_id: values.evt_id
+			},
+			{ headers: getHeaders() }
+		);
+		return response;
 	} catch (error) {
-		//throw new Error("Failed to sent the event registrations. Please check the event ID, network connection, and the URL.");
-		console.error(error);
+		console.log('Registration request details:', {
+			url: `${API}/registration/${values.evt_id}`,
+			data: values
+		});
+		throw error;
 	}
 };
 
@@ -131,8 +149,8 @@ export const getRegistrations = async (id: string) => {
 		const { data } = await axios.get(`${API}/registration/${id}`);
 		return data;
 	} catch (error) {
-		//throw new Error("Failed to fetch the event registrations. Please check the event ID, network connection, and the URL.");
-		console.error(error);
+		console.error('Error fetching registrations:', error);
+		return null;
 	}
 };
 
@@ -141,8 +159,8 @@ export const getEventStats = async (id: string) => {
 		const { data } = await axios.get(`${API}/schedule/${id}/stats`);
 		return data;
 	} catch (error) {
-		//throw new Error("Failed to fetch the event stats. Please check the event ID, network connection, and the URL.");
-		console.error(error);
+		console.error('Error fetching event stats:', error);
+		return null;
 	}
 };
 
@@ -151,8 +169,8 @@ export const getResults = async (id: string) => {
 		const { data } = await axios.get(`${API}/schedule/${id}/results`);
 		return data;
 	} catch (error) {
-		//throw new Error("Failed to fetch the event results. Please check the event ID, network connection, and the URL.");
-		console.error(error);
+		console.error('Error fetching results:', error);
+		return null;
 	}
 };
 
@@ -183,4 +201,26 @@ export const validateBitcoinAddress = (value: string) => {
 	}
 
 	return;
+};
+
+export const getEventRegistrationCount = async (eventId: string) => {
+	try {
+		console.log('Fetching registration count for event:', eventId);
+		console.log('API URL:', `${API}/schedule/${eventId}/registrations/count`);
+		
+		const response = await axios.get(
+			`${API}/schedule/${eventId}/registrations/count`,
+			{ headers: getHeaders() }
+		);
+		console.log('Registration count response:', response.data);
+		return response.data;
+	} catch (error) {
+		console.error("Error fetching registration count:", error);
+		console.error("Full error details:", {
+			message: (error as any).message,
+			response: (error as any).response?.data,
+			status: (error as any).response?.status
+		});
+		return null;
+	}
 };
