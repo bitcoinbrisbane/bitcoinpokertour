@@ -1,72 +1,67 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-interface CountdownState {
-	days: number;
-	hours: number;
-	minutes: number;
-	seconds: number;
+interface CountdownProps {
+	newTarget: string;
 }
 
-const useCountdown = (targetDate: Date): CountdownState => {
-	const [countDown, setCountDown] = useState<CountdownState>({
+const Countdown = ({ newTarget }: CountdownProps) => {
+	const [timeLeft, setTimeLeft] = useState({
 		days: 0,
 		hours: 0,
 		minutes: 0,
 		seconds: 0
 	});
 
-	const tenHrs = 36000000;
-
 	useEffect(() => {
-		const intervalId = setInterval(() => {
-			const now = new Date();
-			const delta = targetDate.getTime() - now.getTime();
-			const diff = delta - tenHrs;
-
-			if (delta < 0) {
-				clearInterval(intervalId);
-				return;
+		console.log('Target date received:', newTarget);
+		
+		const calculateTimeLeft = () => {
+			const difference = +new Date(newTarget) - +new Date();
+			
+			if (difference > 0) {
+				setTimeLeft({
+					days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+					hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+					minutes: Math.floor((difference / 1000 / 60) % 60),
+					seconds: Math.floor((difference / 1000) % 60)
+				});
 			}
+		};
 
-			const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-			const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-			const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-			const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+		// Calculate immediately
+		calculateTimeLeft();
+		
+		// Update every second
+		const timer = setInterval(calculateTimeLeft, 1000);
 
-			setCountDown({ days, hours, minutes, seconds });
-		}, 1000);
-
-		return () => clearInterval(intervalId);
-	}, [targetDate]);
-
-	return countDown;
-};
-
-const Countdown = ({ newTarget }: any) => {
-	const targetDate = new Date(newTarget);
-	const { days, hours, minutes, seconds } = useCountdown(targetDate);
+		// Cleanup interval on component unmount
+		return () => clearInterval(timer);
+	}, [newTarget]);
 
 	return (
-		<div className="h-1/4 sm:w-full md:w-5/6 text-center border-y-2 border-black  mt-5">
-			<ul id="countdownul" className="justify-items-center ">
-				<li id="days">
-					<div className="number">{days}</div>
-					<div className="label">Days</div>
-				</li>
-				<li id="hours">
-					<div className="number">{hours}</div>
-					<div className="label">Hours</div>
-				</li>
-				<li id="minutes">
-					<div className="number">{minutes}</div>
-					<div className="label">Minutes</div>
-				</li>
-				<li id="seconds">
-					<div className="number">{seconds}</div>
-					<div className="label">Seconds</div>
-				</li>
-			</ul>
+		<div className="w-full max-w-4xl mx-auto px-4">
+			<div className="flex justify-center items-center space-x-8 py-8">
+				<div className="text-center">
+					<div className="text-4xl md:text-6xl font-bold mb-2">{timeLeft.days}</div>
+					<div className="text-sm uppercase tracking-wide">Days</div>
+				</div>
+				<div className="text-4xl md:text-6xl font-bold">:</div>
+				<div className="text-center">
+					<div className="text-4xl md:text-6xl font-bold mb-2">{timeLeft.hours}</div>
+					<div className="text-sm uppercase tracking-wide">Hours</div>
+				</div>
+				<div className="text-4xl md:text-6xl font-bold">:</div>
+				<div className="text-center">
+					<div className="text-4xl md:text-6xl font-bold mb-2">{timeLeft.minutes}</div>
+					<div className="text-sm uppercase tracking-wide">Minutes</div>
+				</div>
+				<div className="text-4xl md:text-6xl font-bold">:</div>
+				<div className="text-center">
+					<div className="text-4xl md:text-6xl font-bold mb-2">{timeLeft.seconds}</div>
+					<div className="text-sm uppercase tracking-wide">Seconds</div>
+				</div>
+			</div>
 		</div>
 	);
 };

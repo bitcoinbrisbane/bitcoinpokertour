@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Menu from "@/components/ui/menu";
 import "./globals.css";
+import Footer from "@/components/ui/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,22 +21,25 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<main className="flex h-auto sm:w-screen md:w-auto flex-col items-center justify-between p-16">
-					<div className="flex items-center ">
-						<Link href="/">
-							<Image
-								className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-								src="/btcpt.svg"
-								alt="Bitcoin Poker Tour"
-								width={500}
-								height={204}
-								priority
-							/>
-						</Link>
+				<main className="min-h-screen flex flex-col items-center bg-gradient-to-b from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-800">
+					<div className="w-full max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+						<div className="flex items-center justify-center mb-8">
+							<Link href="/">
+								<Image
+									className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
+									src="/btcpt.svg"
+									alt="Bitcoin Poker Tour"
+									width={500}
+									height={204}
+									priority
+								/>
+							</Link>
+						</div>
+						<Menu />
+						{children}
 					</div>
-					<Menu />
-					{children}
 				</main>
+				<Footer />
 			</body>
 		</html>
 	);
