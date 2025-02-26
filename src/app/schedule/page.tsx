@@ -10,8 +10,12 @@ export default function Page() {
 	const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
 	const [previousEvents, setPreviousEvents] = useState<any[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	useEffect(() => {
+		const adminPassword = localStorage.getItem('admin_password');
+		setIsAdmin(adminPassword === '123456');
+		
 		const fetchEvents = async () => {
 			try {
 				console.log('Fetching events from API...');
@@ -65,6 +69,7 @@ export default function Page() {
 							<TableHead className="text-white font-semibold w-[100px]">Stack</TableHead>
 							<TableHead className="text-white font-semibold w-[100px]">Levels</TableHead>
 							<TableHead className="text-white font-semibold w-[150px]">Players</TableHead>
+							{isAdmin && <TableHead className="text-white font-semibold w-[150px]">Admin</TableHead>}
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -94,6 +99,17 @@ export default function Page() {
 								<TableCell>
 									{event.max_players > 1000000 ? 'Unlimited' : (event.max_players || 'Unlimited')}
 								</TableCell>
+								{isAdmin && (
+									<TableCell>
+										<Link 
+											href={`/event/${event._id}`}
+											className="text-blue-500 hover:text-orange-500"
+											target="_blank"
+										>
+											View Registrations
+										</Link>
+									</TableCell>
+								)}
 							</TableRow>
 						))}
 					</TableBody>
@@ -149,6 +165,18 @@ export default function Page() {
 								</div>
 							</div>
 						</div>
+						
+						{isAdmin && (
+							<div className="bg-white dark:bg-gray-700 p-3 rounded-md">
+								<Link 
+									href={`/event/${event._id}`}
+									className="text-blue-500 hover:text-orange-500 block text-center"
+									target="_blank"
+								>
+									View Registrations
+								</Link>
+							</div>
+						)}
 					</div>
 				))}
 			</div>
