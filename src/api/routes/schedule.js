@@ -11,7 +11,7 @@ const Event = require("../schemas/event");
 const Registration = require("../schemas/registration");
 const Result = require("../schemas/result");
 
-const { getRegistrationCount } = require("../utils");
+
 
 /**
  * @swagger
@@ -498,6 +498,47 @@ router.patch("/:eventid/results", async (req, res) => {
 	}
 
 	return res.status(201).json({ message: `${count} results added` });
+});
+
+// New endpoint to get registration count
+router.get("/:id/registrations/count", async (req, res) => {
+	try {
+		const { id } = req.params;
+		console.log("\n=== Getting Registration Count ===");
+		console.log("Event ID:", id);
+
+		// Query all registrations for this event
+		const registrations = await Registration.find({ event_id: id });
+		console.log("Found registrations:", registrations.length);
+
+		// Log details of each registration
+		registrations.forEach((reg, index) => {
+			console.log(`\nRegistration ${index + 1}:`, {
+				name: reg.name,
+				email: reg.email,
+				status: reg.btcpay_status,
+				date: reg.date
+			});
+		});
+
+		res.json({
+			message: "Registration query successful",
+			eventId: id,
+			total_registrations: registrations.length,
+			registrations: registrations.map(reg => ({
+				name: reg.name,
+				status: reg.btcpay_status,
+				date: reg.date
+			}))
+		});
+
+	} catch (error) {
+		console.error("Error in registration count:", error);
+		res.status(500).json({ 
+			error: "Failed to get registrations",
+			message: error.message 
+		});
+	}
 });
 
 module.exports = router;
