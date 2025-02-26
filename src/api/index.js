@@ -22,7 +22,7 @@ app.use(cors({
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'btcpay-sig', 'Accept', 'ngrok-skip-browser-warning'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'btcpay-sig', 'Accept', 'ngrok-skip-browser-warning', 'x-api-key'],
   credentials: true,
   exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
 }));
