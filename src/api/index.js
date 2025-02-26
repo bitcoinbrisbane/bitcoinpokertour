@@ -11,6 +11,7 @@ app.use(cors({
     const allowedOrigins = [
       'https://bitcoin-poker-tour-frontend-y8stp.ondigitalocean.app',
       'https://bitcoinpokertour.com',
+      'https://www.bitcoinpokertour.com',
       'http://localhost:3000'
     ];
     
