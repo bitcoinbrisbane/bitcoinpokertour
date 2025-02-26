@@ -13,12 +13,14 @@ import {
 import { QRCodeSVG } from "qrcode.react";
 
 const Registration = ({ id }: { id: string }) => {
+	const router = useRouter();
 	const [event, setEvent] = useState<any>(null);
 	const [loading, setLoading] = useState(true);
 	const [btcPrice, setBtcPrice] = useState<number | null>(null);
 	const [registrationCount, setRegistrationCount] = useState<any>(null);
 	const [showPaymentModal, setShowPaymentModal] = useState(false);
 	const [paymentDetails, setPaymentDetails] = useState<any>(null);
+	const [paymentStatus, setPaymentStatus] = useState<string>('');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -43,13 +45,44 @@ const Registration = ({ id }: { id: string }) => {
 		fetchData();
 	}, [id]);
 
+	useEffect(() => {
+		let intervalId: NodeJS.Timeout;
+
+		if (paymentDetails?.invoiceId) {
+			checkPaymentStatus();
+			
+			intervalId = setInterval(checkPaymentStatus, 5000);
+		}
+
+		async function checkPaymentStatus() {
+			try {
+				const response = await fetch(`/checkregistrationstatus/${paymentDetails.invoiceId}`);
+				const data = await response.json();
+				
+				console.log("Payment status check:", data);
+				
+				if (data.status === 'Settled') {
+					clearInterval(intervalId);
+					router.push(`/registration/success/${data.registration_id}`);
+				}
+				
+				setPaymentStatus(data.status);
+			} catch (error) {
+				console.error('Error checking payment status:', error);
+			}
+		}
+
+		return () => {
+			if (intervalId) clearInterval(intervalId);
+		};
+	}, [paymentDetails?.invoiceId, router]);
+
 	const initVals: IRegisterEvent = {
 		evt_id: id.toString(),
 		name: "",
 		email: "",
 		bitcoin_address: ""
 	};
-	const router = useRouter();
 
 	if (loading) {
 		return <div className="flex justify-center items-center">Loading...</div>;
@@ -156,50 +189,34 @@ const Registration = ({ id }: { id: string }) => {
 			<Dialog open={showPaymentModal} onOpenChange={setShowPaymentModal}>
 				<DialogContent>
 					<DialogHeader>
-						<DialogTitle>Complete Your Payment</DialogTitle>
+						<DialogTitle>
+							{paymentStatus === 'Settled' ? 'Payment Confirmed!' : 'Complete Your Payment'}
+						</DialogTitle>
 					</DialogHeader>
 					{paymentDetails && (
 						<div className="space-y-4">
 							<div className="text-center space-y-2">
-								<p className="text-xl font-bold">Payment Details</p>
-								<div className="space-y-1 text-lg">
-									<p>Buy-in: {event.buy_in} BTC <span className="text-gray-500">≈ ${(event.buy_in * (btcPrice ?? 0)).toFixed(2)} AUD</span></p>
-									<p>Tournament Fee: {event.fee} BTC <span className="text-gray-500">≈ ${(event.fee * (btcPrice ?? 0)).toFixed(2)} AUD</span></p>
-									<div className="border-t pt-2 mt-2">
-										<p className="text-xl font-bold">Total: {totalAmount} BTC</p>
-										<p className="text-gray-500">≈ ${(totalAmount * (btcPrice ?? 0)).toFixed(2)} AUD</p>
-									</div>
-								</div>
+								<p className="text-lg font-semibold">
+									Status: {paymentStatus || 'Pending'}
+								</p>
+								{paymentStatus === 'Settled' ? (
+									<p className="text-green-600">
+										Payment received! Redirecting to confirmation page...
+									</p>
+								) : (
+									<>
+										<div className="flex justify-center">
+											<QRCodeSVG 
+												value={paymentDetails.paymentUrl}
+												size={256}
+											/>
+										</div>
+										<p className="text-sm text-gray-600">
+											Waiting for payment confirmation...
+										</p>
+									</>
+								)}
 							</div>
-							
-							<div className="flex justify-center">
-								<QRCodeSVG 
-									value={paymentDetails.paymentUrl}
-									size={256}
-								/>
-							</div>
-
-							<div className="text-center space-y-2">
-								<p className="text-sm text-gray-600">Click address to copy:</p>
-								<button 
-									onClick={() => {
-										navigator.clipboard.writeText(paymentDetails.address);
-										alert('Address copied!');
-									}}
-									className="p-2 bg-gray-100 rounded-lg text-sm font-mono hover:bg-gray-200"
-								>
-									{paymentDetails.address}
-								</button>
-							</div>
-
-							<a 
-								href={paymentDetails.paymentUrl}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="block text-center mt-4 text-blue-500 hover:text-blue-700"
-							>
-								Pay on BTCPay Server →
-							</a>
 						</div>
 					)}
 				</DialogContent>
