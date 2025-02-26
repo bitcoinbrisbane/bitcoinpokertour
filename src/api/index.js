@@ -3,7 +3,16 @@ const app = express();
 
 // use cors
 const cors = require("cors");
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://bitcoin-poker-tour-frontend-y8stp.ondigitalocean.app',
+    'https://bitcoinpokertour.com',
+    'http://localhost:3000' // Keep this for local development
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'btcpay-sig'],
+  credentials: true
+}));
 
 const dotenv = require("dotenv");
 dotenv.config();
