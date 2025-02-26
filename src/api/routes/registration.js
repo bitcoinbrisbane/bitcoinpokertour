@@ -17,10 +17,6 @@ const btcPayServerUrl = process.env.BTCPAY_URL;
 
 if (!btcPayServerUrl) {
 	console.error("BTCPAY_URL not configured");
-	return res.status(500).json({
-		error: "Payment system configuration error",
-		details: "BTCPAY_URL not configured"
-	});
 }
 
 // Add some logging to help debug
