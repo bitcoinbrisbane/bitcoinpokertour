@@ -92,7 +92,7 @@ export const getEventById = async (id: string) => {
 
 export const createEvent = async (event: INewEvent) => {
 	console.log(event, "event");
-	
+
 	const { title, description, location, date, registration_close, game_type, buy_in, fee, start_stack, blind_levels, password } = event;
 	const data = {
 		title,
@@ -106,7 +106,7 @@ export const createEvent = async (event: INewEvent) => {
 		start_stack,
 		blind_levels
 	};
-	
+
 	try {
 		const config = {
 			headers: {
@@ -207,7 +207,7 @@ export const getEventRegistrationCount = async (eventId: string) => {
 	try {
 		console.log('Fetching registration count for event:', eventId);
 		console.log('API URL:', `${API}/schedule/${eventId}/registrations/count`);
-		
+
 		const response = await axios.get(
 			`${API}/schedule/${eventId}/registrations/count`,
 			{ headers: getHeaders() }

@@ -26,19 +26,6 @@ export interface INewEvent extends IEvent {
 	registration_close: string;
 }
 
-// export interface IEvents {
-// 	_id: string;
-// 	title: string;
-// 	description: string;
-// 	game_type: string;
-// 	date: string;
-// 	location: string;
-// 	buy_in: number;
-// 	fee?: number;
-// 	start_stack: number;
-// 	blind_levels: number;
-// }
-
 export interface IDates {
 	dates: string;
 }

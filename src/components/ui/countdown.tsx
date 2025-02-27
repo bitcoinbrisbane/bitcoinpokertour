@@ -14,11 +14,11 @@ const Countdown = ({ newTarget }: CountdownProps) => {
 	});
 
 	useEffect(() => {
-		console.log('Target date received:', newTarget);
-		
+		console.log("Target date received:", newTarget);
+
 		const calculateTimeLeft = () => {
 			const difference = +new Date(newTarget) - +new Date();
-			
+
 			if (difference > 0) {
 				setTimeLeft({
 					days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -31,7 +31,7 @@ const Countdown = ({ newTarget }: CountdownProps) => {
 
 		// Calculate immediately
 		calculateTimeLeft();
-		
+
 		// Update every second
 		const timer = setInterval(calculateTimeLeft, 1000);
 
