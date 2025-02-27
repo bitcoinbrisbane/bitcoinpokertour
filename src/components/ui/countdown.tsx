@@ -40,26 +40,26 @@ const Countdown = ({ newTarget }: CountdownProps) => {
 	}, [newTarget]);
 
 	return (
-		<div className="w-full max-w-4xl mx-auto px-4">
-			<div className="flex justify-center items-center space-x-8 py-8">
+		<div className="w-full max-w-4xl mx-auto px-2 sm:px-4">
+			<div className="flex justify-center items-center space-x-2 sm:space-x-4 md:space-x-8 py-4 sm:py-8">
 				<div className="text-center">
-					<div className="text-4xl md:text-6xl font-bold mb-2">{timeLeft.days}</div>
-					<div className="text-sm uppercase tracking-wide">Days</div>
+					<div className="text-2xl sm:text-4xl md:text-6xl font-bold mb-1 sm:mb-2">{timeLeft.days}</div>
+					<div className="text-xs sm:text-sm uppercase tracking-wide">Days</div>
 				</div>
-				<div className="text-4xl md:text-6xl font-bold">:</div>
+				<div className="text-2xl sm:text-4xl md:text-6xl font-bold">:</div>
 				<div className="text-center">
-					<div className="text-4xl md:text-6xl font-bold mb-2">{timeLeft.hours}</div>
-					<div className="text-sm uppercase tracking-wide">Hours</div>
+					<div className="text-2xl sm:text-4xl md:text-6xl font-bold mb-1 sm:mb-2">{timeLeft.hours}</div>
+					<div className="text-xs sm:text-sm uppercase tracking-wide">Hours</div>
 				</div>
-				<div className="text-4xl md:text-6xl font-bold">:</div>
+				<div className="text-2xl sm:text-4xl md:text-6xl font-bold">:</div>
 				<div className="text-center">
-					<div className="text-4xl md:text-6xl font-bold mb-2">{timeLeft.minutes}</div>
-					<div className="text-sm uppercase tracking-wide">Minutes</div>
+					<div className="text-2xl sm:text-4xl md:text-6xl font-bold mb-1 sm:mb-2">{timeLeft.minutes}</div>
+					<div className="text-xs sm:text-sm uppercase tracking-wide">Minutes</div>
 				</div>
-				<div className="text-4xl md:text-6xl font-bold">:</div>
+				<div className="text-2xl sm:text-4xl md:text-6xl font-bold">:</div>
 				<div className="text-center">
-					<div className="text-4xl md:text-6xl font-bold mb-2">{timeLeft.seconds}</div>
-					<div className="text-sm uppercase tracking-wide">Seconds</div>
+					<div className="text-2xl sm:text-4xl md:text-6xl font-bold mb-1 sm:mb-2">{timeLeft.seconds}</div>
+					<div className="text-xs sm:text-sm uppercase tracking-wide">Seconds</div>
 				</div>
 			</div>
 		</div>
