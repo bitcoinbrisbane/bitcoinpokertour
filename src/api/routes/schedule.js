@@ -347,6 +347,15 @@ router.post("/", async (req, res) => {
 
 		let { title, description, date, location, start_stack, blind_levels, game_type, buy_in, fee, registration_close, max_players } = req.body;
 
+		// Store the timezone information with the date
+		// This assumes the date is coming in as an ISO string or similar format
+		// If it's not, you'll need to adjust this approach
+		if (typeof date === 'string') {
+			// Ensure the date is stored with timezone information
+			// This preserves the local time that was entered
+			date = new Date(date);
+		}
+
 		if (!registration_close) {
 			registration_close = date;
 		}

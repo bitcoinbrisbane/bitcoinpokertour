@@ -97,6 +97,19 @@ const Registration = ({ id }: { id: string }) => {
 	const totalAmount = event.buy_in + event.fee;
 	const audTotal = btcPrice ? (totalAmount * btcPrice).toFixed(2) : 'N/A';
 
+	const formatEventDate = (dateString: string) => {
+		const date = new Date(dateString);
+		return date.toLocaleString('en-AU', { 
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+			hour: 'numeric',
+			minute: 'numeric',
+			hour12: true,
+			timeZone: 'Australia/Brisbane' // Explicitly use Brisbane timezone
+		});
+	};
+
 	const onSubmit = async (values: IRegisterEvent, { setSubmitting }: FormikHelpers<IRegisterEvent>) => {
 		try {
 			const response = await postRegistration(values);
@@ -150,6 +163,11 @@ const Registration = ({ id }: { id: string }) => {
 								<p className="text-md text-gray-500">≈ ${audTotal} AUD</p>
 							</div>
 						</div>
+						{event && (
+							<p className="text-center text-sm text-gray-600 dark:text-gray-400 mb-2">
+								{formatEventDate(event.date)}
+							</p>
+						)}
 					</div>
 
 					<Formik

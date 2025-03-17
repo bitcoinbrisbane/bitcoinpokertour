@@ -41,6 +41,20 @@ export default function Page({ params }: { params: { slug: string } }) {
 		fetchEventData();
 	}, [params.slug]);
 
+	// Add this function to format dates in Brisbane timezone
+	const formatEventDate = (dateString: string) => {
+		const date = new Date(dateString);
+		return date.toLocaleString('en-AU', { 
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+			hour: 'numeric',
+			minute: 'numeric',
+			hour12: true,
+			timeZone: 'Australia/Brisbane' // Explicitly use Brisbane timezone
+		});
+	};
+
 	if (loading) {
 		return (
 			<main className="flex min-h-screen w-full flex-col items-center p-4">
@@ -65,7 +79,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 		);
 	}
 
-	const eventDate = moment(event.date).format('MMM D, YYYY h:mm A');
+	const eventDate = formatEventDate(event.date);
 
 	return (
 		<main className="flex min-h-screen w-full flex-col items-center p-4">
