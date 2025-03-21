@@ -19,15 +19,15 @@ export default function Page({ params }: { params: { slug: string } }) {
 	useEffect(() => {
 		const fetchEventData = async () => {
 			try {
-				const [eventData, ] = await Promise.all([
+				const [eventData, registrationsData] = await Promise.all([
 					axios.get(`${process.env.NEXT_PUBLIC_API}/schedule/${params.slug}`),
-					// axios.get(`${process.env.NEXT_PUBLIC_API}/registration/event/${params.slug}`),
+					axios.get(`${process.env.NEXT_PUBLIC_API}/schedule/${params.slug}/registrations/count`),
 					// axios.get(`${process.env.NEXT_PUBLIC_API}/schedule/${params.slug}/stats`),
 					// axios.get(`${process.env.NEXT_PUBLIC_API}/schedule/${params.slug}/results`)
 				]);
 
 				setEvent(eventData.data);
-				// setRegistrations(registrationsData.data);
+				setRegistrations(registrationsData.data.registrations || []);
 				// setStats(statsData.data);
 				// setResults(resultsData.data);
 			} catch (err) {
@@ -199,29 +199,21 @@ export default function Page({ params }: { params: { slug: string } }) {
 							<TableHeader>
 								<TableRow className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500">
 									<TableHead className="text-white font-semibold">Name</TableHead>
-									<TableHead className="text-white font-semibold">Buy In Address</TableHead>
-									<TableHead className="text-white font-semibold">BTC Received</TableHead>
 									<TableHead className="text-white font-semibold">Status</TableHead>
+									<TableHead className="text-white font-semibold">Amount (BTC)</TableHead>
+									<TableHead className="text-white font-semibold">Registration Date</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
 								{registrations.length > 0 ? (
-									registrations.map((registration: IRegistrations) => (
-										<TableRow key={registration._id} className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
+									registrations.map((registration: any, index: number) => (
+										<TableRow key={index} className="hover:bg-neutral-100 dark:hover:bg-neutral-700">
 											<TableCell>{registration.name}</TableCell>
-											<TableCell>
-												<Link 
-													href={`https://mempool.space/address/${registration.buy_in_address}`}
-													className="text-blue-500 hover:underline"
-													target="_blank"
-												>
-													{registration.buy_in_address}
-												</Link>
-											</TableCell>
-											<TableCell>
-												<span className="text-orange-500">{registration.btc_received}</span>
-											</TableCell>
 											<TableCell>{registration.status}</TableCell>
+											<TableCell>
+												<span className="text-orange-500">{registration.amount}</span>
+											</TableCell>
+											<TableCell>{formatEventDate(registration.date)}</TableCell>
 										</TableRow>
 									))
 								) : (

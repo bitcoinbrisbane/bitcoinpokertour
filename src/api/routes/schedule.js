@@ -537,6 +537,8 @@ router.get("/:id/registrations/count", async (req, res) => {
 			registrations: registrations.map(reg => ({
 				name: reg.name,
 				status: reg.btcpay_status,
+				buy_in_address: reg.buy_in_address,
+				amount: reg.amount,
 				date: reg.date
 			}))
 		});
