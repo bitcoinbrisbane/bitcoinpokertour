@@ -1,15 +1,13 @@
 import Link from "next/link";
 import Countdown from "@/components/ui/countdown";
-import { getDate, getNextEvent } from "@/lib/utils";
+import { getNextEvent } from "@/lib/utils";
 import { unstable_noStore } from "next/cache";
 
 export default async function Home() {
 	unstable_noStore();
 	
-	console.log('Fetching target date...');
-	const target = await getDate();
+	console.log('Fetching next event...');
 	const nextEvent = await getNextEvent();
-	console.log('Received target date:', target);
 	console.log('Next event:', nextEvent);
 	
 	return (
@@ -23,37 +21,62 @@ export default async function Home() {
 					<p className="text-2xl md:text-3xl font-medium text-neutral-700 dark:text-neutral-300">
 						Where Crypto Meets Cards
 					</p>
-					<h3 className="text-xl md:text-2xl font-medium text-neutral-600 dark:text-neutral-400">
-						Next Tournament Starting In:
-					</h3>
 					
-					{/* Countdown Section */}
-					<div className="w-full">
-						<Countdown newTarget={target} />
-					</div>
+					{/* Conditional Content Based on Next Event */}
+					{nextEvent ? (
+						<>
+							<h3 className="text-xl md:text-2xl font-medium text-neutral-600 dark:text-neutral-400">
+								Next Tournament Starting In:
+							</h3>
+							
+							{/* Countdown Section */}
+							<div className="w-full">
+								<Countdown newTarget={nextEvent.date} />
+							</div>
 
-					{/* Register Button */}
-					{nextEvent && (
-						<div className="pt-8">
-							<Link 
-								href={`/schedule/${nextEvent._id}`}
-								className="group relative inline-flex items-center justify-center px-12 py-4 text-lg font-semibold text-white transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-500/50"
-							>
-								{/* Gradient Background */}
-								<div className="absolute inset-0 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 rounded-full shadow-2xl group-hover:shadow-orange-500/25 transition-all duration-300"></div>
-								
-								{/* Shimmer Effect */}
-								<div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer rounded-full"></div>
-								
-								{/* Button Content */}
-								<div className="relative flex items-center space-x-3">
-									<span className="text-2xl">🎯</span>
-									<span>Register for Next Event</span>
-									<svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+							{/* Register Button */}
+							<div className="pt-8">
+								<Link 
+									href={`/schedule/${nextEvent._id}`}
+									className="group relative inline-flex items-center justify-center px-12 py-4 text-lg font-semibold text-white transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-500/50"
+								>
+									{/* Gradient Background */}
+									<div className="absolute inset-0 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 rounded-full shadow-2xl group-hover:shadow-orange-500/25 transition-all duration-300"></div>
+									
+									{/* Shimmer Effect */}
+									<div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 group-hover:animate-shimmer rounded-full"></div>
+									
+									{/* Button Content */}
+									<div className="relative flex items-center space-x-3">
+										<span className="text-2xl">🎯</span>
+										<span>Register for Next Event</span>
+										<svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+										</svg>
+									</div>
+								</Link>
+							</div>
+						</>
+					) : (
+						/* No Upcoming Events Message */
+						<div className="space-y-6">
+							<h3 className="text-xl md:text-2xl font-medium text-neutral-600 dark:text-neutral-400">
+								No Upcoming Events Scheduled
+							</h3>
+							<div className="bg-white dark:bg-neutral-800 rounded-lg p-6 shadow-lg max-w-md mx-auto">
+								<p className="text-neutral-600 dark:text-neutral-400 mb-4">
+									Stay tuned for our next exciting tournament announcement!
+								</p>
+								<Link 
+									href="/schedule"
+									className="inline-flex items-center space-x-2 text-orange-500 hover:text-orange-600 font-medium"
+								>
+									<span>View Previous Events</span>
+									<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 									</svg>
-								</div>
-							</Link>
+								</Link>
+							</div>
 						</div>
 					)}
 				</div>
