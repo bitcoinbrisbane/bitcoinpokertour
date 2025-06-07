@@ -76,7 +76,7 @@ export default async function Home() {
 
 					{/* Buy Bitcoin Card */}
 					<Link
-						href="/buybitcoin"
+						href="/bitcoinguide"
 						className="transform transition-all duration-300 hover:scale-105 bg-white dark:bg-neutral-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl"
 					>
 						<div className="p-6">

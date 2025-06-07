@@ -198,7 +198,9 @@ const CreateEvent = () => {
 								</div>
 							</div>
 						</div>
-						<></>
+
+						{/* Extra spacing before button */}
+						<div className="pt-8"></div>
 
 						<button
 							type="submit"

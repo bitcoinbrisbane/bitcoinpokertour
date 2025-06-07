@@ -6,7 +6,7 @@ export default function Footer() {
 			<div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between items-center">
 					<p className="text-base text-neutral-500">© {new Date().getFullYear()} Bitcoin Poker Tour. All rights reserved.</p>
-					<Link href="/admin-page" className="text-sm text-neutral-400 hover:text-orange-500">
+					                <Link href="/admin" className="text-sm text-neutral-400 hover:text-orange-500">
 						Admin
 					</Link>
 				</div>
