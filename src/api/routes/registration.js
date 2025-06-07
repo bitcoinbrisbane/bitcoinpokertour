@@ -80,22 +80,23 @@ router.get("/:eventid", async (req, res) => {
 router.post("/:eventid", async (req, res) => {
 	try {
 		const { eventid } = req.params;
-		console.log("\n=== Registration Request ===");
-		console.log("Event ID:", eventid);
-		console.log("Request Body:", req.body);
+		console.log("\n🎯 NEW REGISTRATION REQUEST");
+		console.log("📅 Event ID:", eventid);
+		console.log("📧 Email:", req.body.email);
+		console.log("👤 Name:", req.body.name);
+		console.log("🔸 Bitcoin Address:", req.body.bitcoin_address);
 
 		const { name, email, bitcoin_address } = req.body;
 
 		// Log validation checks
-		console.log("Validation checks:", {
-			name: !!name,
-			email: !!email,
-			bitcoin_address: !!bitcoin_address
-		});
+		console.log("\n✅ VALIDATION CHECKS:");
+		console.log("   Name provided:", !!name);
+		console.log("   Email provided:", !!email);
+		console.log("   Bitcoin address provided:", !!bitcoin_address);
 
 		// Validate required fields
 		if (!name || !email || !bitcoin_address) {
-			console.log("Missing required fields");
+			console.log("❌ VALIDATION FAILED - Missing required fields");
 			return res.status(400).json({
 				error: "Missing required fields",
 				required: ["name", "email", "bitcoin_address"],
@@ -103,54 +104,66 @@ router.post("/:eventid", async (req, res) => {
 			});
 		}
 
-		// Find event
-		const event = await Event.findOne({ _id: eventid });
-		console.log("Found event:", event ? "Yes" : "No");
+		console.log("✅ VALIDATION PASSED - All fields provided");
 
+		// Find event
+		console.log("\n🔍 LOOKING UP EVENT...");
+		const event = await Event.findOne({ _id: eventid });
+		
 		if (!event) {
-			console.log("Event not found:", eventid);
+			console.log("❌ EVENT NOT FOUND:", eventid);
 			return res.status(404).json({ error: "Event not found" });
 		}
 
+		console.log("✅ EVENT FOUND:");
+		console.log("   Title:", event.title);
+		console.log("   Buy-in:", event.buy_in, "BTC");
+		console.log("   Fee:", event.fee, "BTC");
+
 		// Check for existing registration
+		console.log("\n🔍 CHECKING FOR DUPLICATE REGISTRATION...");
 		const existingRegistration = await Registration.findOne({
 			email: email.toLowerCase().trim(),
 			event_id: eventid
 		});
 
-		console.log("Existing registration check:", {
-			exists: !!existingRegistration,
-			email: email.toLowerCase().trim(),
-			eventId: eventid
-		});
-
 		if (existingRegistration) {
-			console.log("Email already registered:", email);
+			console.log("❌ DUPLICATE REGISTRATION DETECTED");
+			console.log("   Email:", email);
+			console.log("   Existing registration ID:", existingRegistration._id);
 			return res.status(400).json({
 				error: "Email already registered",
 				registration_id: existingRegistration._id
 			});
 		}
 
+		console.log("✅ NO DUPLICATE FOUND - Proceeding with registration");
+
 		// Calculate total amount
 		const totalAmount = event.buy_in + event.fee;
-		console.log("Total amount:", totalAmount);
+		console.log("\n💰 PAYMENT CALCULATION:");
+		console.log("   Buy-in:", event.buy_in, "BTC");
+		console.log("   Fee:", event.fee, "BTC");
+		console.log("   Total:", totalAmount, "BTC");
 
-		// Create registration
+		// Create registration with current Brisbane time converted to UTC
+		console.log("\n💾 CREATING REGISTRATION IN DATABASE...");
 		let registration = new Registration({
 			name: name.trim(),
 			email: email.toLowerCase().trim(),
 			bitcoin_address,
-			date: new Date(),
+			date: new Date(), // This stores current UTC time
 			event_id: eventid,
 			btcpay_status: "New",
 			amount: totalAmount,
 			currency: "BTC"
 		});
 
-		console.log("Creating registration:", registration);
 		registration = await registration.save();
-		console.log("Registration saved:", registration._id);
+		console.log("✅ REGISTRATION SAVED TO DATABASE");
+		console.log("   Registration ID:", registration._id);
+		console.log("   Status:", registration.btcpay_status);
+		console.log("   Amount:", registration.amount, "BTC");
 
 		// Create BTCPay invoice
 		const config = {
@@ -160,6 +173,9 @@ router.post("/:eventid", async (req, res) => {
 			}
 		};
 
+		// Fix redirect URL - fallback to localhost if env var not set
+		const frontendUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
+		
 		const invoiceData = {
 			amount: totalAmount,
 			currency: "BTC",
@@ -171,10 +187,12 @@ router.post("/:eventid", async (req, res) => {
 				eventTitle: event.title
 			},
 			checkout: {
-				redirectURL: `${process.env.NEXT_PUBLIC_URL}/registration/${eventid}/success`,
+				redirectURL: `${frontendUrl}/registration/${eventid}/success`,
 				redirectAutomatically: true
 			}
 		};
+
+		console.log("🔗 Payment redirect URL:", invoiceData.checkout.redirectURL);
 
 		console.log("Full BTCPay request:", {
 			url: `${btcPayServerUrl}/api/v1/stores/${process.env.BTCPAY_STORE_ID}/invoices`,
@@ -187,7 +205,11 @@ router.post("/:eventid", async (req, res) => {
 
 		try {
 			const invoiceUrl = `${btcPayServerUrl}/api/v1/stores/${process.env.BTCPAY_STORE_ID}/invoices`;
-			console.log("Creating invoice at:", invoiceUrl);
+			console.log("\n🔄 ATTEMPTING BTCPAY PAYMENT CREATION");
+			console.log("📍 BTCPay Server URL:", btcPayServerUrl);
+			console.log("🔗 Invoice URL:", invoiceUrl);
+			console.log("💰 Amount:", invoiceData.amount, "BTC");
+			console.log("👤 Customer:", invoiceData.metadata.buyerName, "-", invoiceData.metadata.buyerEmail);
 			
 			const btcpayResponse = await axios.post(
 				invoiceUrl,
@@ -195,10 +217,14 @@ router.post("/:eventid", async (req, res) => {
 				config
 			);
 
-			console.log("BTCPay response:", btcpayResponse.data);
+			console.log("✅ BTCPAY SUCCESS - Invoice Created!");
+			console.log("🎯 Invoice ID:", btcpayResponse.data.id);
+			console.log("🔗 Checkout URL:", btcpayResponse.data.checkoutLink);
 
 			registration.btcpay_invoice_id = btcpayResponse.data.id;
 			await registration.save();
+
+			console.log("✅ REGISTRATION COMPLETE - Payment invoice linked to registration");
 
 			// Return the checkout URL along with the registration data
 			return res.status(201).json({
@@ -208,18 +234,47 @@ router.post("/:eventid", async (req, res) => {
 				checkoutUrl: btcpayResponse.data.checkoutLink || `${btcPayServerUrl}/i/${btcpayResponse.data.id}`
 			});
 		} catch (btcpayError) {
-			console.error("BTCPay Server Error:", btcpayError.response?.data || btcpayError);
+			console.log("\n❌ BTCPAY PAYMENT CREATION FAILED!");
+			console.log("🚨 Error Type:", btcpayError.code || 'Unknown');
+			console.log("🚨 Error Message:", btcpayError.message);
+			console.log("🌐 Network Issue:", btcpayError.code === 'ECONNREFUSED' ? 'YES - Cannot reach BTCPay server' : 'NO');
+			console.log("📍 BTCPay Server:", btcPayServerUrl);
+			console.log("🔧 Possible Issues:");
+			console.log("   - BTCPay server is down");
+			console.log("   - Network connectivity issue");
+			console.log("   - Invalid API credentials");
+			console.log("   - Firewall blocking connection");
+			
+			console.log("\n🗑️ CLEANING UP - Deleting registration due to payment failure");
+			console.log("📝 Registration ID being deleted:", registration._id);
+			
 			await Registration.findByIdAndDelete(registration._id);
+			
+			console.log("✅ CLEANUP COMPLETE - Registration removed from database");
+			console.log("💡 RECOMMENDATION: Check BTCPay server status and network connectivity");
+
 			return res.status(500).json({
 				error: "Failed to create payment invoice",
-				details: btcpayError.response?.data || btcpayError.message
+				details: btcpayError.response?.data || btcpayError.message,
+				btcpay_server_status: "UNREACHABLE",
+				registration_status: "DELETED_DUE_TO_PAYMENT_FAILURE"
 			});
 		}
 	} catch (error) {
-		console.error("Registration error:", error);
+		console.log("\n❌ REGISTRATION PROCESS FAILED");
+		console.log("🚨 Error Type:", error.name);
+		console.log("🚨 Error Message:", error.message);
+		console.log("📍 Request Details:", {
+			eventId: req.params.eventid,
+			email: req.body.email,
+			endpoint: `/registration/${req.params.eventid}`
+		});
+		console.log("💡 Check above logs for specific failure point");
+		
 		return res.status(500).json({
-			error: "Internal server error",
-			details: error.message
+			error: "Registration failed",
+			message: error.message,
+			registration_status: "FAILED"
 		});
 	}
 });

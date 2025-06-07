@@ -18,6 +18,7 @@ export interface IEvent {
 	fee?: number;
 	start_stack: number;
 	blind_levels: number;
+	max_players?: number;
 	// __v: number;
 }
 

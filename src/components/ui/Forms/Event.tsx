@@ -4,16 +4,19 @@ import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import { createEvent } from "@/lib/utils";
 import { INewEvent } from "@/types";
 import moment from "moment";
+import { formatForDateTimeInput, dateTimeInputToUTCString, nowInBrisbane } from "@/lib/timezone";
 
 const CreateEvent = () => {
-	// One month from now
-	const oneMonth = moment().add(1, "months").format("YYYY-MM-DD:18:30");
+	// One month from now in Brisbane timezone
+	const oneMonthFromNow = nowInBrisbane().add(1, "months").hour(18).minute(30);
+	const oneMonthFormatted = formatForDateTimeInput(oneMonthFromNow.toDate());
+	
 	const initVals: INewEvent = {
 		_id: "0",
 		title: "",
 		description: "",
-		date: oneMonth,
-		registration_close: oneMonth,
+		date: oneMonthFormatted,
+		registration_close: oneMonthFormatted,
 		location: "Unit 12, 62 Bishop St, Kelvin Grove, Brisbane",
 		game_type: "No Limit Texas Hold'em",
 		fee: 0.00035,
@@ -30,7 +33,14 @@ const CreateEvent = () => {
 				initialValues={initVals}
 				onSubmit={(values: INewEvent, { setSubmitting }: FormikHelpers<INewEvent>) => {
 					setTimeout(() => {
-						createEvent(values).then(response => {
+						// Convert Brisbane times to UTC before sending to API
+						const eventData = {
+							...values,
+							date: dateTimeInputToUTCString(values.date),
+							registration_close: dateTimeInputToUTCString(values.registration_close)
+						};
+						
+						createEvent(eventData).then(response => {
 							setSubmitting(false);
 							// if (response) {
 							// 	if (!response.data.third_party_id) {
@@ -96,7 +106,7 @@ const CreateEvent = () => {
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 								<div className="space-y-2">
 									<label htmlFor="date" className="block text-sm font-medium text-neutral-800 dark:text-neutral-200">
-										Tournament Date & Time
+										Tournament Date & Time (Brisbane/AEST)
 									</label>
 									<Field type="datetime-local" className="w-full p-2.5 rounded-lg border border-gray-300 bg-gray-50 text-gray-900 focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" name="date" required />
 								</div>

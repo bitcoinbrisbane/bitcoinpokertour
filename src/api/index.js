@@ -12,7 +12,8 @@ app.use(cors({
       'https://bitcoin-poker-tour-frontend-y8stp.ondigitalocean.app',
       'https://bitcoinpokertour.com',
       'https://www.bitcoinpokertour.com',
-      'http://localhost:3000'
+      'http://localhost:3000',
+      'http://localhost:3001'
     ];
     
     if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('bitcoinpokertour.com')) {

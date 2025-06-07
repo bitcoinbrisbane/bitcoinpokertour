@@ -228,53 +228,71 @@ router.post("/:id/results", async (req, res) => {
 });
 
 router.get("/:id/stats", async (req, res) => {
-	const { id } = req.params;
-	console.log(`Stats for event ${id}`);
+	try {
+		const { id } = req.params;
+		console.log(`Stats for event ${id}`);
 
-	const response = {
-		entries: 0,
-		prize_pool: 0,
-		prize_pool_usd: 0
-	};
-
-	const registrations = await Registration.find({ event_id: id });
-	console.log(`Found ${registrations.length} registrations`);
-
-	if (registrations.length > 0) {
-		const basic_auth = Buffer.from(`${process.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
-
-		const config = {
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Basic ${basic_auth}`
-			}
+		const response = {
+			entries: 0,
+			prize_pool: 0,
+			prize_pool_usd: 0
 		};
 
-		for (let i = 0; i < registrations.length; i++) {
-			const registration = registrations[i];
+		const registrations = await Registration.find({ event_id: id });
+		console.log(`Found ${registrations.length} registrations`);
 
-			try {
-				const { data } = await axios.get(
-					`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
-					config
-				);
+		if (registrations.length > 0) {
+			const basic_auth = Buffer.from(`${process.env.BTC_PAY_SERVER_EMAIL}:${process.env.BTC_PAY_SERVER_PASSWORD}`).toString("base64");
 
-				console.log(`Response for ${registration.third_party_id}: ${data.status}`);
-
-				if (data.status === "Settled") {
-					response.entries += 1;
-					response.prize_pool += Number(data.amount);
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Basic ${basic_auth}`
 				}
-			} catch (error) {
-				console.error(error);
+			};
+
+			for (let i = 0; i < registrations.length; i++) {
+				const registration = registrations[i];
+
+				try {
+					const { data } = await axios.get(
+						`${process.env.BTC_PAY_SERVER}/api/v1/stores/${process.env.BTC_PAY_SERVER_STORE_ID}/invoices/${registration.third_party_id}`,
+						config
+					);
+
+					console.log(`Response for ${registration.third_party_id}: ${data.status}`);
+
+					if (data.status === "Settled") {
+						response.entries += 1;
+						response.prize_pool += Number(data.amount);
+					}
+				} catch (error) {
+					console.error('Error fetching BTCPay invoice:', error.message);
+				}
 			}
 		}
+
+		// Safely fetch Bitcoin price with fallback
+		try {
+			const btcPriceResult = await axios.get("https://api.coindesk.com/v1/bpi/currentprice/BTC.json", {
+				timeout: 5000 // 5 second timeout
+			});
+			response.prize_pool_usd = response.prize_pool * btcPriceResult.data.bpi.USD.rate_float;
+			console.log(`BTC price fetched: $${btcPriceResult.data.bpi.USD.rate_float}`);
+		} catch (error) {
+			console.warn('Failed to fetch BTC price from CoinDesk:', error.message);
+			// Use a fallback price or leave as 0
+			response.prize_pool_usd = 0;
+		}
+
+		res.json(response);
+	} catch (error) {
+		console.error('Error in stats endpoint:', error);
+		res.status(500).json({ 
+			error: 'Failed to fetch event stats',
+			message: error.message 
+		});
 	}
-
-	const btcPriceResult = await axios.get("https://api.coindesk.com/v1/bpi/currentprice/BTC.json");
-	response.prize_pool_usd = response.prize_pool * btcPriceResult.data.bpi.USD.rate_float;
-
-	res.json(response);
 });
 
 router.get("/:id/payouts", async (req, res) => {
@@ -347,17 +365,16 @@ router.post("/", async (req, res) => {
 
 		let { title, description, date, location, start_stack, blind_levels, game_type, buy_in, fee, registration_close, max_players } = req.body;
 
-		// Store the timezone information with the date
-		// This assumes the date is coming in as an ISO string or similar format
-		// If it's not, you'll need to adjust this approach
+		// Date handling: Frontend sends UTC ISO strings (converted from Brisbane timezone)
+		// MongoDB will store these as UTC dates
 		if (typeof date === 'string') {
-			// Ensure the date is stored with timezone information
-			// This preserves the local time that was entered
 			date = new Date(date);
 		}
 
 		if (!registration_close) {
 			registration_close = date;
+		} else if (typeof registration_close === 'string') {
+			registration_close = new Date(registration_close);
 		}
 
 		if (!fee) {

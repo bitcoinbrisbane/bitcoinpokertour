@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
+import { formatBrisbaneDate } from "@/lib/timezone";
 
 interface IEvent {
     _id: string;
@@ -86,7 +87,7 @@ export default function EventRegistrations({ params }: { params: { eventId: stri
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <p className="text-gray-600 dark:text-gray-400">Date</p>
-                            <p className="font-semibold">{moment(event.date).format('MMM D, YYYY h:mm A')}</p>
+                            <p className="font-semibold">{formatBrisbaneDate(event.date, 'MMM D, YYYY h:mm A')}</p>
                         </div>
                         <div>
                             <p className="text-gray-600 dark:text-gray-400">Location</p>
@@ -153,7 +154,7 @@ export default function EventRegistrations({ params }: { params: { eventId: stri
                                             <TableCell>{registration.name}</TableCell>
                                             <TableCell>{registration.email}</TableCell>
                                             <TableCell>
-                                                {moment(registration.date).format('MMM D, YYYY h:mm A')}
+                                                {formatBrisbaneDate(registration.date, 'MMM D, YYYY h:mm A')}
                                             </TableCell>
                                             <TableCell>
                                                 <Link 
@@ -185,7 +186,7 @@ export default function EventRegistrations({ params }: { params: { eventId: stri
                                             </TableCell>
                                             <TableCell>
                                                 {registration.paid_date 
-                                                    ? moment(registration.paid_date).format('MMM D, YYYY h:mm A')
+                                                    ? formatBrisbaneDate(registration.paid_date, 'MMM D, YYYY h:mm A')
                                                     : '-'
                                                 }
                                             </TableCell>

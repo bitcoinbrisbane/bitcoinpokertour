@@ -5,6 +5,7 @@ import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { formatBrisbaneDate } from "@/lib/timezone";
 
 export default function Page() {
 	const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
@@ -84,7 +85,7 @@ export default function Page() {
 											{event.title === '0' || event.title === null ? event.description.slice(0, 30) + '...' : event.title}
 										</div>
 										<div className="text-sm text-neutral-500">
-											{moment(event.date).format('MMM D, YYYY h:mm A')}
+											{formatBrisbaneDate(event.date, 'MMM D, YYYY h:mm A')}
 										</div>
 									</Link>
 								</TableCell>
@@ -130,7 +131,7 @@ export default function Page() {
 								{event.title === '0' || event.title === null ? event.description.slice(0, 30) + '...' : event.title}
 							</h3>
 							<div className="text-sm text-neutral-500 dark:text-neutral-400">
-								{moment(event.date).format('MMM D, YYYY h:mm A')}
+								{formatBrisbaneDate(event.date, 'MMM D, YYYY h:mm A')}
 							</div>
 						</Link>
 						

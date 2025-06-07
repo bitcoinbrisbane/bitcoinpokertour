@@ -55,6 +55,40 @@ export const getDate = async () => {
 	}
 };
 
+export const getNextEvent = async () => {
+	try {
+		const { data } = await axios.get(`${API}/schedule`);
+		console.log('All events:', data);
+
+		if (!data || data.length === 0) {
+			console.log('No events found');
+			return null;
+		}
+
+		// Filter out past events and sort by date
+		const upcomingEvents = data
+			.filter((event: any) => {
+				const eventDate = moment(event.date);
+				return eventDate.isAfter(moment());
+			})
+			.sort((a: any, b: any) => {
+				return moment(a.date).valueOf() - moment(b.date).valueOf();
+			});
+
+		console.log('Next upcoming event:', upcomingEvents[0]);
+
+		if (upcomingEvents.length === 0) {
+			console.log('No upcoming events found');
+			return null;
+		}
+
+		return upcomingEvents[0];
+	} catch (error) {
+		console.error('Error fetching next event:', error);
+		return null;
+	}
+};
+
 export const getEvents = async () => {
 	try {
 		console.log('Attempting to fetch from:', `${API}/schedule`);
