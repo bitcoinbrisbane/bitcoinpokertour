@@ -270,21 +270,23 @@ const Registration = ({ id }: { id: string }) => {
 									</p>
 								) : (
 									<>
-										<div className="flex justify-center">
-											<QRCodeSVG 
-												value={paymentDetails.paymentUrl}
-												size={256}
-											/>
+										<div className="text-center space-y-4">
+											<p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+												Complete your payment using BTCPay Server
+											</p>
+											<a 
+												href={paymentDetails.paymentUrl}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+											>
+												Open BTCPay Invoice & Pay
+											</a>
+											<p className="text-sm text-gray-600 dark:text-gray-400">
+												Click the button above to open BTCPay Server with the correct QR code
+											</p>
 										</div>
-										<a 
-											href={paymentDetails.paymentUrl}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="text-blue-500 hover:text-blue-700 underline"
-										>
-											Open BTCPay Invoice
-										</a>
-										<p className="text-sm text-gray-600 mt-2">
+										<p className="text-sm text-gray-600 mt-4 text-center">
 											Waiting for payment confirmation...
 										</p>
 									</>
