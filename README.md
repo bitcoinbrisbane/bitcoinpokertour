@@ -35,7 +35,8 @@ eCXfsuJiYgEA8iPeBZg/Zx8ZxboLM+l4erdRxnOesYrP49dA9QrLmAI=
 
 ## ♠️ Tournament Details
 
-🎯 Starting Stack
+**🎯 Starting Stack**
+
 Each player begins with 30,000 chips, distributed as follows:
 
 | Denomination | Quantity | Total |
@@ -48,7 +49,8 @@ Each player begins with 30,000 chips, distributed as follows:
 
 ---
 
-⏱️ Blind Structure
+**⏱️ Blind Structure**
+
 Round Duration: 20 minutes
 Breaks: 20-minute breaks after every 2 hours (Rounds 6 & 12)
 Game Type: No Limit Texas Hold 'Em
@@ -76,7 +78,8 @@ Antes: None
 
 ---
 
-💰 Payout Structure
+**💰 Payout Structure**
+
 Payouts are based on the number of tournament entrants:
 
 | Entrants | Places Paid | Prize Distribution         |
@@ -86,3 +89,5 @@ Payouts are based on the number of tournament entrants:
 | 9–15     | Top 3       | 50%, 30%, 20%              |
 | 16–20    | Top 4       | 50%, 25%, 15%, 10%         |
 | 21–25    | Top 5       | 40%, 25%, 20%, 10%, 5%     |
+
+💡 Payouts are based on total prize pool (after any fees, if applicable).
