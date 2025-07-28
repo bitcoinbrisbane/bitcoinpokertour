@@ -33,7 +33,8 @@ eCXfsuJiYgEA8iPeBZg/Zx8ZxboLM+l4erdRxnOesYrP49dA9QrLmAI=
 -----END PGP PUBLIC KEY BLOCK-----
 ```
 
-♠️ Tournament Details
+## ♠️ Tournament Details
+
 🎯 Starting Stack
 Each player begins with 30,000 chips, distributed as follows:
 
